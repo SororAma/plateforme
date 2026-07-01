@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soror'Ama — Plateforme PECA</title>
+<meta name="description" content="Plateforme de développement du potentiel humain par la méthode PECA. Coaching, formation et intelligence émotionnelle.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM — aligné sur sororama.fr
+   ══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FFFFFF;
+  --bg-warm: #FAF9F7;
+  --bg-section: #F5F3EF;
+  --surface: #FFFFFF;
+  --text: #1A1A1A;
+  --text-secondary: #555555;
+  --text-light: #888888;
+  --border: #E8E4DE;
+  --border-light: #F0EDE8;
+
+  --pensee: #8B7EC8;
+  --pensee-light: #EDE9FA;
+  --pensee-bg: #F8F6FD;
+  --emotion: #D4856A;
+  --emotion-light: #FAEAE4;
+  --emotion-bg: #FDF6F3;
+  --comm: #5BA08F;
+  --comm-light: #E2F3EE;
+  --comm-bg: #F3FAF7;
+  --action: #C4963A;
+  --action-light: #FBF3E0;
+  --action-bg: #FDFAF3;
+
+  --accent: #8B7EC8;
+  --accent-hover: #7A6BB7;
+  --cta: #8B7EC8;
+  --cta-hover: #7A6BB7;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.08);
+  --transition: 0.25s ease;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-weight: 400;
+  font-size: 15px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 0.95rem; font-weight: 600; }
+
+p { max-width: 680px; }
+
+em { font-style: italic; color: var(--accent); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── NAV (style sororama.fr) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  z-index: 100;
+  padding: 0 2rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links { display: flex; gap: 1.8rem; align-items: center; }
+
+.nav-links a {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+  cursor: pointer;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.btn-nav {
+  background: var(--cta) !important;
+  color: white !important;
+  padding: 0.55rem 1.2rem !important;
+  border-radius: 99px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  transition: background var(--transition) !important;
+}
+
+.btn-nav:hover { background: var(--cta-hover) !important; }
+
+.nav-hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+.nav-hamburger span {
+  width: 24px; height: 2px;
+  background: var(--text);
+  transition: all var(--transition);
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 99px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+  background: var(--cta);
+  color: white;
+}
+.btn-primary:hover { background: var(--cta-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--text-secondary); color: var(--text); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.btn-outline:hover { background: var(--pensee-light); }
+
+.btn-lg { padding: 0.9rem 2rem; font-size: 0.95rem; }
+
+/* ── HERO (style sororama.fr) ── */
+.hero {
+  padding: 10rem 0 5rem;
+  background: var(--bg);
+  position: relative;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text h1 {
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-text h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-tagline {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.hero-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.hero-badge-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 5rem 0;
+}
+
+.section-warm { background: var(--bg-warm); }
+.section-accent { background: var(--bg-section); }
+
+.section-header {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.section-header h2 {
+  margin-bottom: 0.8rem;
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ── PECA METHOD CARDS ── */
+.peca-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.peca-method-card {
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.peca-method-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.peca-method-card.card-P { background: var(--pensee-bg); border: 1px solid var(--pensee-light); }
+.peca-method-card.card-E { background: var(--emotion-bg); border: 1px solid var(--emotion-light); }
+.peca-method-card.card-C { background: var(--comm-bg); border: 1px solid var(--comm-light); }
+.peca-method-card.card-A { background: var(--action-bg); border: 1px solid var(--action-light); }
+
+.peca-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.card-P .peca-letter { color: var(--pensee); }
+.card-E .peca-letter { color: var(--emotion); }
+.card-C .peca-letter { color: var(--comm); }
+.card-A .peca-letter { color: var(--action); }
+
+.peca-method-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.peca-method-card p {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  max-width: none;
+  line-height: 1.5;
+}
+
+/* ── PARCOURS CARDS ── */
+.parcours-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.parcours-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  transition: box-shadow var(--transition), transform var(--transition);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.parcours-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.parcours-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  margin-bottom: 1rem;
+}
+
+.parcours-badge.b2b { background: var(--pensee-light); color: var(--pensee); }
+.parcours-badge.b2c { background: var(--emotion-light); color: var(--emotion); }
+
+.parcours-card h3 { margin-bottom: 0.6rem; }
+.parcours-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+/* ── USE CASE CARDS (B2B) ── */
+.usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.usecase-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.usecase-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.usecase-num {
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+
+.usecase-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.usecase-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+
+.pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.peca-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+}
+.peca-pill-P { background: var(--pensee-light); color: var(--pensee); }
+.peca-pill-E { background: var(--emotion-light); color: var(--emotion); }
+.peca-pill-C { background: var(--comm-light); color: var(--comm); }
+.peca-pill-A { background: var(--action-light); color: var(--action); }
+
+/* ── QUOTE BLOCK ── */
+.quote-block {
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  margin: 2rem 0;
+  background: var(--bg-warm);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  max-width: 680px;
+}
+
+/* ── CTA SECTION ── */
+.cta-section {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.cta-section h2 { margin-bottom: 1rem; }
+.cta-section p { margin: 0 auto 2rem; color: var(--text-secondary); }
+
+/* ── VIDEO ── */
+.video-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.video-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.video-thumb {
+  position: relative;
+  padding-top: 56.25%;
+  background: var(--bg-section);
+  overflow: hidden;
+}
+
+.video-thumb img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.video-play-btn {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition);
+}
+.video-card:hover .video-play-btn { transform: translate(-50%, -50%) scale(1.08); }
+
+.video-play-btn::after {
+  content: '';
+  display: block;
+  width: 0; height: 0;
+  border-left: 16px solid var(--accent);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin-left: 3px;
+}
+
+.video-card-info {
+  padding: 1rem 1.2rem;
+}
+.video-card-info h4 { margin-bottom: 0.2rem; }
+.video-card-info p { font-size: 0.82rem; color: var(--text-light); max-width: none; }
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Video Modal */
+.video-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.video-modal.active { display: flex; }
+
+.video-modal-content {
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: -40px; right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.video-modal-frame {
+  width: 100%;
+  padding-top: 56.25%;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.video-modal-frame iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+/* ── FORMS ── */
+.page-content { padding-top: 88px; padding-bottom: 4rem; }
+
+.form-group { margin-bottom: 1.5rem; }
+
+.form-group label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.label-hint {
+  font-weight: 400;
+  color: var(--text-light);
+  font-size: 0.82rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139,126,200,0.12);
+}
+
+.form-group textarea { min-height: 120px; }
+
+/* Radio groups */
+.radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.88rem;
+}
+.radio-option:hover { border-color: var(--accent); background: rgba(139,126,200,0.03); }
+.radio-option.selected { border-color: var(--accent); background: var(--pensee-light); }
+.radio-option input { display: none; }
+
+.radio-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.radio-option.selected .radio-dot { border-color: var(--accent); }
+.radio-option.selected .radio-dot::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Checkbox groups (multi-select) */
+.checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.85rem;
+}
+.checkbox-option:hover { border-color: var(--accent); background: rgba(139,126,200,0.03); }
+.checkbox-option.selected { border-color: var(--accent); background: var(--pensee-light); }
+.checkbox-option.disabled { opacity: 0.45; cursor: not-allowed; }
+.checkbox-option input { display: none; }
+
+.checkbox-box {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.checkbox-option.selected .checkbox-box {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.checkbox-option.selected .checkbox-box::after {
+  content: '✓';
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── ONBOARDING ── */
+.onboarding-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.progress-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all var(--transition);
+}
+.progress-dot.active { background: var(--accent); transform: scale(1.2); }
+.progress-dot.done { background: var(--comm); }
+
+.onboarding-step { display: none; }
+.onboarding-step.active { display: block; animation: fadeUp 0.4s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+/* ── LIKERT SCALE ── */
+.likert-item {
+  margin-bottom: 1.8rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--bg-warm);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+}
+
+.likert-statement {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+.likert-scale {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.likert-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.3rem;
+}
+.likert-labels span {
+  font-size: 0.72rem;
+  color: var(--text-light);
+}
+
+.likert-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.likert-btn:hover { border-color: var(--accent); background: rgba(139,126,200,0.05); }
+.likert-btn.selected { border-color: var(--accent); background: var(--accent); color: white; }
+
+/* ── SCENARIO RANKING ── */
+.scenario-block {
+  margin-bottom: 2.5rem;
+}
+
+.scenario-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.scenario-hint {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-bottom: 0.6rem;
+  font-style: italic;
+}
+
+.rank-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.rank-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.85rem;
+  user-select: none;
+}
+.rank-option:hover { border-color: var(--accent); }
+
+.rank-badge {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: var(--border-light);
+  color: var(--text-light);
+  transition: all var(--transition);
+}
+
+.rank-option.ranked .rank-badge { background: var(--accent); color: white; }
+.rank-option.ranked { border-color: var(--accent); background: var(--pensee-bg); }
+
+/* ── DIAGNOSTIC RESULTS ── */
+.peca-profile {
+  padding: 2rem;
+  background: var(--bg-warm);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+}
+
+.peca-bar-wrap { margin-bottom: 1rem; }
+
+.peca-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.peca-bar {
+  height: 10px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.peca-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+
+.peca-bar-P .peca-bar-fill { background: var(--pensee); }
+.peca-bar-E .peca-bar-fill { background: var(--emotion); }
+.peca-bar-C .peca-bar-fill { background: var(--comm); }
+.peca-bar-A .peca-bar-fill { background: var(--action); }
+
+.ecart-message {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.ecart-insight {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--emotion-bg);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--emotion);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ── DASHBOARD ── */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.dash-welcome h1 {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.dash-welcome p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.dash-peca-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.dash-peca-card {
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  text-align: center;
+}
+.dash-peca-card.card-P { background: var(--pensee-bg); border: 1px solid var(--pensee-light); }
+.dash-peca-card.card-E { background: var(--emotion-bg); border: 1px solid var(--emotion-light); }
+.dash-peca-card.card-C { background: var(--comm-bg); border: 1px solid var(--comm-light); }
+.dash-peca-card.card-A { background: var(--action-bg); border: 1px solid var(--action-light); }
+
+.dim-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+.dim-score { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; }
+.card-P .dim-score { color: var(--pensee); }
+.card-E .dim-score { color: var(--emotion); }
+.card-C .dim-score { color: var(--comm); }
+.card-A .dim-score { color: var(--action); }
+
+.recommend-card {
+  background: linear-gradient(135deg, var(--pensee-bg) 0%, var(--emotion-bg) 100%);
+  border-color: var(--pensee-light);
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+.recommend-card:hover { box-shadow: var(--shadow-md); }
+.rec-label { font-size: 0.72rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+
+.dash-section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin: 2rem 0 1rem;
+}
+
+/* Ateliers list */
+.atelier-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.atelier-item:hover { border-color: var(--accent); background: rgba(139,126,200,0.02); }
+
+.atelier-status {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--comm);
+}
+.atelier-status.done { background: var(--comm); border-color: var(--comm); color: white; }
+
+.atelier-info h4 { font-size: 0.9rem; margin-bottom: 0.2rem; }
+.atelier-meta { display: flex; gap: 0.8rem; align-items: center; font-size: 0.78rem; color: var(--text-light); }
+
+.atelier-video-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Sidebar */
+.dash-sidebar .card { margin-bottom: 1rem; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+.stat-item { text-align: center; padding: 0.8rem; background: var(--bg-warm); border-radius: var(--radius-sm); }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 0.72rem; color: var(--text-light); font-weight: 500; }
+
+.ancre-display {
+  padding: 1rem;
+  background: var(--bg-warm);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ── EXERCISE ── */
+.exercise-wrap { max-width: 640px; margin: 0 auto; }
+
+.exercise-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.exercise-content .card {
+  margin-bottom: 1.5rem;
+}
+
+.value-chip {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all var(--transition);
+}
+.value-chip:hover { border-color: var(--accent); }
+.value-chip.selected { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* ── JOURNAL ── */
+.journal-entry {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: box-shadow var(--transition);
+}
+.journal-entry:hover { box-shadow: var(--shadow); }
+
+.journal-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.journal-insight {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.terrain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.7rem;
+  border-radius: 99px;
+}
+.terrain-badge.done { background: var(--comm-light); color: var(--comm); }
+.terrain-badge.pending { background: var(--action-light); color: var(--action); }
+
+/* ── AUTH MODAL ── */
+.auth-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.auth-overlay.active { display: flex; }
+
+.auth-modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-modal h2 { margin-bottom: 0.5rem; text-align: center; }
+.auth-subtitle { text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.auth-switch a {
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-image { max-height: 300px; }
+  .peca-grid { grid-template-columns: 1fr 1fr; }
+  .parcours-grid { grid-template-columns: 1fr; }
+  .usecase-grid { grid-template-columns: 1fr; }
+  .dashboard-layout { grid-template-columns: 1fr; }
+  .dash-peca-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: white; border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; gap: 1.2rem; box-shadow: var(--shadow-md); }
+  .nav-links.open { display: flex; }
+  .nav-hamburger { display: flex; }
+  .peca-grid { grid-template-columns: 1fr; }
+  .hero { padding: 7rem 0 3rem; }
+  h1 { font-size: 1.8rem; }
+  .likert-btn { width: 36px; height: 36px; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">Soror<span>'</span>Ama</a>
+  <div class="nav-links" id="navLinks">
+    <a onclick="scrollToSection('methode')">Méthode PECA</a>
+    <a onclick="scrollToSection('parcours')">Nos parcours</a>
+    <a id="navB2B" onclick="showPage('b2b')" style="display:none">Cas d'usage</a>
+    <a id="navDash" onclick="showPage('dashboard')" style="display:none">Tableau de bord</a>
+    <a id="navCarnet" onclick="showPage('carnet')" style="display:none">Mon carnet</a>
+    <a class="btn-nav" id="navAuth" onclick="openAuthModal('login')">Se connecter</a>
+    <a class="btn-nav" id="navUser" style="display:none" onclick="showPage('dashboard')"></a>
+  </div>
+  <div class="nav-hamburger" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════
+     1. HOME
+     ═══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-tagline">Plateforme de développement</div>
+          <h1>Cultivez ce qui <em>résiste</em> à l'IA.<br>Développez votre potentiel humain.</h1>
+          <p class="hero-subtitle">
+            La méthode PECA combine intelligence émotionnelle, coaching et e-learning pour transformer durablement vos compétences relationnelles et managériales.
+          </p>
+          <div class="hero-ctas">
+            <button class="btn btn-primary btn-lg" onclick="startB2C()">Commencer mon parcours</button>
+            <button class="btn btn-outline btn-lg" onclick="showPage('b2b')">Offre entreprise</button>
+          </div>
+          <div class="hero-badges">
+            <div class="hero-badge"><div class="hero-badge-dot" style="background:var(--pensee)"></div>Diagnostic EQ-i 2.0</div>
+            <div class="hero-badge"><div class="hero-badge-dot" style="background:var(--emotion)"></div>Coaching certifié</div>
+            <div class="hero-badge"><div class="hero-badge-dot" style="background:var(--comm)"></div>E-learning</div>
+            <div class="hero-badge"><div class="hero-badge-dot" style="background:var(--action)"></div>Intelligence collective</div>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://sororama.fr/assets/hero-home-B2ICaQPJ.webp" alt="Équipe en collaboration">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Méthode PECA -->
+  <section class="section section-warm" id="methode">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Notre méthode</div>
+        <h2>Quatre leviers qui se renforcent mutuellement</h2>
+        <p>La méthode PECA agit sur les quatre dimensions du potentiel humain. Pas juste transmettre des contenus : apprendre, pratiquer, ancrer.</p>
+      </div>
+      <div class="peca-grid">
+        <div class="peca-method-card card-P">
+          <div class="peca-letter">P</div>
+          <h3>Pensées</h3>
+          <p>Identifier et transformer ses schémas de pensée limitants</p>
+        </div>
+        <div class="peca-method-card card-E">
+          <div class="peca-letter">E</div>
+          <h3>Émotions</h3>
+          <p>Accueillir et gérer ses émotions avec intelligence</p>
+        </div>
+        <div class="peca-method-card card-C">
+          <div class="peca-letter">C</div>
+          <h3>Communication</h3>
+          <p>Développer ses styles de communication avec impact</p>
+        </div>
+        <div class="peca-method-card card-A">
+          <div class="peca-letter">A</div>
+          <h3>Action</h3>
+          <p>Renforcer sa capacité à se mettre en mouvement</p>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top:2.5rem">
+        Contrairement au Quotient Intellectuel, qui reste stable, le Quotient Émotionnel peut être développé à tout moment.
+      </div>
+    </div>
+  </section>
+
+  <!-- Vidéos -->
+  <section class="section" id="videos">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Ressources vidéo</div>
+        <h2>Comprendre l'intelligence émotionnelle</h2>
+        <p>Des vidéos pour explorer les fondamentaux avant de commencer votre parcours.</p>
+      </div>
+      <div class="video-grid" id="homeVideoGrid"></div>
+    </div>
+  </section>
+
+  <!-- Parcours -->
+  <section class="section section-warm" id="parcours">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Nos parcours</div>
+        <h2>Deux parcours, une méthode</h2>
+        <p>Apprendre, pratiquer, ancrer. Une entrée B2C pour les particuliers, une offre B2B pour les entreprises.</p>
+      </div>
+      <div class="parcours-grid">
+        <div class="parcours-card" onclick="showPage('b2b')">
+          <div class="parcours-badge b2b">B2B · Sur devis</div>
+          <h3>Parcours PECA Entreprise</h3>
+          <p>Programme 100% en ligne de développement du potentiel humain, sur 6 mois. Combine EQ-i 2.0, coaching individuel, e-learning, séances collectives et implication managériale.</p>
+          <span class="btn btn-outline">Découvrir les cas d'usage →</span>
+        </div>
+        <div class="parcours-card" onclick="startB2C()">
+          <div class="parcours-badge b2c">B2C · Accès direct</div>
+          <h3>Brise ton plafond</h3>
+          <p>Libérer son plein potentiel. Un parcours dédié à celles et ceux qui veulent dépasser leur plafond de verre, avec clarté et accompagnement.</p>
+          <span class="btn btn-outline">Commencer le parcours →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <h2>Prêt·e à transformer votre potentiel ?</h2>
+      <p>Faites le diagnostic PECA en quelques minutes. Sans engagement.</p>
+      <button class="btn btn-primary btn-lg" onclick="startB2C()">Démarrer le diagnostic gratuit</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════════════════════
+     2. B2B USE CASES
+     ═══════════════════════════════════ -->
+<div id="page-b2b" class="page">
+  <div class="container page-content">
+    <div class="section-header">
+      <div class="section-label">Offre entreprise</div>
+      <h2>Cas d'usage par thématique</h2>
+      <p>Chaque cas d'usage mobilise des dimensions PECA spécifiques. Choisissez celui qui correspond à votre enjeu.</p>
+    </div>
+    <div class="usecase-grid" id="usecaseGrid"></div>
+    <div style="text-align:center; margin-top:3rem">
+      <button class="btn btn-secondary" onclick="showPage('home')">← Retour à l'accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     3. ONBOARDING (7 étapes)
+     ═══════════════════════════════════ -->
+<div id="page-onboarding" class="page">
+  <div class="container page-content">
+    <div class="onboarding-wrap">
+      <div class="progress-dots" id="onboardingDots"></div>
+
+      <!-- Étape 0 : Situation -->
+      <div class="onboarding-step" id="onb-step-0">
+        <h2>Décrivez votre situation</h2>
+        <p class="step-subtitle" id="situationSubtitle">Qu'est-ce qui vous amène ici ?</p>
+        <div class="form-group">
+          <textarea id="situationText" placeholder="Quelle situation professionnelle aimeriez-vous vivre différemment ?"></textarea>
+        </div>
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="showPage('home')">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
+        </div>
+      </div>
+
+      <!-- Étape 1 : Contexte (fonction + environnement + défis) -->
+      <div class="onboarding-step" id="onb-step-1">
+        <h2>Votre contexte</h2>
+        <p class="step-subtitle">Quelques informations pour personnaliser votre parcours</p>
+
+        <div class="form-group">
+          <label>Votre fonction actuelle</label>
+          <div class="radio-group" id="ctx-fonction">
+            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Manager d'équipe</span><input type="radio" name="fonction" value="manager"></label>
+            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Expert·e / Contributeur·rice individuel·le</span><input type="radio" name="fonction" value="expert"></label>
+            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Dirigeant·e / Fondateur·rice</span><input type="radio" name="fonction" value="dirigeant"></label>
+            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Chef·fe de projet / Transverse</span><input type="radio" name="fonction" value="chef-projet"></label>
+            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>En transition / Reconversion</span><input type="radio" name="fonction" value="transition"></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Taille de votre environnement</label>
+          <div class="radio-group" id="ctx-environnement">
+            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Grande organisation (250+)</span><input type="radio" name="environnement" value="grande"></label>
+            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>PME / ETI (50-250)</span><input type="radio" name="environnement" value="pme"></label>
+            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Startup / TPE (&lt;50)</span><input type="radio" name="environnement" value="startup"></label>
+            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Indépendant·e / Freelance</span><input type="radio" name="environnement" value="independant"></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Vos défis principaux <span class="label-hint">(choisissez 2 à 3)</span></label>
+          <div class="checkbox-group" id="ctx-defis">
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Légitimité et syndrome de l'imposteur</span><input type="checkbox" name="defi" value="legitimite"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Prise de parole et visibilité</span><input type="checkbox" name="defi" value="visibilite"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Gestion de conflit</span><input type="checkbox" name="defi" value="conflit"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Feedback et conversations difficiles</span><input type="checkbox" name="defi" value="feedback"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Management et posture de leader</span><input type="checkbox" name="defi" value="management"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Stress et surcharge</span><input type="checkbox" name="defi" value="stress"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Équilibre pro-perso</span><input type="checkbox" name="defi" value="equilibre"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Négociation et assertivité</span><input type="checkbox" name="defi" value="negociation"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Transition et changement de cap</span><input type="checkbox" name="defi" value="transition"></label>
+            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Relations avec la hiérarchie</span><input type="checkbox" name="defi" value="hierarchie"></label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
+        </div>
+      </div>
+
+      <!-- Étape 2 : Diagnostic couche 1 — Auto-positionnement Likert -->
+      <div class="onboarding-step" id="onb-step-2">
+        <h2>Auto-positionnement</h2>
+        <p class="step-subtitle">Évaluez spontanément votre accord avec chaque affirmation. Il n'y a pas de bonne ou mauvaise réponse.</p>
+        <div id="likertItems"></div>
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
+        </div>
+      </div>
+
+      <!-- Étape 3 : Diagnostic couche 2 — Mises en situation -->
+      <div class="onboarding-step" id="onb-step-3">
+        <h2>Mises en situation</h2>
+        <p class="step-subtitle">Pour chaque scénario, classez les 4 réactions par ordre de préférence en cliquant dessus (1 = votre premier réflexe).</p>
+        <div id="scenarioItems"></div>
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
+        </div>
+      </div>
+
+      <!-- Étape 4 : Diagnostic couche 3 — Validation croisée -->
+      <div class="onboarding-step" id="onb-step-4">
+        <h2>Votre perception</h2>
+        <p class="step-subtitle">Deux dernières questions pour affiner votre profil.</p>
+
+        <div class="form-group">
+          <label>Quelle dimension pensez-vous devoir développer en priorité ?</label>
+          <div class="radio-group" id="validation-faible">
+            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Pensées — Clarifier ma réflexion</span><input type="radio" name="percue-faible" value="P"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Émotions — Mieux gérer mes émotions</span><input type="radio" name="percue-faible" value="E"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Communication — M'exprimer avec plus d'impact</span><input type="radio" name="percue-faible" value="C"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Action — Passer plus vite à l'action</span><input type="radio" name="percue-faible" value="A"></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Dans quelle dimension vous sentez-vous le plus à l'aise ?</label>
+          <div class="radio-group" id="validation-forte">
+            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Pensées — J'analyse bien les situations</span><input type="radio" name="percue-forte" value="P"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Émotions — Je suis à l'écoute des ressentis</span><input type="radio" name="percue-forte" value="E"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Communication — Je sais convaincre et fédérer</span><input type="radio" name="percue-forte" value="C"></label>
+            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Action — Je fais avancer les choses</span><input type="radio" name="percue-forte" value="A"></label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Voir mon profil</button>
+        </div>
+      </div>
+
+      <!-- Étape 5 : Profil PECA -->
+      <div class="onboarding-step" id="onb-step-5">
+        <h2>Votre profil PECA</h2>
+        <p class="step-subtitle">Voici votre équilibre actuel sur les quatre dimensions</p>
+        <div class="peca-profile" id="pecaProfile"></div>
+        <div id="ecartMessage" class="ecart-message"></div>
+        <div id="ecartInsight" class="ecart-insight" style="display:none"></div>
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Définir mon objectif</button>
+        </div>
+      </div>
+
+      <!-- Étape 6 : Objectif 3 mois -->
+      <div class="onboarding-step" id="onb-step-6">
+        <h2>Mon objectif à 3 mois</h2>
+        <p class="step-subtitle">Définissez votre ancre narrative : le cap qui guidera votre parcours</p>
+        <div class="form-group">
+          <label>Dans 3 mois, je veux être capable de…</label>
+          <textarea id="ancreText" placeholder="Exprimez votre objectif en une ou deux phrases..."></textarea>
+        </div>
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
+          <button class="btn btn-primary btn-lg" onclick="completeOnboarding()">Commencer mon parcours</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     4. DASHBOARD
+     ═══════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="container page-content">
+    <div class="dashboard-layout">
+      <div class="dash-main">
+        <div class="dash-welcome">
+          <h1 id="dashWelcome">Bonjour</h1>
+          <p id="dashGoal"></p>
+        </div>
+
+        <div class="dash-peca-cards">
+          <div class="dash-peca-card card-P"><div class="dim-label">Pensées</div><div class="dim-score" id="dashP">0%</div></div>
+          <div class="dash-peca-card card-E"><div class="dim-label">Émotions</div><div class="dim-score" id="dashE">0%</div></div>
+          <div class="dash-peca-card card-C"><div class="dim-label">Communication</div><div class="dim-score" id="dashC">0%</div></div>
+          <div class="dash-peca-card card-A"><div class="dim-label">Action</div><div class="dim-score" id="dashA">0%</div></div>
+        </div>
+
+        <div class="card recommend-card" onclick="startExercise(state.recommendedAtelier)">
+          <div class="rec-label">Prochain atelier recommandé</div>
+          <h3 id="recTitle"></h3>
+          <p id="recDesc" style="color:var(--text-secondary);font-size:0.88rem;margin-top:0.3rem"></p>
+        </div>
+
+        <!-- Vidéos du parcours -->
+        <div class="dash-section-title">Ressources vidéo</div>
+        <div class="video-grid" id="dashVideoGrid"></div>
+
+        <div class="dash-section-title">Tous les ateliers</div>
+        <div id="ateliersList"></div>
+      </div>
+
+      <div class="dash-sidebar">
+        <div class="card">
+          <h4 style="margin-bottom:0.8rem">Progression</h4>
+          <div class="stat-grid">
+            <div class="stat-item"><div class="stat-num" id="statEnCours">0</div><div class="stat-label">En cours</div></div>
+            <div class="stat-item"><div class="stat-num" id="statCompletes">0</div><div class="stat-label">Terminés</div></div>
+            <div class="stat-item"><div class="stat-num" id="statInsights">0</div><div class="stat-label">Insights</div></div>
+            <div class="stat-item"><div class="stat-num" id="statJours">1</div><div class="stat-label">Jours</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:0.8rem">Mon ancre narrative</h4>
+          <div class="ancre-display" id="ancreDisplay"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     5. EXERCISE
+     ═══════════════════════════════════ -->
+<div id="page-exercise" class="page">
+  <div class="container page-content">
+    <div class="exercise-wrap">
+      <div class="exercise-header">
+        <div class="section-label" id="exerciseDim"></div>
+        <h2 id="exerciseTitle"></h2>
+        <p class="step-subtitle" id="exerciseDesc"></p>
+      </div>
+
+      <!-- Vidéo de l'atelier -->
+      <div id="exerciseVideoWrap" style="display:none; margin-bottom:2rem;">
+        <div class="video-card" id="exerciseVideoCard" onclick="playExerciseVideo()">
+          <div class="video-thumb">
+            <img id="exerciseVideoThumb" src="" alt="Vidéo de l'atelier">
+            <div class="video-play-btn"></div>
+          </div>
+          <div class="video-card-info">
+            <h4 id="exerciseVideoTitle">Regarder la vidéo</h4>
+            <p>Visionnez avant de commencer l'atelier</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-content" id="exerciseContent"></div>
+      <div class="step-nav">
+        <button class="btn btn-secondary" onclick="showPage('dashboard')">← Tableau de bord</button>
+        <button class="btn btn-primary" id="exerciseNextBtn" onclick="nextExerciseStep()">Continuer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     6. CARNET DE BORD
+     ═══════════════════════════════════ -->
+<div id="page-carnet" class="page">
+  <div class="container page-content">
+    <div class="section-header">
+      <div class="section-label">Mon carnet de bord</div>
+      <h2>Ce qui ne se mesure pas ne progresse pas</h2>
+      <p>Vos insights, apprentissages et mises en pratique au fil du parcours.</p>
+    </div>
+    <div id="journalEntries"></div>
+    <div style="text-align:center; margin-top:2rem">
+      <button class="btn btn-secondary" onclick="showPage('dashboard')">← Tableau de bord</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AUTH MODAL ═══ -->
+<div class="auth-overlay" id="authOverlay" onclick="closeAuthIf(event)">
+  <div class="auth-modal">
+    <h2 id="authTitle">Connexion</h2>
+    <p class="auth-subtitle" id="authSubtitle">Accédez à votre parcours PECA</p>
+    <div class="form-group">
+      <label>Prénom</label>
+      <input type="text" id="authName" placeholder="Votre prénom">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="authEmail" placeholder="votre@email.com">
+    </div>
+    <div class="form-group" id="authPassGroup">
+      <label>Mot de passe</label>
+      <input type="password" id="authPass" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="doAuth()">Continuer</button>
+    <div class="auth-switch">
+      <span id="authSwitchText">Pas encore de compte ?</span>
+      <a id="authSwitchLink" onclick="switchAuth()">Créer un compte</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ VIDEO MODAL ═══ -->
+<div class="video-modal" id="videoModal" onclick="closeVideoIf(event)">
+  <div class="video-modal-content">
+    <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+    <div class="video-modal-frame">
+      <iframe id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+var state = {
+  isLoggedIn: false,
+  userName: '',
+  segment: null,
+  selectedUseCase: null,
+  pecaScores: { P: 0, E: 0, C: 0, A: 0 },
+  diagnosticDone: false,
+  ancreNarrative: '',
+  completedAteliers: [],
+  journalEntries: [],
+  onboardingStep: 0,
+  exerciseStep: 0,
+  selectedValues: [],
+  narrowedValues: [],
+  currentExercise: null,
+  authMode: 'login',
+  recommendedAtelier: 0,
+  startDate: new Date(),
+  scenarioRanks: {}
+};
+
+// ══════════════════════════
+// DATA
+// ══════════════════════════
+var useCases = [
+  { id: 0, title: "Se préparer pour une présentation importante", desc: "Structurer sa pensée, gérer le stress et communiquer avec impact", dims: ['P','C','E'] },
+  { id: 1, title: "Donner du feedback", desc: "Formuler un retour constructif, même dans les situations délicates", dims: ['E','C'] },
+  { id: 2, title: "Manager à l'ère de l'IA", desc: "Développer les compétences humaines différenciantes face à l'automatisation", dims: ['P','E','C','A'] },
+  { id: 3, title: "Coopérer et accueillir la diversité", desc: "Créer un environnement inclusif où chaque profil trouve sa place", dims: ['E','C'] },
+  { id: 4, title: "Développer son intelligence émotionnelle", desc: "Identifier, comprendre et mobiliser ses émotions au service de l'action", dims: ['E','P'] },
+  { id: 5, title: "Accompagner le changement", desc: "Traverser les transitions avec lucidité et embarquer les équipes", dims: ['P','C','A'] },
+  { id: 6, title: "Gérer les conflits", desc: "Désamorcer les tensions et transformer le conflit en opportunité", dims: ['E','C','A'] },
+  { id: 7, title: "Négocier avec confiance", desc: "Affirmer sa position tout en préservant la relation", dims: ['P','C','A'] },
+  { id: 8, title: "Réussir sa prise de poste", desc: "Les 90 premiers jours avec clarté et confiance", dims: ['P','E','C','A'] }
+];
+
+var ateliers = [
+  { id: 0, title: "Identifier mes valeurs", dim: 'P', desc: "Découvrez ce qui guide vraiment vos choix", videoUrl: "https://www.youtube.com/embed/9wQPyD_QxsQ", videoTitle: "Intelligence émotionnelle : les fondamentaux" },
+  { id: 1, title: "Mon cadre de décision", dim: 'P', desc: "Construisez votre boussole décisionnelle", videoUrl: null },
+  { id: 2, title: "Cartographie émotionnelle", dim: 'E', desc: "Nommez vos émotions avec précision", videoUrl: "https://www.youtube.com/embed/7sfpE7u1VvU", videoTitle: "Comprendre ses émotions au travail" },
+  { id: 3, title: "Accueillir la vulnérabilité", dim: 'E', desc: "Faire de la vulnérabilité une force", videoUrl: null },
+  { id: 4, title: "Écoute active et présence", dim: 'C', desc: "Développer une écoute qui transforme", videoUrl: null },
+  { id: 5, title: "Prendre la parole avec impact", dim: 'C', desc: "Affirmer sa voix en réunion et convaincre", videoUrl: null },
+  { id: 6, title: "De l'intention à l'action", dim: 'A', desc: "Dépasser la procrastination avec méthode", videoUrl: null },
+  { id: 7, title: "Mon plan d'action 30 jours", dim: 'A', desc: "Définir des micro-actions concrètes et mesurables", videoUrl: null }
+];
+
+// Vidéos générales (affichées sur la home et le dashboard)
+var generalVideos = [
+  { title: "L'intelligence émotionnelle au travail", desc: "Comprendre pourquoi le QE est un facteur clé de performance", url: "https://www.youtube.com/embed/9wQPyD_QxsQ", thumb: "https://img.youtube.com/vi/9wQPyD_QxsQ/hqdefault.jpg" },
+  { title: "L'art de manager avec l'IA", desc: "Comment développer les compétences humaines différenciantes", url: "https://www.youtube.com/embed/7sfpE7u1VvU", thumb: "https://img.youtube.com/vi/7sfpE7u1VvU/hqdefault.jpg" }
+];
+
+// ── DIAGNOSTIC DATA ──
+
+// Couche 1 : Auto-positionnement Likert (2 items par dimension, 1 positif + 1 inversé)
+var likertItems = [
+  { statement: "J'analyse les situations en profondeur avant de prendre une décision.", dim: 'P', reverse: false },
+  { statement: "Il m'arrive de foncer sans avoir pris le temps de réfléchir aux conséquences.", dim: 'P', reverse: true },
+  { statement: "Je perçois facilement les émotions des autres, même non exprimées.", dim: 'E', reverse: false },
+  { statement: "Mes émotions me submergent parfois dans les moments importants.", dim: 'E', reverse: true },
+  { statement: "Je sais adapter mon message à mon interlocuteur pour me faire comprendre.", dim: 'C', reverse: false },
+  { statement: "J'ai du mal à exprimer clairement mon point de vue en groupe.", dim: 'C', reverse: true },
+  { statement: "Quand je décide quelque chose, je passe rapidement à l'action.", dim: 'A', reverse: false },
+  { statement: "J'ai tendance à repousser les décisions difficiles.", dim: 'A', reverse: true }
+];
+
+// Couche 2 : Mises en situation (5 scénarios, classement des 4 réactions)
+var scenarios = [
+  {
+    title: "1. Un conflit éclate en réunion entre deux collègues.",
+    reactions: [
+      { text: "Prendre du recul pour analyser objectivement la situation", dim: 'P' },
+      { text: "Observer les émotions en jeu, les miennes et celles des autres", dim: 'E' },
+      { text: "Ouvrir le dialogue pour comprendre chaque point de vue", dim: 'C' },
+      { text: "Proposer une solution concrète pour avancer", dim: 'A' }
+    ]
+  },
+  {
+    title: "2. Vous devez donner un feedback difficile à un·e collègue.",
+    reactions: [
+      { text: "Préparer des faits et des exemples précis", dim: 'P' },
+      { text: "Vérifier mon état émotionnel avant la conversation", dim: 'E' },
+      { text: "Choisir le bon moment et les bons mots", dim: 'C' },
+      { text: "Aborder le sujet directement, sans tourner autour", dim: 'A' }
+    ]
+  },
+  {
+    title: "3. Un nouveau projet stratégique vous est confié.",
+    reactions: [
+      { text: "Définir une vision claire et une stratégie détaillée", dim: 'P' },
+      { text: "M'assurer que l'équipe se sent engagée et motivée", dim: 'E' },
+      { text: "Réunir les parties prenantes pour aligner tout le monde", dim: 'C' },
+      { text: "Identifier les premières actions et lancer un pilote", dim: 'A' }
+    ]
+  },
+  {
+    title: "4. On vous demande de prendre la parole de façon imprévue.",
+    reactions: [
+      { text: "Structurer mentalement mes idées clés", dim: 'P' },
+      { text: "Respirer et accueillir le stress avant de parler", dim: 'E' },
+      { text: "M'adapter à l'auditoire et à ses attentes", dim: 'C' },
+      { text: "Me lancer, quitte à ajuster en cours de route", dim: 'A' }
+    ]
+  },
+  {
+    title: "5. Votre organisation traverse un changement important.",
+    reactions: [
+      { text: "Comprendre les raisons et impacts du changement", dim: 'P' },
+      { text: "Être attentif·ve aux inquiétudes et résistances", dim: 'E' },
+      { text: "Communiquer de façon transparente sur le pourquoi et le comment", dim: 'C' },
+      { text: "Mettre en place des actions rapides pour montrer le mouvement", dim: 'A' }
+    ]
+  }
+];
+
+var valuesList = [
+  'Authenticité','Courage','Créativité','Empathie','Excellence',
+  'Liberté','Justice','Bienveillance','Ambition','Harmonie',
+  'Intégrité','Résilience','Curiosité','Gratitude','Leadership',
+  'Respect','Solidarité','Audace','Patience','Simplicité',
+  'Loyauté','Innovation','Sagesse','Passion','Équilibre',
+  'Détermination','Ouverture','Humilité','Confiance','Générosité'
+];
+
+var defaultJournalEntries = [
+  { date: '28 juin 2026', atelier: 'Identifier mes valeurs', dim: 'P', insight: "J'ai réalisé que l'authenticité est ma valeur fondamentale. Je me sens aligné·e quand je peux être moi-même au travail.", terrain: 'done', terrainNote: "Appliqué en réunion d'équipe" },
+  { date: '25 juin 2026', atelier: 'Cartographie émotionnelle', dim: 'E', insight: "La frustration que je ressens en réunion vient en réalité d'un besoin de reconnaissance non exprimé.", terrain: 'pending', terrainNote: "À tester lors du prochain feedback" },
+  { date: '22 juin 2026', atelier: 'Écoute active et présence', dim: 'C', insight: "Quand j'écoute vraiment, sans préparer ma réponse, les gens partagent beaucoup plus. L'espace de silence est précieux.", terrain: 'done', terrainNote: "Pratiqué 3 fois cette semaine" }
+];
+
+// ══════════════════════════
+// NAVIGATION
+// ══════════════════════════
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById('page-' + pageId);
+  if (target) { target.classList.add('active'); window.scrollTo(0, 0); }
+  closeMobileNav();
+  if (pageId === 'dashboard') renderDashboard();
+  if (pageId === 'carnet') renderJournal();
+}
+
+function scrollToSection(id) {
+  showPage('home');
+  setTimeout(function() {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+  closeMobileNav();
+}
+
+function toggleMobileNav() { document.getElementById('navLinks').classList.toggle('open'); }
+function closeMobileNav() { document.getElementById('navLinks').classList.remove('open'); }
+
+function updateNav() {
+  var navAuth = document.getElementById('navAuth');
+  var navUser = document.getElementById('navUser');
+  var navDash = document.getElementById('navDash');
+  var navCarnet = document.getElementById('navCarnet');
+  var navB2B = document.getElementById('navB2B');
+
+  if (state.isLoggedIn) {
+    navAuth.style.display = 'none';
+    navUser.style.display = 'inline';
+    navUser.textContent = state.userName;
+  }
+  navB2B.style.display = 'inline';
+  navDash.style.display = state.diagnosticDone ? 'inline' : 'none';
+  navCarnet.style.display = state.diagnosticDone ? 'inline' : 'none';
+}
+
+// ══════════════════════════
+// AUTH
+// ══════════════════════════
+function openAuthModal(mode) {
+  state.authMode = mode;
+  document.getElementById('authOverlay').classList.add('active');
+  document.getElementById('authTitle').textContent = mode === 'login' ? 'Connexion' : 'Créer un compte';
+  document.getElementById('authSubtitle').textContent = mode === 'login' ? 'Accédez à votre parcours PECA' : 'Commencez votre transformation';
+  document.getElementById('authSwitchText').textContent = mode === 'login' ? 'Pas encore de compte ? ' : 'Déjà un compte ? ';
+  document.getElementById('authSwitchLink').textContent = mode === 'login' ? 'Créer un compte' : 'Se connecter';
+}
+
+function switchAuth() { openAuthModal(state.authMode === 'login' ? 'register' : 'login'); }
+
+function closeAuthIf(e) { if (e.target === e.currentTarget) document.getElementById('authOverlay').classList.remove('active'); }
+
+function doAuth() {
+  var name = document.getElementById('authName').value || 'Utilisateur';
+  state.isLoggedIn = true;
+  state.userName = name;
+  document.getElementById('authOverlay').classList.remove('active');
+  updateNav();
+  startOnboarding();
+}
+
+// ══════════════════════════
+// SEGMENTS
+// ══════════════════════════
+function startB2C() {
+  state.segment = 'b2c';
+  if (!state.isLoggedIn) { openAuthModal('register'); } else { startOnboarding(); }
+}
+
+function startB2B(useCaseId) {
+  state.segment = 'b2b';
+  state.selectedUseCase = useCases[useCaseId];
+  if (!state.isLoggedIn) { openAuthModal('register'); } else { startOnboarding(); }
+}
+
+function dimName(d) { return { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' }[d]; }
+
+// ══════════════════════════
+// B2B RENDER
+// ══════════════════════════
+function renderUseCases() {
+  var grid = document.getElementById('usecaseGrid');
+  grid.innerHTML = useCases.map(function(uc) {
+    return '<div class="usecase-card" onclick="startB2B(' + uc.id + ')">' +
+      '<div class="usecase-num">CAS D\'USAGE ' + String(uc.id + 1).padStart(2, '0') + '</div>' +
+      '<h3>' + uc.title + '</h3>' +
+      '<p>' + uc.desc + '</p>' +
+      '<div class="pills">' + uc.dims.map(function(d) { return '<span class="peca-pill peca-pill-' + d + '">' + dimName(d) + '</span>'; }).join('') + '</div></div>';
+  }).join('');
+}
+
+// ══════════════════════════
+// VIDEOS
+// ══════════════════════════
+function renderVideoGrid(containerId, videoList) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = videoList.map(function(v, i) {
+    return '<div class="video-card" onclick="openVideoModal(\'' + v.url + '\')">' +
+      '<div class="video-thumb">' +
+        '<img src="' + v.thumb + '" alt="' + v.title + '">' +
+        '<div class="video-play-btn"></div>' +
+      '</div>' +
+      '<div class="video-card-info"><h4>' + v.title + '</h4><p>' + v.desc + '</p></div></div>';
+  }).join('');
+}
+
+function openVideoModal(url) {
+  document.getElementById('videoIframe').src = url + '?autoplay=1';
+  document.getElementById('videoModal').classList.add('active');
+}
+
+function closeVideoModal() {
+  document.getElementById('videoIframe').src = '';
+  document.getElementById('videoModal').classList.remove('active');
+}
+
+function closeVideoIf(e) { if (e.target === e.currentTarget) closeVideoModal(); }
+
+function playExerciseVideo() {
+  var atelier = ateliers[state.currentExercise] || {};
+  if (atelier.videoUrl) openVideoModal(atelier.videoUrl);
+}
+
+// ══════════════════════════
+// ONBOARDING
+// ══════════════════════════
+var TOTAL_STEPS = 7;
+
+function startOnboarding() {
+  state.onboardingStep = 0;
+  state.scenarioRanks = {};
+
+  if (state.segment === 'b2b' && state.selectedUseCase) {
+    document.getElementById('situationSubtitle').textContent = 'Quel défi professionnel aimeriez-vous aborder ?';
+    document.getElementById('situationText').placeholder = 'Décrivez le défi lié à : ' + state.selectedUseCase.title;
+  } else {
+    document.getElementById('situationSubtitle').textContent = "Qu'est-ce qui vous amène ici ?";
+    document.getElementById('situationText').placeholder = 'Quelle situation professionnelle aimeriez-vous vivre différemment ?';
+  }
+
+  renderOnboardingDots();
+  renderLikertItems();
+  renderScenarios();
+  showOnboardingStep(0);
+  showPage('onboarding');
+}
+
+function renderOnboardingDots() {
+  var dots = document.getElementById('onboardingDots');
+  dots.innerHTML = '';
+  for (var i = 0; i < TOTAL_STEPS; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(dot);
+  }
+}
+
+function showOnboardingStep(n) {
+  document.querySelectorAll('#page-onboarding .onboarding-step').forEach(function(s) { s.classList.remove('active'); });
+  var step = document.getElementById('onb-step-' + n);
+  if (step) step.classList.add('active');
+  document.querySelectorAll('#onboardingDots .progress-dot').forEach(function(d, i) {
+    d.className = 'progress-dot' + (i === n ? ' active' : (i < n ? ' done' : ''));
+  });
+}
+
+function nextOnboarding() {
+  // Before showing profile (step 5), calculate scores
+  if (state.onboardingStep === 4) {
+    calculatePECA();
+    renderPECAProfile();
+  }
+  state.onboardingStep++;
+  showOnboardingStep(state.onboardingStep);
+}
+
+function prevOnboarding() {
+  if (state.onboardingStep > 0) {
+    state.onboardingStep--;
+    showOnboardingStep(state.onboardingStep);
+  }
+}
+
+function selectRadio(el, group) {
+  el.closest('.radio-group').querySelectorAll('.radio-option').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+}
+
+function toggleCheckbox(el) {
+  var group = el.closest('.checkbox-group');
+  var selected = group.querySelectorAll('.checkbox-option.selected');
+  var isSelected = el.classList.contains('selected');
+
+  if (isSelected) {
+    el.classList.remove('selected');
+    el.querySelector('input').checked = false;
+  } else {
+    if (selected.length >= 3) return; // Max 3
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+
+  // Update disabled state
+  var nowSelected = group.querySelectorAll('.checkbox-option.selected').length;
+  group.querySelectorAll('.checkbox-option').forEach(function(o) {
+    if (!o.classList.contains('selected')) {
+      o.classList.toggle('disabled', nowSelected >= 3);
+    }
+  });
+}
+
+// ── LIKERT RENDERING ──
+function renderLikertItems() {
+  var container = document.getElementById('likertItems');
+  container.innerHTML = likertItems.map(function(item, idx) {
+    var btns = '';
+    for (var v = 1; v <= 5; v++) {
+      btns += '<button class="likert-btn" data-idx="' + idx + '" data-val="' + v + '" onclick="selectLikert(this,' + idx + ',' + v + ')">' + v + '</button>';
+    }
+    return '<div class="likert-item">' +
+      '<div class="likert-statement">' + item.statement + '</div>' +
+      '<div class="likert-scale">' + btns + '</div>' +
+      '<div class="likert-labels"><span>Pas du tout d\'accord</span><span>Tout à fait d\'accord</span></div>' +
+    '</div>';
+  }).join('');
+}
+
+function selectLikert(el, idx, val) {
+  el.closest('.likert-scale').querySelectorAll('.likert-btn').forEach(function(b) { b.classList.remove('selected'); });
+  el.classList.add('selected');
+  likertItems[idx].value = val;
+}
+
+// ── SCENARIO RENDERING ──
+function renderScenarios() {
+  var container = document.getElementById('scenarioItems');
+  container.innerHTML = scenarios.map(function(sc, si) {
+    state.scenarioRanks[si] = [];
+    return '<div class="scenario-block">' +
+      '<div class="scenario-title">' + sc.title + '</div>' +
+      '<div class="scenario-hint">Cliquez dans l\'ordre de vos préférences (1er clic = premier réflexe)</div>' +
+      '<div class="rank-options" id="scenario-' + si + '">' +
+        sc.reactions.map(function(r, ri) {
+          return '<div class="rank-option" data-si="' + si + '" data-ri="' + ri + '" onclick="rankOption(this,' + si + ',' + ri + ')">' +
+            '<div class="rank-badge" id="badge-' + si + '-' + ri + '">-</div>' +
+            '<span>' + r.text + '</span></div>';
+        }).join('') +
+      '</div></div>';
+  }).join('');
+}
+
+function rankOption(el, si, ri) {
+  var ranks = state.scenarioRanks[si];
+
+  // If already ranked, unrank this and all after it
+  var existingPos = ranks.indexOf(ri);
+  if (existingPos !== -1) {
+    var removed = ranks.splice(existingPos);
+    removed.forEach(function(removedRi) {
+      var badge = document.getElementById('badge-' + si + '-' + removedRi);
+      badge.textContent = '-';
+      badge.closest('.rank-option').classList.remove('ranked');
+    });
+    return;
+  }
+
+  if (ranks.length >= 4) return;
+
+  ranks.push(ri);
+  el.classList.add('ranked');
+  document.getElementById('badge-' + si + '-' + ri).textContent = ranks.length;
+}
+
+// ── SCORING ──
+function calculatePECA() {
+  var scores = { P: 0, E: 0, C: 0, A: 0 };
+  var counts = { P: 0, E: 0, C: 0, A: 0 };
+
+  // Couche 1 : Likert (40% du score final)
+  var likertScores = { P: 0, E: 0, C: 0, A: 0 };
+  var likertCounts = { P: 0, E: 0, C: 0, A: 0 };
+
+  likertItems.forEach(function(item) {
+    if (item.value !== undefined) {
+      var val = item.reverse ? (6 - item.value) : item.value;
+      var normalized = (val - 1) * 25; // 0-100
+      likertScores[item.dim] += normalized;
+      likertCounts[item.dim]++;
+    }
+  });
+
+  ['P','E','C','A'].forEach(function(d) {
+    if (likertCounts[d] > 0) {
+      likertScores[d] = likertScores[d] / likertCounts[d];
+    } else {
+      likertScores[d] = 50; // Default
+    }
+  });
+
+  // Couche 2 : Scénarios (60% du score final)
+  var scenarioScores = { P: 0, E: 0, C: 0, A: 0 };
+  var scenarioCount = 0;
+
+  scenarios.forEach(function(sc, si) {
+    var ranks = state.scenarioRanks[si] || [];
+    if (ranks.length > 0) {
+      scenarioCount++;
+      ranks.forEach(function(ri, pos) {
+        var dim = sc.reactions[ri].dim;
+        var points = 4 - pos; // 1er=4pts, 2e=3pts, 3e=2pts, 4e=1pt
+        scenarioScores[dim] += points;
+      });
+      // Unranked reactions get 0 points (they're weakest)
+    }
+  });
+
+  // Normalize scenario scores to 0-100
+  if (scenarioCount > 0) {
+    var maxPerDim = scenarioCount * 4; // Max possible per dimension
+    ['P','E','C','A'].forEach(function(d) {
+      scenarioScores[d] = (scenarioScores[d] / maxPerDim) * 100;
+    });
+  } else {
+    ['P','E','C','A'].forEach(function(d) { scenarioScores[d] = 50; });
+  }
+
+  // Score final : pondéré 40% Likert + 60% Scénarios
+  ['P','E','C','A'].forEach(function(d) {
+    scores[d] = Math.round(likertScores[d] * 0.4 + scenarioScores[d] * 0.6);
+    scores[d] = Math.max(scores[d], 10);
+    scores[d] = Math.min(scores[d], 100);
+  });
+
+  state.pecaScores = scores;
+}
+
+function renderPECAProfile() {
+  var profile = document.getElementById('pecaProfile');
+  var dims = [
+    { key: 'P', label: 'Pensées' },
+    { key: 'E', label: 'Émotions' },
+    { key: 'C', label: 'Communication' },
+    { key: 'A', label: 'Action' }
+  ];
+
+  profile.innerHTML = dims.map(function(d) {
+    return '<div class="peca-bar-wrap peca-bar-' + d.key + '">' +
+      '<div class="peca-bar-label"><span>' + d.label + '</span><span>' + state.pecaScores[d.key] + '%</span></div>' +
+      '<div class="peca-bar"><div class="peca-bar-fill" style="width:' + state.pecaScores[d.key] + '%"></div></div></div>';
+  }).join('');
+
+  // Levier prioritaire
+  var sorted = Object.entries(state.pecaScores).sort(function(a, b) { return b[1] - a[1]; });
+  var highest = sorted[0];
+  var lowest = sorted[sorted.length - 1];
+  var dimNames = { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' };
+
+  // Défis sélectionnés
+  var defis = [];
+  document.querySelectorAll('input[name="defi"]:checked').forEach(function(cb) { defis.push(cb.value); });
+  var defiLabels = {
+    legitimite: 'légitimité', visibilite: 'visibilité', conflit: 'gestion de conflit',
+    feedback: 'feedback', management: 'management', stress: 'stress',
+    equilibre: 'équilibre', negociation: 'négociation', transition: 'transition', hierarchie: 'relations hiérarchiques'
+  };
+  var defiText = defis.map(function(d) { return defiLabels[d] || d; }).join(', ');
+
+  document.getElementById('ecartMessage').innerHTML =
+    '<strong>Votre levier prioritaire</strong><br>' +
+    (defiText ? 'Vous venez pour des enjeux de <strong>' + defiText + '</strong>. ' : '') +
+    'Notre diagnostic révèle que votre dimension la plus développée est <strong>' + dimNames[highest[0]] + '</strong> (' + highest[1] + '%). ' +
+    'Nous vous recommandons de commencer par <strong>' + dimNames[lowest[0]] + '</strong> (' + lowest[1] + '%) pour un développement équilibré.';
+
+  // Couche 3 : Validation croisée — écart perception/réalité
+  var percueFaible = document.querySelector('input[name="percue-faible"]:checked');
+  var percueForte = document.querySelector('input[name="percue-forte"]:checked');
+  var insightEl = document.getElementById('ecartInsight');
+
+  if (percueFaible && percueForte) {
+    var pFaible = percueFaible.value;
+    var pForte = percueForte.value;
+    var realFaible = lowest[0];
+    var realForte = highest[0];
+
+    var hasEcart = (pFaible !== realFaible) || (pForte !== realForte);
+
+    if (hasEcart) {
+      var msg = '<strong>L\'écart qui fait la différence</strong><br>';
+      if (pFaible !== realFaible) {
+        msg += 'Vous pensez devoir travailler sur <strong>' + dimNames[pFaible] + '</strong>, mais vos réponses situationnelles révèlent que c\'est plutôt <strong>' + dimNames[realFaible] + '</strong> qui mérite votre attention. ';
+      }
+      if (pForte !== realForte) {
+        msg += 'Vous vous sentez fort·e en <strong>' + dimNames[pForte] + '</strong>, alors que vos réflexes naturels pointent davantage vers <strong>' + dimNames[realForte] + '</strong>. ';
+      }
+      msg += 'Cet écart entre perception et réalité est précisément là où commence la transformation.';
+      insightEl.innerHTML = msg;
+      insightEl.style.display = 'block';
+    } else {
+      insightEl.innerHTML = '<strong>Bonne conscience de soi</strong><br>Votre perception de vos forces et axes de développement est alignée avec vos réponses. C\'est un atout précieux pour votre parcours.';
+      insightEl.style.display = 'block';
+    }
+  }
+}
+
+function completeOnboarding() {
+  state.ancreNarrative = document.getElementById('ancreText').value || 'Définir mon objectif avec clarté';
+  state.diagnosticDone = true;
+  state.journalEntries = defaultJournalEntries.map(function(e) { return Object.assign({}, e); });
+
+  var sorted = Object.entries(state.pecaScores).sort(function(a, b) { return a[1] - b[1]; });
+  var lowestDim = sorted[0][0];
+  var dimAteliers = ateliers.filter(function(a) { return a.dim === lowestDim; });
+  state.recommendedAtelier = dimAteliers.length > 0 ? dimAteliers[0].id : 0;
+
+  updateNav();
+  showPage('dashboard');
+}
+
+// ══════════════════════════
+// DASHBOARD
+// ══════════════════════════
+function renderDashboard() {
+  document.getElementById('dashWelcome').textContent = 'Bonjour, ' + state.userName;
+  document.getElementById('dashGoal').textContent = 'Objectif : ' + state.ancreNarrative;
+
+  document.getElementById('dashP').textContent = state.pecaScores.P + '%';
+  document.getElementById('dashE').textContent = state.pecaScores.E + '%';
+  document.getElementById('dashC').textContent = state.pecaScores.C + '%';
+  document.getElementById('dashA').textContent = state.pecaScores.A + '%';
+
+  var rec = ateliers[state.recommendedAtelier] || ateliers[0];
+  document.getElementById('recTitle').textContent = rec.title;
+  document.getElementById('recDesc').textContent = rec.desc;
+
+  // Vidéos
+  var dashVideos = ateliers.filter(function(a) { return a.videoUrl; }).map(function(a) {
+    var vid = a.videoUrl.replace('/embed/', '/watch?v=');
+    var vidId = a.videoUrl.split('/embed/')[1] || '';
+    return { title: a.videoTitle || a.title, desc: a.desc, url: a.videoUrl, thumb: 'https://img.youtube.com/vi/' + vidId + '/hqdefault.jpg' };
+  });
+  renderVideoGrid('dashVideoGrid', dashVideos);
+
+  // Ateliers
+  var list = document.getElementById('ateliersList');
+  list.innerHTML = ateliers.map(function(a) {
+    var done = state.completedAteliers.indexOf(a.id) !== -1;
+    var videoTag = a.videoUrl ? '<span class="atelier-video-badge">▶ Vidéo</span>' : '';
+    return '<div class="atelier-item" onclick="startExercise(' + a.id + ')">' +
+      '<div class="atelier-status ' + (done ? 'done' : '') + '">' + (done ? '✓' : '') + '</div>' +
+      '<div class="atelier-info"><h4>' + a.title + '</h4>' +
+      '<div class="atelier-meta"><span class="peca-pill peca-pill-' + a.dim + '">' + dimName(a.dim) + '</span>' +
+      videoTag +
+      '<span>' + (done ? 'Terminé' : 'À faire') + '</span></div></div></div>';
+  }).join('');
+
+  // Stats
+  var completed = state.completedAteliers.length;
+  document.getElementById('statEnCours').textContent = Math.min(ateliers.length - completed, 2);
+  document.getElementById('statCompletes').textContent = completed;
+  document.getElementById('statInsights').textContent = state.journalEntries.length;
+  var days = Math.max(1, Math.ceil((new Date() - state.startDate) / 86400000));
+  document.getElementById('statJours').textContent = days;
+  document.getElementById('ancreDisplay').textContent = state.ancreNarrative;
+}
+
+// ══════════════════════════
+// EXERCISES
+// ══════════════════════════
+function startExercise(atelierId) {
+  state.currentExercise = atelierId;
+  state.exerciseStep = 0;
+  state.selectedValues = [];
+  state.narrowedValues = [];
+
+  var atelier = ateliers[atelierId];
+  document.getElementById('exerciseDim').textContent = dimName(atelier.dim);
+  document.getElementById('exerciseTitle').textContent = atelier.title;
+  document.getElementById('exerciseDesc').textContent = atelier.desc;
+
+  // Vidéo
+  var videoWrap = document.getElementById('exerciseVideoWrap');
+  if (atelier.videoUrl) {
+    videoWrap.style.display = 'block';
+    var vidId = atelier.videoUrl.split('/embed/')[1] || '';
+    document.getElementById('exerciseVideoThumb').src = 'https://img.youtube.com/vi/' + vidId + '/hqdefault.jpg';
+    document.getElementById('exerciseVideoTitle').textContent = atelier.videoTitle || 'Regarder la vidéo';
+  } else {
+    videoWrap.style.display = 'none';
+  }
+
+  renderExerciseStep();
+  showPage('exercise');
+}
+
+function renderExerciseStep() {
+  var content = document.getElementById('exerciseContent');
+  var nextBtn = document.getElementById('exerciseNextBtn');
+  var atelier = ateliers[state.currentExercise];
+
+  if (atelier.id === 0) {
+    // Atelier "Identifier mes valeurs"
+    if (state.exerciseStep === 0) {
+      content.innerHTML = '<div class="card"><h3>Étape 1 — Choisissez vos valeurs</h3>' +
+        '<p style="margin:0.8rem 0;color:var(--text-secondary)">Parmi ces 30 valeurs, sélectionnez celles qui résonnent le plus pour vous (8 à 10 valeurs).</p>' +
+        '<div id="valuesGrid">' + valuesList.map(function(v) {
+          return '<span class="value-chip" onclick="toggleValue(this,\'' + v + '\')">' + v + '</span>';
+        }).join('') + '</div></div>';
+      nextBtn.textContent = 'Continuer';
+    } else if (state.exerciseStep === 1) {
+      content.innerHTML = '<div class="card"><h3>Étape 2 — Affinez votre sélection</h3>' +
+        '<p style="margin:0.8rem 0;color:var(--text-secondary)">Réduisez à vos 3 valeurs essentielles. Celles sans lesquelles vous ne seriez pas vous.</p>' +
+        '<div id="narrowGrid">' + state.selectedValues.map(function(v) {
+          return '<span class="value-chip" onclick="toggleNarrow(this,\'' + v + '\')">' + v + '</span>';
+        }).join('') + '</div></div>';
+      nextBtn.textContent = 'Continuer';
+    } else {
+      content.innerHTML = '<div class="card" style="text-align:center;padding:2.5rem">' +
+        '<h3>Vos valeurs fondamentales</h3>' +
+        '<div style="margin:1.5rem 0">' + (state.narrowedValues.length > 0 ? state.narrowedValues : state.selectedValues.slice(0,3)).map(function(v) {
+          return '<span class="value-chip selected">' + v + '</span>';
+        }).join('') + '</div>' +
+        '<p style="color:var(--text-secondary);max-width:none">Ces valeurs sont votre boussole. Quand vous êtes aligné·e avec elles, vous êtes dans votre zone de potentiel.</p>' +
+        '<div class="form-group" style="margin-top:1.5rem;text-align:left"><label>Mon insight</label>' +
+        '<textarea id="exerciseInsight" placeholder="Qu\'avez-vous découvert ou confirmé sur vous-même ?"></textarea></div></div>';
+      nextBtn.textContent = 'Terminer l\'atelier';
+    }
+  } else {
+    // Generic exercise
+    content.innerHTML = '<div class="card" style="text-align:center;padding:2.5rem">' +
+      '<h3>' + atelier.title + '</h3>' +
+      '<p style="color:var(--text-secondary);margin:1rem 0;max-width:none">' + atelier.desc + '</p>' +
+      (atelier.videoUrl ? '<p style="color:var(--accent);font-weight:500;margin:1rem 0">Commencez par regarder la vidéo ci-dessus, puis répondez aux questions.</p>' : '') +
+      '<div class="form-group" style="margin-top:2rem;text-align:left"><label>Mon insight après cet atelier</label>' +
+      '<textarea id="exerciseInsight" placeholder="Qu\'est-ce que je retiens ? Qu\'est-ce que je veux mettre en pratique ?"></textarea></div></div>';
+    nextBtn.textContent = 'Terminer l\'atelier';
+  }
+}
+
+function toggleValue(el, val) {
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    state.selectedValues = state.selectedValues.filter(function(v) { return v !== val; });
+  } else {
+    if (state.selectedValues.length >= 10) return;
+    el.classList.add('selected');
+    state.selectedValues.push(val);
+  }
+}
+
+function toggleNarrow(el, val) {
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    state.narrowedValues = state.narrowedValues.filter(function(v) { return v !== val; });
+  } else {
+    if (state.narrowedValues.length >= 3) return;
+    el.classList.add('selected');
+    state.narrowedValues.push(val);
+  }
+}
+
+function nextExerciseStep() {
+  var atelier = ateliers[state.currentExercise];
+  var maxSteps = (atelier.id === 0) ? 2 : 0;
+
+  if (state.exerciseStep < maxSteps) {
+    state.exerciseStep++;
+    renderExerciseStep();
+  } else {
+    completeExercise();
+  }
+}
+
+function completeExercise() {
+  var atelier = ateliers[state.currentExercise];
+  var insight = document.getElementById('exerciseInsight');
+  var insightText = insight ? insight.value : '';
+
+  if (state.completedAteliers.indexOf(atelier.id) === -1) {
+    state.completedAteliers.push(atelier.id);
+  }
+
+  if (insightText) {
+    var today = new Date();
+    var dateStr = today.getDate() + ' ' + ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'][today.getMonth()] + ' ' + today.getFullYear();
+    state.journalEntries.unshift({
+      date: dateStr,
+      atelier: atelier.title,
+      dim: atelier.dim,
+      insight: insightText,
+      terrain: 'pending',
+      terrainNote: 'À mettre en pratique'
+    });
+  }
+
+  showPage('dashboard');
+}
+
+// ══════════════════════════
+// JOURNAL
+// ══════════════════════════
+function renderJournal() {
+  var container = document.getElementById('journalEntries');
+  if (state.journalEntries.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-light)"><p>Votre carnet est vide. Complétez un atelier pour voir apparaître vos premiers insights.</p></div>';
+    return;
+  }
+
+  container.innerHTML = state.journalEntries.map(function(e) {
+    return '<div class="journal-entry">' +
+      '<div class="journal-meta">' +
+        '<span>' + e.date + '</span>' +
+        '<span class="peca-pill peca-pill-' + e.dim + '">' + dimName(e.dim) + '</span>' +
+        '<span>' + e.atelier + '</span>' +
+      '</div>' +
+      '<div class="journal-insight">' + e.insight + '</div>' +
+      '<div>' +
+        '<span class="terrain-badge ' + e.terrain + '">' + (e.terrain === 'done' ? '✓ Transféré' : '⟳ À transférer') + '</span>' +
+        '<span style="margin-left:0.8rem;font-size:0.8rem;color:var(--text-light)">' + e.terrainNote + '</span>' +
+      '</div></div>';
+  }).join('');
+}
+
+// ══════════════════════════
+// INIT
+// ══════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  renderUseCases();
+  renderVideoGrid('homeVideoGrid', generalVideos);
+  updateNav();
+});
+</script>
+</body>
+</html>
