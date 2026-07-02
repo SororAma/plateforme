@@ -1100,7 +1100,420 @@ nav {
   .hero { padding: 7rem 0 3rem; }
   h1 { font-size: 1.8rem; }
   .likert-btn { width: 36px; height: 36px; font-size: 0.78rem; }
+  .ai-panel { width: 100%; right: 0; bottom: 0; border-radius: 16px 16px 0 0; height: 85vh; }
 }
+
+/* ══════════════════════════════════════════
+   PARCOURS PERSONNALISÉ
+   ══════════════════════════════════════════ */
+.parcours-phase { margin-bottom: 1.5rem; }
+.phase-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.phase-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: white; flex-shrink: 0; }
+.phase-num.phase-current { box-shadow: 0 0 0 4px rgba(139,126,200,0.2); }
+.phase-title { font-family: var(--font-heading); font-size: 1.15rem; color: var(--noir); }
+.phase-subtitle { font-size: 0.85rem; color: #888; }
+.phase-items { padding-left: 52px; }
+.phase-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; background: white; border-radius: 12px; margin-bottom: 0.6rem; border: 1px solid var(--gris-clair); cursor: pointer; transition: all var(--transition); }
+.phase-item:hover { transform: translateX(4px); box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+.phase-item.done { opacity: 0.6; }
+.phase-item-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; }
+.phase-item.done .phase-item-check { background: var(--action); border-color: var(--action); color: white; }
+.phase-item-info h4 { font-size: 0.95rem; margin: 0; color: var(--noir); }
+.phase-item-info .phase-item-meta { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.2rem; }
+.phase-item-type { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; background: rgba(0,0,0,0.04); color: #888; }
+.phase-locked { opacity: 0.4; pointer-events: none; }
+.phase-connector { width: 2px; height: 20px; background: #e0e0e0; margin-left: 17px; }
+
+/* ══════════════════════════════════════════
+   GAMIFICATION
+   ══════════════════════════════════════════ */
+.xp-bar-wrap { background: rgba(0,0,0,0.06); border-radius: 20px; height: 10px; overflow: hidden; margin: 0.5rem 0; }
+.xp-bar-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--action), var(--pensee)); transition: width 0.6s ease; }
+.xp-label { font-size: 0.8rem; color: #888; display: flex; justify-content: space-between; }
+.badge-grid { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.badge { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: rgba(0,0,0,0.04); border: 2px solid #e0e0e0; }
+.badge.earned { background: linear-gradient(135deg, rgba(196,150,58,0.15), rgba(196,150,58,0.05)); border-color: var(--communication); box-shadow: 0 2px 8px rgba(196,150,58,0.2); }
+.badge.locked { opacity: 0.3; filter: grayscale(1); }
+.level-display { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.level-num { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--pensee); }
+.level-title { font-size: 0.95rem; color: var(--noir); font-weight: 600; }
+.streak-display { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--emotion); font-weight: 600; margin-top: 0.3rem; }
+
+/* Toast notification */
+.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--noir); color: white; padding: 1rem 2rem; border-radius: 12px; font-size: 0.95rem; z-index: 200; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════════
+   EXPLORATION
+   ══════════════════════════════════════════ */
+.exploration-step { display: none; max-width: 640px; margin: 0 auto; text-align: center; }
+.exploration-step.active { display: block; animation: fadeUp 0.4s ease; }
+.explo-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.explo-progress { height: 4px; background: rgba(0,0,0,0.06); border-radius: 4px; margin-bottom: 2rem; overflow: hidden; }
+.explo-progress-bar { height: 100%; background: linear-gradient(90deg, var(--pensee), var(--emotion)); border-radius: 4px; transition: width 0.5s ease; }
+
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; text-align: left; }
+.choice-card { padding: 1.2rem; border-radius: 14px; border: 2px solid var(--gris-clair); background: white; cursor: pointer; transition: all 0.25s ease; }
+.choice-card:hover { border-color: var(--pensee); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,126,200,0.12); }
+.choice-card.selected { border-color: var(--pensee); background: rgba(139,126,200,0.06); }
+.choice-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.choice-emoji { font-size: 1.6rem; margin-bottom: 0.4rem; }
+.choice-label { font-weight: 600; font-size: 1rem; color: var(--noir); margin-bottom: 0.2rem; }
+.choice-desc { font-size: 0.85rem; color: #777; line-height: 1.4; }
+
+.explo-textarea { width: 100%; padding: 1.2rem; border: 2px solid var(--gris-clair); border-radius: 14px; font-family: var(--font-body); font-size: 1rem; resize: vertical; transition: border-color 0.2s; min-height: 120px; }
+.explo-textarea:focus { border-color: var(--pensee); outline: none; }
+
+.emotion-grid { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 1.5rem; }
+.emotion-chip { padding: 0.7rem 1.2rem; border-radius: 24px; border: 2px solid var(--gris-clair); background: white; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; }
+.emotion-chip:hover { border-color: var(--emotion); }
+.emotion-chip.selected { border-color: var(--emotion); background: rgba(212,133,106,0.1); color: var(--emotion); font-weight: 600; }
+
+.explo-synthesis { background: rgba(139,126,200,0.05); border-radius: 16px; padding: 2rem; margin: 1.5rem 0; line-height: 1.8; text-align: left; border-left: 4px solid var(--pensee); }
+.explo-cta { text-align: center; margin-top: 1.5rem; }
+.explo-cta p { font-size: 0.95rem; color: #666; margin-bottom: 1rem; }
+
+@media (max-width: 600px) {
+  .choice-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════
+   MÉDITATIONS & VISUALISATION
+   ══════════════════════════════════════════ */
+.medit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.medit-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid var(--gris-clair); transition: all var(--transition); cursor: pointer; }
+.medit-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.medit-card-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; margin-bottom: 0.8rem; }
+.medit-tag-meditation { background: rgba(91,160,143,0.12); color: var(--action); }
+.medit-tag-visualisation { background: rgba(139,126,200,0.12); color: var(--pensee); }
+.medit-tag-respiration { background: rgba(212,133,106,0.12); color: var(--emotion); }
+.medit-tag-scan { background: rgba(196,150,58,0.12); color: var(--communication); }
+.medit-card h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--noir); }
+.medit-card .medit-duration { font-size: 0.85rem; color: #888; margin-bottom: 0.8rem; }
+.medit-card p { font-size: 0.95rem; color: #555; line-height: 1.6; }
+
+/* Meditation detail view */
+.medit-detail { display: none; }
+.medit-detail.active { display: block; }
+.medit-steps { margin: 2rem 0; }
+.medit-step { display: flex; gap: 1.2rem; margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(91,160,143,0.04); border-radius: 12px; border-left: 3px solid var(--action); }
+.medit-step-num { font-family: var(--font-heading); font-size: 1.6rem; color: var(--action); font-weight: 700; min-width: 32px; }
+.medit-step-content { flex: 1; }
+.medit-step-content strong { display: block; margin-bottom: 0.3rem; color: var(--noir); }
+.medit-step-content p { margin: 0; font-size: 0.95rem; color: #555; line-height: 1.5; }
+
+/* Timer */
+.medit-timer { text-align: center; margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, rgba(91,160,143,0.08), rgba(139,126,200,0.08)); border-radius: 16px; }
+.medit-timer-display { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; color: var(--noir); letter-spacing: 0.05em; margin-bottom: 1rem; }
+.medit-timer-controls { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+.medit-timer-btn { padding: 10px 24px; border-radius: 24px; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all var(--transition); }
+.medit-timer-btn.primary { background: var(--action); color: white; }
+.medit-timer-btn.primary:hover { background: #4a8a78; }
+.medit-timer-btn.secondary { background: rgba(0,0,0,0.06); color: #555; }
+.medit-timer-btn.secondary:hover { background: rgba(0,0,0,0.1); }
+.medit-timer-progress { width: 100%; height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; margin-top: 1rem; overflow: hidden; }
+.medit-timer-bar { height: 100%; background: linear-gradient(90deg, var(--action), var(--pensee)); border-radius: 3px; transition: width 1s linear; width: 0%; }
+
+/* Audio player */
+.medit-audio { margin: 1.5rem 0; }
+.medit-audio audio { width: 100%; border-radius: 8px; }
+
+/* Video embed */
+.medit-video { margin: 1.5rem 0; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; }
+.medit-video iframe { width: 100%; height: 100%; border: none; }
+
+@media (max-width: 600px) {
+  .medit-grid { grid-template-columns: 1fr; }
+  .medit-timer-display { font-size: 2.5rem; }
+}
+
+/* ══════════════════════════════════════════
+   COACH IA PECA
+   ══════════════════════════════════════════ */
+
+/* Floating button */
+.ai-fab {
+  display: flex;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 150;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pensee) 0%, var(--emotion) 100%);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(139,126,200,0.4);
+  transition: all var(--transition);
+  color: white;
+  font-size: 1.4rem;
+  align-items: center;
+  justify-content: center;
+}
+.ai-fab.visible { display: flex; }
+.ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(139,126,200,0.5); }
+
+.ai-fab-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pensee) 0%, var(--emotion) 100%);
+  animation: fabPulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes fabPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 0; }
+}
+
+/* Chat Panel */
+.ai-panel {
+  display: none;
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  width: 400px;
+  height: 580px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+  z-index: 160;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+.ai-panel.active { display: flex; }
+
+.ai-panel-header {
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, var(--pensee) 0%, var(--accent-hover) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.ai-panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ai-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.ai-panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ai-panel-subtitle {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+.ai-panel-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.ai-panel-close:hover { background: rgba(255,255,255,0.3); }
+
+/* Mode selector */
+.ai-modes {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-warm);
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.ai-mode-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+.ai-mode-btn:hover { border-color: var(--accent); color: var(--accent); }
+.ai-mode-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* Messages area */
+.ai-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ai-msg {
+  max-width: 85%;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  animation: fadeUp 0.3s ease;
+}
+
+.ai-msg-bot {
+  align-self: flex-start;
+  background: var(--bg-warm);
+  border: 1px solid var(--border-light);
+  border-bottom-left-radius: 4px;
+}
+
+.ai-msg-user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.ai-msg-system {
+  align-self: center;
+  background: var(--pensee-light);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.ai-msg strong { font-weight: 600; }
+
+.ai-msg .peca-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  margin: 0 0.15rem;
+}
+.peca-tag-P { background: var(--pensee-light); color: var(--pensee); }
+.peca-tag-E { background: var(--emotion-light); color: var(--emotion); }
+.peca-tag-C { background: var(--comm-light); color: var(--comm); }
+.peca-tag-A { background: var(--action-light); color: var(--action); }
+
+.ai-typing {
+  align-self: flex-start;
+  padding: 0.7rem 1rem;
+  background: var(--bg-warm);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+  display: flex;
+  gap: 4px;
+}
+
+.ai-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-light);
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.ai-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+/* Quick actions (suggestion chips) */
+.ai-suggestions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  padding: 0 1rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.ai-suggestion {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+.ai-suggestion:hover { border-color: var(--accent); color: var(--accent); background: var(--pensee-bg); }
+
+/* Input area */
+.ai-input-area {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.ai-input {
+  flex: 1;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-warm);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition);
+}
+.ai-input:focus { border-color: var(--accent); }
+.ai-input::placeholder { color: var(--text-light); }
+
+.ai-send {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.ai-send:hover { background: var(--accent-hover); }
 </style>
 </head>
 <body>
@@ -1111,8 +1524,9 @@ nav {
   <div class="nav-links" id="navLinks">
     <a onclick="scrollToSection('methode')">Méthode PECA</a>
     <a onclick="scrollToSection('parcours')">Nos parcours</a>
-    <a id="navB2B" onclick="showPage('b2b')" style="display:none">Cas d'usage</a>
+    <!-- navB2B retiré du header, accessible depuis la home -->
     <a id="navDash" onclick="showPage('dashboard')" style="display:none">Tableau de bord</a>
+    <a id="navMedit" onclick="showPage('meditations')" style="display:none">Rituels</a>
     <a id="navCarnet" onclick="showPage('carnet')" style="display:none">Mon carnet</a>
     <a class="btn-nav" id="navAuth" onclick="openAuthModal('login')">Se connecter</a>
     <a class="btn-nav" id="navUser" style="display:none" onclick="showPage('dashboard')"></a>
@@ -1214,7 +1628,7 @@ nav {
       <div class="parcours-grid">
         <div class="parcours-card" onclick="showPage('b2b')">
           <div class="parcours-badge b2b">B2B · Sur devis</div>
-          <h3>Parcours PECA Entreprise</h3>
+          <h3>Compétences différenciantes — Entreprise</h3>
           <p>Programme 100% en ligne de développement du potentiel humain, sur 6 mois. Combine EQ-i 2.0, coaching individuel, e-learning, séances collectives et implication managériale.</p>
           <span class="btn btn-outline">Découvrir les cas d'usage →</span>
         </div>
@@ -1257,7 +1671,96 @@ nav {
 </div>
 
 <!-- ═══════════════════════════════════
-     3. ONBOARDING (7 étapes)
+     2b. EXPLORATION — Comprendre ce qui coince
+     ═══════════════════════════════════ -->
+<div id="page-exploration" class="page">
+  <div class="container page-content">
+    <div class="onboarding-wrap">
+
+      <!-- Barre de progression exploration -->
+      <div class="explo-progress">
+        <div class="explo-progress-bar" id="exploProgressBar" style="width:25%"></div>
+      </div>
+
+      <!-- Question 1 : Ce qui coince -->
+      <div class="exploration-step active" id="explo-step-0">
+        <div class="explo-icon">🎯</div>
+        <h2>Qu'est-ce qui vous freine aujourd'hui ?</h2>
+        <p class="step-subtitle" id="exploContext">Choisissez ce qui résonne le plus avec votre situation.</p>
+        <div class="choice-grid" id="exploBlockers">
+          <div class="choice-card" onclick="selectBlocker('thoughts')">
+            <div class="choice-emoji">🧠</div>
+            <div class="choice-label">Je réfléchis trop</div>
+            <div class="choice-desc">J'ai du mal à décider, je sur-analyse</div>
+          </div>
+          <div class="choice-card" onclick="selectBlocker('emotions')">
+            <div class="choice-emoji">💫</div>
+            <div class="choice-label">Les émotions débordent</div>
+            <div class="choice-desc">Je suis submergé·e par mes émotions ou celles des autres</div>
+          </div>
+          <div class="choice-card" onclick="selectBlocker('communication')">
+            <div class="choice-emoji">💬</div>
+            <div class="choice-label">Me faire entendre</div>
+            <div class="choice-desc">Mes messages ne passent pas comme je voudrais</div>
+          </div>
+          <div class="choice-card" onclick="selectBlocker('action')">
+            <div class="choice-emoji">⚡</div>
+            <div class="choice-label">Passer à l'action</div>
+            <div class="choice-desc">Je procrastine ou je n'arrive pas à me lancer</div>
+          </div>
+          <div class="choice-card" onclick="selectBlocker('mix')">
+            <div class="choice-emoji">🔄</div>
+            <div class="choice-label">Un peu de tout</div>
+            <div class="choice-desc">Plusieurs freins s'alimentent entre eux</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 2 : Situation concrète -->
+      <div class="exploration-step" id="explo-step-1">
+        <div class="explo-icon">✍️</div>
+        <h2 id="exploQ2Title">Racontez-nous en quelques mots</h2>
+        <p class="step-subtitle" id="exploQ2Sub">Décrivez une situation récente où vous avez ressenti ce blocage.</p>
+        <textarea class="explo-textarea" id="exploSituation" rows="5" placeholder="Par exemple : En réunion la semaine dernière, je n'ai pas osé prendre la parole alors que j'avais une idée importante..."></textarea>
+        <button class="btn btn-primary" style="margin-top:1.5rem; width:100%" onclick="nextExploration()">Continuer</button>
+      </div>
+
+      <!-- Question 3 : Impact émotionnel -->
+      <div class="exploration-step" id="explo-step-2">
+        <div class="explo-icon">🌊</div>
+        <h2>Qu'avez-vous ressenti ?</h2>
+        <p class="step-subtitle">Sélectionnez les émotions qui vous parlent.</p>
+        <div class="emotion-grid" id="exploEmotions">
+          <button class="emotion-chip" data-value="frustration" onclick="toggleEmotion(this)">😤 Frustration</button>
+          <button class="emotion-chip" data-value="anxiete" onclick="toggleEmotion(this)">😰 Anxiété</button>
+          <button class="emotion-chip" data-value="colere" onclick="toggleEmotion(this)">😠 Colère</button>
+          <button class="emotion-chip" data-value="impuissance" onclick="toggleEmotion(this)">😔 Impuissance</button>
+          <button class="emotion-chip" data-value="doute" onclick="toggleEmotion(this)">🤔 Doute de soi</button>
+          <button class="emotion-chip" data-value="isolement" onclick="toggleEmotion(this)">🫥 Isolement</button>
+          <button class="emotion-chip" data-value="confusion" onclick="toggleEmotion(this)">😵‍💫 Confusion</button>
+          <button class="emotion-chip" data-value="fatigue" onclick="toggleEmotion(this)">😮‍💨 Épuisement</button>
+        </div>
+        <button class="btn btn-primary" style="margin-top:1.5rem; width:100%" onclick="nextExploration()">Voir la synthèse</button>
+      </div>
+
+      <!-- Synthèse & proposition diagnostic -->
+      <div class="exploration-step" id="explo-step-3">
+        <div class="explo-icon">✨</div>
+        <h2>Voici ce que nous percevons</h2>
+        <div id="exploSynthesis" class="explo-synthesis"></div>
+        <div class="explo-cta">
+          <p>Pour personnaliser votre parcours, nous proposons un <strong>diagnostic rapide</strong> (5 min) qui mesure vos forces sur 4 dimensions clés.</p>
+          <button class="btn btn-primary btn-lg" style="width:100%" onclick="launchDiagnosticFromExploration()">Faire le diagnostic</button>
+          <button class="btn btn-outline" style="width:100%; margin-top:0.5rem" onclick="skipDiagnostic()">Explorer sans diagnostic</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     3. ONBOARDING / DIAGNOSTIC (7 étapes)
      ═══════════════════════════════════ -->
 <div id="page-onboarding" class="page">
   <div class="container page-content">
@@ -1328,7 +1831,8 @@ nav {
       <!-- Étape 2 : Diagnostic couche 1 — Auto-positionnement Likert -->
       <div class="onboarding-step" id="onb-step-2">
         <h2>Auto-positionnement</h2>
-        <p class="step-subtitle">Évaluez spontanément votre accord avec chaque affirmation. Il n'y a pas de bonne ou mauvaise réponse.</p>
+        <p class="step-subtitle">Évaluez spontanément votre accord avec chaque affirmation. Il n'y a pas de bonne ou mauvaise réponse — chaque style a ses forces.</p>
+        <p style="font-size:0.85rem; color:#888; text-align:center; margin-bottom:1.5rem;">Ce diagnostic est un outil de réflexion, pas un jugement. Vos données restent confidentielles et ne sont pas partagées.</p>
         <div id="likertItems"></div>
         <div class="step-nav">
           <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
@@ -1427,32 +1931,42 @@ nav {
           <div class="dash-peca-card card-A"><div class="dim-label">Action</div><div class="dim-score" id="dashA">0%</div></div>
         </div>
 
-        <div class="card recommend-card" onclick="startExercise(state.recommendedAtelier)">
-          <div class="rec-label">Prochain atelier recommandé</div>
-          <h3 id="recTitle"></h3>
-          <p id="recDesc" style="color:var(--text-secondary);font-size:0.88rem;margin-top:0.3rem"></p>
-        </div>
+        <!-- Parcours personnalisé -->
+        <div class="dash-section-title">Votre parcours personnalisé</div>
+        <div id="parcoursTimeline"></div>
 
         <!-- Vidéos du parcours -->
-        <div class="dash-section-title">Ressources vidéo</div>
+        <div class="dash-section-title" style="margin-top:2rem">Ressources vidéo</div>
         <div class="video-grid" id="dashVideoGrid"></div>
-
-        <div class="dash-section-title">Tous les ateliers</div>
-        <div id="ateliersList"></div>
       </div>
 
       <div class="dash-sidebar">
         <div class="card">
-          <h4 style="margin-bottom:0.8rem">Progression</h4>
+          <div class="level-display">
+            <div class="level-num" id="levelNum">1</div>
+            <div>
+              <div class="level-title" id="levelTitle">Explorateur·rice</div>
+              <div class="streak-display" id="streakDisplay">🔥 0 jours de suite</div>
+            </div>
+          </div>
+          <div class="xp-label"><span id="xpCurrent">0 XP</span><span id="xpNext">→ Niveau 2 (100 XP)</span></div>
+          <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBar" style="width:0%"></div></div>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:0.8rem">Badges</h4>
+          <div class="badge-grid" id="badgeGrid"></div>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:0.8rem">Statistiques</h4>
           <div class="stat-grid">
-            <div class="stat-item"><div class="stat-num" id="statEnCours">0</div><div class="stat-label">En cours</div></div>
             <div class="stat-item"><div class="stat-num" id="statCompletes">0</div><div class="stat-label">Terminés</div></div>
             <div class="stat-item"><div class="stat-num" id="statInsights">0</div><div class="stat-label">Insights</div></div>
             <div class="stat-item"><div class="stat-num" id="statJours">1</div><div class="stat-label">Jours</div></div>
+            <div class="stat-item"><div class="stat-num" id="statEnCours">0</div><div class="stat-label">En cours</div></div>
           </div>
         </div>
         <div class="card">
-          <h4 style="margin-bottom:0.8rem">Mon ancre narrative</h4>
+          <h4 style="margin-bottom:0.8rem">Mon objectif</h4>
           <div class="ancre-display" id="ancreDisplay"></div>
         </div>
       </div>
@@ -1496,7 +2010,66 @@ nav {
 </div>
 
 <!-- ═══════════════════════════════════
-     6. CARNET DE BORD
+     6. MÉDITATIONS & VISUALISATION
+     ═══════════════════════════════════ -->
+<div id="page-meditations" class="page">
+  <div class="container page-content">
+    <div class="section-header">
+      <div class="section-label">Rituels de concentration</div>
+      <h2>Ancrez vos compétences, entraînez votre esprit</h2>
+      <p>Des rituels courts pour développer votre présence, votre clarté mentale et votre capacité de concentration au quotidien.</p>
+    </div>
+
+    <!-- Bibliothèque (liste) -->
+    <div id="meditLibrary">
+      <div class="medit-grid" id="meditGrid"></div>
+    </div>
+
+    <!-- Détail d'une méditation -->
+    <div id="meditDetail" class="medit-detail">
+      <button class="btn btn-secondary" onclick="closeMeditDetail()" style="margin-bottom:1.5rem">← Retour à la bibliothèque</button>
+      <div class="section-header" style="text-align:left">
+        <span id="meditDetailTag" class="medit-card-tag"></span>
+        <h2 id="meditDetailTitle"></h2>
+        <p id="meditDetailDesc"></p>
+      </div>
+
+      <!-- Audio (si disponible) -->
+      <div id="meditAudioSection" class="medit-audio" style="display:none">
+        <audio id="meditAudio" controls preload="metadata"></audio>
+      </div>
+
+      <!-- Vidéo (si disponible) -->
+      <div id="meditVideoSection" class="medit-video" style="display:none">
+        <iframe id="meditVideoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Timer -->
+      <div class="medit-timer">
+        <div class="medit-timer-display" id="meditTimerDisplay">00:00</div>
+        <div class="medit-timer-progress"><div class="medit-timer-bar" id="meditTimerBar"></div></div>
+        <div class="medit-timer-controls" style="margin-top:1rem">
+          <button class="medit-timer-btn primary" id="meditTimerToggle" onclick="toggleMeditTimer()">Démarrer</button>
+          <button class="medit-timer-btn secondary" onclick="resetMeditTimer()">Réinitialiser</button>
+        </div>
+      </div>
+
+      <!-- Étapes guidées -->
+      <div class="medit-steps" id="meditSteps"></div>
+
+      <div style="text-align:center; margin-top:2rem">
+        <button class="btn btn-primary" onclick="completeMeditation()">Terminer & enregistrer</button>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:2rem">
+      <button class="btn btn-secondary" onclick="showPage('dashboard')">← Tableau de bord</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     7. CARNET DE BORD
      ═══════════════════════════════════ -->
 <div id="page-carnet" class="page">
   <div class="container page-content">
@@ -1516,7 +2089,7 @@ nav {
 <div class="auth-overlay" id="authOverlay" onclick="closeAuthIf(event)">
   <div class="auth-modal">
     <h2 id="authTitle">Connexion</h2>
-    <p class="auth-subtitle" id="authSubtitle">Accédez à votre parcours PECA</p>
+    <p class="auth-subtitle" id="authSubtitle">Accédez à votre parcours</p>
     <div class="form-group">
       <label>Prénom</label>
       <input type="text" id="authName" placeholder="Votre prénom">
@@ -1534,6 +2107,45 @@ nav {
       <span id="authSwitchText">Pas encore de compte ?</span>
       <a id="authSwitchLink" onclick="switchAuth()">Créer un compte</a>
     </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST NOTIFICATION ═══ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══ COACH IA PECA ═══ -->
+<button class="ai-fab" id="aiFab" onclick="toggleAIPanel()">
+  <div class="ai-fab-pulse"></div>
+  <span>✦</span>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-header">
+    <div class="ai-panel-header-left">
+      <div class="ai-avatar">✦</div>
+      <div>
+        <div class="ai-panel-title">Coach PECA</div>
+        <div class="ai-panel-subtitle">Votre partenaire d'entraînement</div>
+      </div>
+    </div>
+    <button class="ai-panel-close" onclick="toggleAIPanel()">✕</button>
+  </div>
+
+  <div class="ai-modes" id="aiModes">
+    <button class="ai-mode-btn active" onclick="setAIMode('general')">Libre</button>
+    <button class="ai-mode-btn" onclick="setAIMode('sparring')">Sparring</button>
+    <button class="ai-mode-btn" onclick="setAIMode('defi')">Micro-défi</button>
+    <button class="ai-mode-btn" onclick="setAIMode('debrief')">Débriefing</button>
+    <button class="ai-mode-btn" onclick="setAIMode('prep')">Préparation</button>
+  </div>
+
+  <div class="ai-messages" id="aiMessages"></div>
+
+  <div class="ai-suggestions" id="aiSuggestions"></div>
+
+  <div class="ai-input-area">
+    <input type="text" class="ai-input" id="aiInput" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+    <button class="ai-send" onclick="sendAIMessage()">→</button>
   </div>
 </div>
 
@@ -1610,15 +2222,18 @@ var generalVideos = [
 // ── DIAGNOSTIC DATA ──
 
 // Couche 1 : Auto-positionnement Likert (2 items par dimension, 1 positif + 1 inversé)
+// Items Likert — formulés de façon neutre et comportementale
+// pour réduire le biais de désirabilité sociale.
+// Chaque item décrit un comportement observable, pas un jugement de valeur.
 var likertItems = [
-  { statement: "J'analyse les situations en profondeur avant de prendre une décision.", dim: 'P', reverse: false },
-  { statement: "Il m'arrive de foncer sans avoir pris le temps de réfléchir aux conséquences.", dim: 'P', reverse: true },
-  { statement: "Je perçois facilement les émotions des autres, même non exprimées.", dim: 'E', reverse: false },
-  { statement: "Mes émotions me submergent parfois dans les moments importants.", dim: 'E', reverse: true },
-  { statement: "Je sais adapter mon message à mon interlocuteur pour me faire comprendre.", dim: 'C', reverse: false },
-  { statement: "J'ai du mal à exprimer clairement mon point de vue en groupe.", dim: 'C', reverse: true },
-  { statement: "Quand je décide quelque chose, je passe rapidement à l'action.", dim: 'A', reverse: false },
-  { statement: "J'ai tendance à repousser les décisions difficiles.", dim: 'A', reverse: true }
+  { statement: "Avant une décision importante, je prends le temps de lister les différentes options.", dim: 'P', reverse: false },
+  { statement: "Je me fie souvent à mon intuition plutôt qu'à une analyse détaillée.", dim: 'P', reverse: true },
+  { statement: "Je remarque quand l'ambiance d'un groupe change, même subtilement.", dim: 'E', reverse: false },
+  { statement: "Dans les moments de pression, j'ai tendance à mettre mes ressentis de côté pour avancer.", dim: 'E', reverse: true },
+  { statement: "Je reformule naturellement les propos de mon interlocuteur pour vérifier ma compréhension.", dim: 'C', reverse: false },
+  { statement: "En réunion, je préfère écouter plutôt que prendre la parole spontanément.", dim: 'C', reverse: true },
+  { statement: "Face à un problème, je teste rapidement une solution plutôt que de chercher la solution parfaite.", dim: 'A', reverse: false },
+  { statement: "Je préfère attendre d'avoir toutes les informations avant de m'engager.", dim: 'A', reverse: true }
 ];
 
 // Couche 2 : Mises en situation (5 scénarios, classement des 4 réactions)
@@ -1695,6 +2310,7 @@ function showPage(pageId) {
   closeMobileNav();
   if (pageId === 'dashboard') renderDashboard();
   if (pageId === 'carnet') renderJournal();
+  if (pageId === 'meditations') renderMeditGrid();
 }
 
 function scrollToSection(id) {
@@ -1714,16 +2330,17 @@ function updateNav() {
   var navUser = document.getElementById('navUser');
   var navDash = document.getElementById('navDash');
   var navCarnet = document.getElementById('navCarnet');
-  var navB2B = document.getElementById('navB2B');
+  var navMedit = document.getElementById('navMedit');
 
   if (state.isLoggedIn) {
     navAuth.style.display = 'none';
     navUser.style.display = 'inline';
     navUser.textContent = state.userName;
   }
-  navB2B.style.display = 'inline';
   navDash.style.display = state.diagnosticDone ? 'inline' : 'none';
+  navMedit.style.display = state.diagnosticDone ? 'inline' : 'none';
   navCarnet.style.display = state.diagnosticDone ? 'inline' : 'none';
+  updateAIFab();
 }
 
 // ══════════════════════════
@@ -1733,7 +2350,7 @@ function openAuthModal(mode) {
   state.authMode = mode;
   document.getElementById('authOverlay').classList.add('active');
   document.getElementById('authTitle').textContent = mode === 'login' ? 'Connexion' : 'Créer un compte';
-  document.getElementById('authSubtitle').textContent = mode === 'login' ? 'Accédez à votre parcours PECA' : 'Commencez votre transformation';
+  document.getElementById('authSubtitle').textContent = mode === 'login' ? 'Accédez à votre parcours' : 'Commencez votre transformation';
   document.getElementById('authSwitchText').textContent = mode === 'login' ? 'Pas encore de compte ? ' : 'Déjà un compte ? ';
   document.getElementById('authSwitchLink').textContent = mode === 'login' ? 'Créer un compte' : 'Se connecter';
 }
@@ -1748,7 +2365,16 @@ function doAuth() {
   state.userName = name;
   document.getElementById('authOverlay').classList.remove('active');
   updateNav();
-  startOnboarding();
+
+  // Si le diagnostic est déjà fait, aller au dashboard directement
+  if (state.diagnosticDone) {
+    showPage('dashboard');
+  } else if (state.segment) {
+    // Un segment a été choisi avant la connexion → lancer l'exploration
+    startExploration();
+  } else {
+    showPage('home');
+  }
 }
 
 // ══════════════════════════
@@ -1756,13 +2382,17 @@ function doAuth() {
 // ══════════════════════════
 function startB2C() {
   state.segment = 'b2c';
-  if (!state.isLoggedIn) { openAuthModal('register'); } else { startOnboarding(); }
+  if (!state.isLoggedIn) { openAuthModal('register'); }
+  else if (state.diagnosticDone) { showPage('dashboard'); }
+  else { startExploration(); }
 }
 
 function startB2B(useCaseId) {
   state.segment = 'b2b';
   state.selectedUseCase = useCases[useCaseId];
-  if (!state.isLoggedIn) { openAuthModal('register'); } else { startOnboarding(); }
+  if (!state.isLoggedIn) { openAuthModal('register'); }
+  else if (state.diagnosticDone) { showPage('dashboard'); }
+  else { startExploration(); }
 }
 
 function dimName(d) { return { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' }[d]; }
@@ -1815,26 +2445,182 @@ function playExerciseVideo() {
 }
 
 // ══════════════════════════
-// ONBOARDING
+// EXPLORATION
+// ══════════════════════════
+var exploState = { step: 0, blocker: '', situation: '', emotions: [] };
+
+function startExploration() {
+  exploState = { step: 0, blocker: '', situation: '', emotions: [] };
+
+  // Adapter le contexte si un cas d'usage B2B a été choisi
+  if (state.segment === 'b2b' && state.selectedUseCase) {
+    document.getElementById('exploContext').textContent = 'Vous avez choisi : « ' + state.selectedUseCase.title + ' ». Qu\'est-ce qui vous freine dans ce domaine ?';
+  } else {
+    document.getElementById('exploContext').textContent = 'Choisissez ce qui résonne le plus avec votre situation actuelle.';
+  }
+
+  showExploStep(0);
+  showPage('exploration');
+}
+
+function showExploStep(n) {
+  document.querySelectorAll('#page-exploration .exploration-step').forEach(function(s) { s.classList.remove('active'); });
+  var step = document.getElementById('explo-step-' + n);
+  if (step) step.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function selectBlocker(value) {
+  exploState.blocker = value;
+
+  // Visual feedback on selected card
+  document.querySelectorAll('#exploBlockers .choice-card').forEach(function(c) { c.classList.remove('selected'); });
+  event.currentTarget.classList.add('selected');
+
+  // Adapter la question 2 en fonction du blocage
+  var titles = {
+    thoughts: 'Vous avez tendance à trop réfléchir',
+    emotions: 'Les émotions prennent le dessus',
+    communication: 'Se faire entendre est un défi',
+    action: 'Passer à l\'action est difficile',
+    mix: 'Plusieurs freins se mêlent'
+  };
+  var subs = {
+    thoughts: 'Décrivez une situation récente où vous avez hésité trop longtemps ou sur-analysé.',
+    emotions: 'Décrivez un moment où vos émotions (ou celles des autres) ont pris le dessus.',
+    communication: 'Décrivez une situation où votre message n\'est pas passé comme vous le vouliez.',
+    action: 'Décrivez quelque chose que vous repoussez ou n\'arrivez pas à lancer.',
+    mix: 'Décrivez une situation récente où vous vous êtes senti·e bloqué·e.'
+  };
+
+  document.getElementById('exploQ2Title').textContent = titles[value] || 'Racontez-nous';
+  document.getElementById('exploQ2Sub').textContent = subs[value] || 'Décrivez une situation concrète.';
+
+  // Auto-advance after short delay
+  setTimeout(function() {
+    exploState.step = 1;
+    document.getElementById('exploProgressBar').style.width = '50%';
+    showExploStep(1);
+  }, 500);
+}
+
+function toggleEmotion(el) {
+  el.classList.toggle('selected');
+}
+
+function nextExploration() {
+  if (exploState.step === 1) {
+    exploState.situation = document.getElementById('exploSituation').value;
+    exploState.step = 2;
+    document.getElementById('exploProgressBar').style.width = '75%';
+    showExploStep(2);
+  } else if (exploState.step === 2) {
+    // Collect selected emotions from chip buttons
+    exploState.emotions = [];
+    document.querySelectorAll('#exploEmotions .emotion-chip.selected').forEach(function(btn) {
+      exploState.emotions.push(btn.getAttribute('data-value'));
+    });
+    exploState.step = 3;
+    document.getElementById('exploProgressBar').style.width = '100%';
+    renderExploSynthesis();
+    showExploStep(3);
+  }
+}
+
+function renderExploSynthesis() {
+  var blockerText = {
+    thoughts: 'une tendance à l\'<strong>analyse excessive</strong> — vous réfléchissez beaucoup, parfois trop, ce qui peut ralentir vos décisions',
+    emotions: 'une <strong>sensibilité émotionnelle</strong> forte — vous percevez beaucoup, mais cela peut parfois vous submerger',
+    communication: 'un enjeu de <strong>communication</strong> — vos idées sont là, mais les faire entendre reste un défi',
+    action: 'un frein au <strong>passage à l\'action</strong> — vous savez ce qu\'il faudrait faire, mais quelque chose vous retient',
+    mix: 'un <strong>mélange de freins</strong> qui s\'alimentent les uns les autres — c\'est courant et ça se travaille'
+  };
+
+  var emotionLabels = {
+    frustration: 'frustration', anxiete: 'anxiété', colere: 'colère',
+    impuissance: 'sentiment d\'impuissance', doute: 'doute de soi',
+    isolement: 'isolement', confusion: 'confusion', fatigue: 'épuisement'
+  };
+
+  var emotionList = exploState.emotions.map(function(e) { return emotionLabels[e] || e; });
+  var emotionText = emotionList.length > 0 ? emotionList.join(', ') : 'des émotions complexes';
+
+  var pecaDims = { thoughts: 'Pensées', emotions: 'Émotions', communication: 'Communication', action: 'Action', mix: 'les 4 dimensions' };
+
+  var html = '<p style="font-size:1.1rem;">D\'après ce que vous nous décrivez, nous identifions :</p>' +
+    '<p style="font-size:1.05rem; margin: 1rem 0;">' + (blockerText[exploState.blocker] || blockerText.mix) + '.</p>';
+
+  if (emotionList.length > 0) {
+    html += '<p style="font-size:1.05rem;">Les émotions que vous décrivez — <strong>' + emotionText + '</strong> — sont des signaux importants. Elles pointent vers des leviers concrets sur lesquels travailler.</p>';
+  }
+
+  html += '<p style="font-size:1.05rem; margin-top:1rem;">La méthode PECA travaille précisément sur la dimension <strong>' + (pecaDims[exploState.blocker] || 'PECA') + '</strong>' +
+    (exploState.blocker !== 'mix' ? ', mais aussi sur les dimensions qui l\'influencent' : '') +
+    '. Le diagnostic va nous permettre de mesurer précisément où vous en êtes pour personnaliser votre parcours.</p>';
+
+  document.getElementById('exploSynthesis').innerHTML = html;
+}
+
+function launchDiagnosticFromExploration() {
+  startOnboarding(true); // true = skip steps already covered in exploration
+}
+
+function skipDiagnostic() {
+  // Allow exploring the platform without the full diagnostic
+  // Set default balanced scores
+  state.pecaScores = { P: 50, E: 50, C: 50, A: 50 };
+  state.diagnosticDone = true;
+  state.ancreNarrative = exploState.situation || 'Explorer mon potentiel';
+
+  // Adjust the "weakest" dimension based on blocker choice
+  if (exploState.blocker === 'thoughts') { state.pecaScores.P = 35; }
+  else if (exploState.blocker === 'emotions') { state.pecaScores.E = 35; }
+  else if (exploState.blocker === 'communication') { state.pecaScores.C = 35; }
+  else if (exploState.blocker === 'action') { state.pecaScores.A = 35; }
+
+  state.recommendedAtelier = 0;
+  var sorted = Object.entries(state.pecaScores).sort(function(a, b) { return a[1] - b[1]; });
+  var lowestDim = sorted[0][0];
+  var dimAteliers = ateliers.filter(function(a) { return a.dim === lowestDim; });
+  if (dimAteliers.length > 0) state.recommendedAtelier = dimAteliers[0].id;
+
+  addXP(10, 'Exploration complétée');
+  updateStreak();
+  updateNav();
+  showPage('dashboard');
+}
+
+// ══════════════════════════
+// ONBOARDING / DIAGNOSTIC
 // ══════════════════════════
 var TOTAL_STEPS = 7;
 
-function startOnboarding() {
-  state.onboardingStep = 0;
+function startOnboarding(fromExploration) {
   state.scenarioRanks = {};
 
-  if (state.segment === 'b2b' && state.selectedUseCase) {
-    document.getElementById('situationSubtitle').textContent = 'Quel défi professionnel aimeriez-vous aborder ?';
-    document.getElementById('situationText').placeholder = 'Décrivez le défi lié à : ' + state.selectedUseCase.title;
+  // Si l'exploration a été faite, sauter les étapes 0 et 1 (déjà collectées)
+  var startStep = 0;
+  if (fromExploration) {
+    startStep = 2; // Aller directement au Likert
+    // Pré-remplir la situation depuis l'exploration
+    if (exploState.situation) {
+      document.getElementById('situationText').value = exploState.situation;
+    }
   } else {
-    document.getElementById('situationSubtitle').textContent = "Qu'est-ce qui vous amène ici ?";
-    document.getElementById('situationText').placeholder = 'Quelle situation professionnelle aimeriez-vous vivre différemment ?';
+    if (state.segment === 'b2b' && state.selectedUseCase) {
+      document.getElementById('situationSubtitle').textContent = 'Quel défi professionnel aimeriez-vous aborder ?';
+      document.getElementById('situationText').placeholder = 'Décrivez le défi lié à : ' + state.selectedUseCase.title;
+    } else {
+      document.getElementById('situationSubtitle').textContent = "Qu'est-ce qui vous amène ici ?";
+      document.getElementById('situationText').placeholder = 'Quelle situation professionnelle aimeriez-vous vivre différemment ?';
+    }
   }
 
+  state.onboardingStep = startStep;
   renderOnboardingDots();
   renderLikertItems();
   renderScenarios();
-  showOnboardingStep(0);
+  showOnboardingStep(startStep);
   showPage('onboarding');
 }
 
@@ -1926,18 +2712,31 @@ function selectLikert(el, idx, val) {
 }
 
 // ── SCENARIO RENDERING ──
+// Mélange Fisher-Yates pour randomiser l'ordre des réactions (élimine le biais de position)
+function shuffleWithIndex(arr) {
+  var indexed = arr.map(function(item, i) { return { item: item, origIndex: i }; });
+  for (var i = indexed.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = indexed[i]; indexed[i] = indexed[j]; indexed[j] = temp;
+  }
+  return indexed;
+}
+
 function renderScenarios() {
   var container = document.getElementById('scenarioItems');
   container.innerHTML = scenarios.map(function(sc, si) {
     state.scenarioRanks[si] = [];
+    // Randomiser l'ordre des réactions pour chaque scénario
+    var shuffled = shuffleWithIndex(sc.reactions);
     return '<div class="scenario-block">' +
       '<div class="scenario-title">' + sc.title + '</div>' +
       '<div class="scenario-hint">Cliquez dans l\'ordre de vos préférences (1er clic = premier réflexe)</div>' +
       '<div class="rank-options" id="scenario-' + si + '">' +
-        sc.reactions.map(function(r, ri) {
+        shuffled.map(function(s) {
+          var ri = s.origIndex;
           return '<div class="rank-option" data-si="' + si + '" data-ri="' + ri + '" onclick="rankOption(this,' + si + ',' + ri + ')">' +
             '<div class="rank-badge" id="badge-' + si + '-' + ri + '">-</div>' +
-            '<span>' + r.text + '</span></div>';
+            '<span>' + s.item.text + '</span></div>';
         }).join('') +
       '</div></div>';
   }).join('');
@@ -2107,12 +2906,85 @@ function completeOnboarding() {
   state.recommendedAtelier = dimAteliers.length > 0 ? dimAteliers[0].id : 0;
 
   updateNav();
+  addXP(50, 'Diagnostic complété');
   showPage('dashboard');
 }
 
 // ══════════════════════════
 // DASHBOARD
 // ══════════════════════════
+function buildPersonalizedParcours() {
+  // Trier les dimensions de la plus faible à la plus forte
+  var sorted = Object.entries(state.pecaScores).sort(function(a,b) { return a[1] - b[1]; });
+  var weakest = sorted[0][0];
+  var second = sorted[1][0];
+  var strong = sorted[3][0];
+
+  // Construire un parcours en 4 phases basé sur le profil
+  var parcours = [
+    {
+      title: 'Comprendre — Poser les fondations',
+      subtitle: 'Semaines 1-2',
+      color: 'var(--pensee)',
+      items: [
+        { type: 'atelier', id: getAtelierByDim(weakest, 0), label: dimName(weakest) + ' : ' + getAtelierTitle(weakest, 0) },
+        { type: 'meditation', id: getMeditByNeed('scan'), label: 'Scan corporel de recentrage' },
+        { type: 'ia', mode: 'defi', label: 'Micro-défi quotidien ' + dimName(weakest) }
+      ]
+    },
+    {
+      title: 'Expérimenter — Tester en situation',
+      subtitle: 'Semaines 3-4',
+      color: 'var(--emotion)',
+      items: [
+        { type: 'atelier', id: getAtelierByDim(weakest, 1), label: dimName(weakest) + ' : ' + getAtelierTitle(weakest, 1) },
+        { type: 'atelier', id: getAtelierByDim(second, 0), label: dimName(second) + ' : ' + getAtelierTitle(second, 0) },
+        { type: 'ia', mode: 'sparring', label: 'Sparring — Mise en situation avec le coach IA' },
+        { type: 'meditation', id: getMeditByNeed('visualisation'), label: 'Visualisation de réussite' }
+      ]
+    },
+    {
+      title: 'Approfondir — Consolider les acquis',
+      subtitle: 'Semaines 5-8',
+      color: 'var(--communication)',
+      items: [
+        { type: 'atelier', id: getAtelierByDim(second, 1), label: dimName(second) + ' : ' + getAtelierTitle(second, 1) },
+        { type: 'ia', mode: 'debrief', label: 'Débriefing de situations vécues' },
+        { type: 'meditation', id: getMeditByNeed('meditation'), label: 'Méditation de pleine présence' },
+        { type: 'ia', mode: 'prep', label: 'Préparer un moment clé à venir' }
+      ]
+    },
+    {
+      title: 'Ancrer — Intégrer durablement',
+      subtitle: 'Semaines 9-12',
+      color: 'var(--action)',
+      items: [
+        { type: 'atelier', id: getAtelierByDim(strong, 0), label: dimName(strong) + ' : ' + getAtelierTitle(strong, 0) + ' (renforcer sa force)' },
+        { type: 'meditation', id: getMeditByNeed('respiration'), label: 'Ancrage émotionnel express — routine quotidienne' },
+        { type: 'ia', mode: 'debrief', label: 'Bilan de progression et nouveaux défis' },
+        { type: 'bilan', label: 'Mon bilan à 3 mois — refaire le diagnostic' }
+      ]
+    }
+  ];
+
+  return parcours;
+}
+
+function getAtelierByDim(dim, index) {
+  var matching = ateliers.filter(function(a) { return a.dim === dim; });
+  return matching[index] ? matching[index].id : (matching[0] ? matching[0].id : 0);
+}
+
+function getAtelierTitle(dim, index) {
+  var matching = ateliers.filter(function(a) { return a.dim === dim; });
+  return matching[index] ? matching[index].title : (matching[0] ? matching[0].title : 'Atelier');
+}
+
+function getMeditByNeed(tag) {
+  var m = meditations.find(function(x) { return x.tag === tag; });
+  return m ? m.id : meditations[0].id;
+}
+
 function renderDashboard() {
   document.getElementById('dashWelcome').textContent = 'Bonjour, ' + state.userName;
   document.getElementById('dashGoal').textContent = 'Objectif : ' + state.ancreNarrative;
@@ -2122,39 +2994,61 @@ function renderDashboard() {
   document.getElementById('dashC').textContent = state.pecaScores.C + '%';
   document.getElementById('dashA').textContent = state.pecaScores.A + '%';
 
-  var rec = ateliers[state.recommendedAtelier] || ateliers[0];
-  document.getElementById('recTitle').textContent = rec.title;
-  document.getElementById('recDesc').textContent = rec.desc;
+  // Parcours personnalisé
+  var parcours = buildPersonalizedParcours();
+  var timeline = document.getElementById('parcoursTimeline');
+  var completedCount = state.completedAteliers.length;
+  // Determine current phase based on progress
+  var currentPhase = Math.min(Math.floor(completedCount / 2), parcours.length - 1);
+
+  timeline.innerHTML = parcours.map(function(phase, pi) {
+    var isCurrentOrPast = pi <= currentPhase;
+    var isCurrent = pi === currentPhase;
+
+    return '<div class="parcours-phase ' + (isCurrentOrPast ? '' : 'phase-locked') + '">' +
+      '<div class="phase-header">' +
+        '<div class="phase-num ' + (isCurrent ? 'phase-current' : '') + '" style="background:' + phase.color + '">' + (pi + 1) + '</div>' +
+        '<div><div class="phase-title">' + phase.title + '</div>' +
+        '<div class="phase-subtitle">' + phase.subtitle + '</div></div>' +
+      '</div>' +
+      '<div class="phase-items">' +
+        phase.items.map(function(item) {
+          var isDone = item.type === 'atelier' && state.completedAteliers.indexOf(item.id) !== -1;
+          var onclick = '';
+          if (item.type === 'atelier') onclick = 'onclick="startExercise(' + item.id + ')"';
+          else if (item.type === 'meditation') onclick = 'onclick="showPage(\'meditations\');setTimeout(function(){openMeditation(\'' + item.id + '\')},100)"';
+          else if (item.type === 'ia') onclick = 'onclick="toggleAIPanel();setTimeout(function(){setAIMode(\'' + item.mode + '\')},300)"';
+          else if (item.type === 'bilan') onclick = 'onclick="startOnboarding(false)"';
+
+          var typeLabels = { atelier: 'Atelier', meditation: 'Méditation', ia: 'Coach IA', bilan: 'Diagnostic' };
+
+          return '<div class="phase-item ' + (isDone ? 'done' : '') + '" ' + onclick + '>' +
+            '<div class="phase-item-check">' + (isDone ? '✓' : '') + '</div>' +
+            '<div class="phase-item-info"><h4>' + item.label + '</h4>' +
+            '<div class="phase-item-meta"><span class="phase-item-type">' + (typeLabels[item.type] || '') + '</span></div></div></div>';
+        }).join('') +
+      '</div>' +
+      (pi < parcours.length - 1 ? '<div class="phase-connector"></div>' : '') +
+    '</div>';
+  }).join('');
 
   // Vidéos
   var dashVideos = ateliers.filter(function(a) { return a.videoUrl; }).map(function(a) {
-    var vid = a.videoUrl.replace('/embed/', '/watch?v=');
     var vidId = a.videoUrl.split('/embed/')[1] || '';
     return { title: a.videoTitle || a.title, desc: a.desc, url: a.videoUrl, thumb: 'https://img.youtube.com/vi/' + vidId + '/hqdefault.jpg' };
   });
   renderVideoGrid('dashVideoGrid', dashVideos);
 
-  // Ateliers
-  var list = document.getElementById('ateliersList');
-  list.innerHTML = ateliers.map(function(a) {
-    var done = state.completedAteliers.indexOf(a.id) !== -1;
-    var videoTag = a.videoUrl ? '<span class="atelier-video-badge">▶ Vidéo</span>' : '';
-    return '<div class="atelier-item" onclick="startExercise(' + a.id + ')">' +
-      '<div class="atelier-status ' + (done ? 'done' : '') + '">' + (done ? '✓' : '') + '</div>' +
-      '<div class="atelier-info"><h4>' + a.title + '</h4>' +
-      '<div class="atelier-meta"><span class="peca-pill peca-pill-' + a.dim + '">' + dimName(a.dim) + '</span>' +
-      videoTag +
-      '<span>' + (done ? 'Terminé' : 'À faire') + '</span></div></div></div>';
-  }).join('');
-
   // Stats
-  var completed = state.completedAteliers.length;
-  document.getElementById('statEnCours').textContent = Math.min(ateliers.length - completed, 2);
-  document.getElementById('statCompletes').textContent = completed;
+  document.getElementById('statEnCours').textContent = Math.min(ateliers.length - completedCount, 2);
+  document.getElementById('statCompletes').textContent = completedCount;
   document.getElementById('statInsights').textContent = state.journalEntries.length;
   var days = Math.max(1, Math.ceil((new Date() - state.startDate) / 86400000));
   document.getElementById('statJours').textContent = days;
   document.getElementById('ancreDisplay').textContent = state.ancreNarrative;
+
+  // Gamification
+  renderGamification();
 }
 
 // ══════════════════════════
@@ -2271,6 +3165,8 @@ function completeExercise() {
 
   if (state.completedAteliers.indexOf(atelier.id) === -1) {
     state.completedAteliers.push(atelier.id);
+    addXP(30, 'Atelier terminé');
+    updateStreak();
   }
 
   if (insightText) {
@@ -2284,6 +3180,7 @@ function completeExercise() {
       terrain: 'pending',
       terrainNote: 'À mettre en pratique'
     });
+    addXP(10, 'Insight enregistré');
   }
 
   showPage('dashboard');
@@ -2315,12 +3212,712 @@ function renderJournal() {
 }
 
 // ══════════════════════════
+// MÉDITATIONS & VISUALISATION
+// ══════════════════════════
+var meditations = [
+  {
+    id: 'scan-corporel', title: 'Scan corporel de recentrage', tag: 'scan', tagLabel: 'Scan corporel', duration: 7,
+    desc: 'Un voyage intérieur pour relâcher les tensions et vous reconnecter à vos sensations. Idéal avant une prise de décision importante.',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'Installation', text: 'Asseyez-vous confortablement, pieds à plat. Fermez les yeux. Prenez 3 respirations profondes pour marquer la transition.' },
+      { title: 'Tête & visage', text: 'Portez votre attention sur le sommet de votre crâne, votre front, vos yeux, votre mâchoire. Relâchez chaque tension. Desserrez les dents.' },
+      { title: 'Cou & épaules', text: 'Descendez dans le cou, les épaules. Laissez-les s\'abaisser naturellement. Imaginez que la tension s\'écoule comme de l\'eau.' },
+      { title: 'Bras & mains', text: 'Parcourez vos bras jusqu\'au bout des doigts. Sentez le poids de vos mains. Relâchez toute crispation.' },
+      { title: 'Poitrine & ventre', text: 'Observez votre respiration sans la modifier. Quelle émotion est logée ici ? Nommez-la intérieurement.' },
+      { title: 'Jambes & pieds', text: 'Descendez dans les cuisses, les genoux, les mollets, jusqu\'aux pieds. Sentez le contact avec le sol. Vous êtes ancré·e.' },
+      { title: 'Vision globale', text: 'Reprenez conscience de tout votre corps. Prenez 3 respirations profondes. Ouvrez les yeux lentement.' }
+    ]
+  },
+  {
+    id: 'respiration-coherence', title: 'Cohérence cardiaque 365', tag: 'respiration', tagLabel: 'Respiration', duration: 5,
+    desc: '3 fois par jour, 6 respirations par minute, pendant 5 minutes. La méthode scientifiquement prouvée pour réguler le stress.',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'Posture', text: 'Asseyez-vous le dos droit, pieds à plat. Les mains posées sur les cuisses. Fermez les yeux ou fixez un point neutre.' },
+      { title: 'Rythme', text: 'Inspirez par le nez pendant 5 secondes. Expirez par la bouche pendant 5 secondes. Suivez le timer pour garder le rythme.' },
+      { title: 'Attention', text: 'Concentrez-vous sur la zone du cœur. Imaginez que vous respirez à travers votre cœur. Évoquez un sentiment de gratitude.' },
+      { title: 'Continuez', text: 'Maintenez ce rythme pendant 5 minutes. Si votre esprit divague, ramenez doucement l\'attention sur la respiration.' },
+      { title: 'Clôture', text: 'Reprenez une respiration naturelle. Observez l\'état de calme intérieur. Emportez cette sensation dans votre prochaine activité.' }
+    ]
+  },
+  {
+    id: 'visualisation-reussite', title: 'Visualisation de réussite', tag: 'visualisation', tagLabel: 'Visualisation', duration: 10,
+    desc: 'Préparez mentalement un moment important en le vivant par avance avec tous vos sens. Technique des athlètes et dirigeant·es de haut niveau.',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'Choisir le moment', text: 'Identifiez le moment à préparer : réunion, pitch, conversation difficile. Précisez-le clairement dans votre esprit.' },
+      { title: 'Planter le décor', text: 'Visualisez le lieu en détail : la salle, la lumière, les personnes présentes. Où êtes-vous ? Que voyez-vous ?' },
+      { title: 'Ressentir', text: 'Connectez-vous à l\'émotion souhaitée : confiance, calme, détermination. Ressentez-la dans votre corps.' },
+      { title: 'Dérouler le film', text: 'Visualisez la scène. Vous parlez avec assurance. Les autres écoutent. Vous gérez une objection avec calme.' },
+      { title: 'Ancrer', text: 'Le moment se termine bien. Associez cette sensation à un geste simple (serrer le poing, toucher votre poignet) — c\'est votre ancre.' },
+      { title: 'Retour', text: 'Reprenez conscience de votre environnement. Vous avez le plan, l\'émotion et l\'ancre. Vous êtes prêt·e.' }
+    ]
+  },
+  {
+    id: 'meditation-pleine-presence', title: 'Méditation de pleine présence', tag: 'meditation', tagLabel: 'Méditation', duration: 10,
+    desc: 'Développez votre capacité d\'attention et de présence — la compétence fondamentale qui nourrit toutes les dimensions du PECA.',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'Arrivée', text: 'Installez-vous confortablement. Fermez les yeux. Prenez 3 respirations profondes pour arriver dans l\'instant présent.' },
+      { title: 'Ancrage', text: 'Choisissez un point d\'ancrage : la respiration au nez, au ventre, ou les sons autour de vous. Ce sera votre base.' },
+      { title: 'Observer', text: 'Restez attentif·ve à votre ancrage. Quand une pensée surgit, notez-la et revenez. Pas de jugement, pas d\'effort.' },
+      { title: 'Élargir', text: 'Élargissez votre attention à tout votre corps, aux sons, à l\'espace. Restez présent·e sans vous accrocher.' },
+      { title: 'Intention', text: 'Formulez une intention pour votre journée en une phrase simple. Laissez-la résonner.' },
+      { title: 'Ouverture', text: 'Bougez doucement les doigts, les orteils. Ouvrez les yeux. Emportez cette qualité d\'attention.' }
+    ]
+  },
+  {
+    id: 'ancrage-emotionnel', title: 'Ancrage émotionnel express', tag: 'respiration', tagLabel: 'Respiration', duration: 3,
+    desc: 'Un exercice de 3 minutes pour retrouver le calme avant ou après un moment intense. Votre kit de premiers secours émotionnels.',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'STOP', text: 'Arrêtez ce que vous faites. Posez les mains à plat. Prenez une grande inspiration et soufflez longuement par la bouche.' },
+      { title: 'Nommer', text: 'Dites-vous intérieurement : « En ce moment, je ressens de la [frustration / anxiété / colère / peur]. » Nommer, c\'est déjà réguler.' },
+      { title: '5-4-3-2-1', text: 'Nommez 5 choses que vous voyez, 4 que vous touchez, 3 que vous entendez, 2 que vous sentez, 1 que vous goûtez.' },
+      { title: 'Reprise', text: 'Prenez 3 respirations calmes. Vous êtes de retour. Choisissez consciemment votre prochaine action.' }
+    ]
+  },
+  {
+    id: 'visualisation-leader', title: 'Mon meilleur moi en leader', tag: 'visualisation', tagLabel: 'Visualisation', duration: 8,
+    desc: 'Connectez-vous à la version la plus accomplie de vous-même. Comment incarnez-vous votre leadership quand tout est aligné ?',
+    videoUrl: '', audioUrl: '',
+    steps: [
+      { title: 'Détente', text: 'Fermez les yeux. Relâchez le visage, les épaules, le ventre. Prenez 5 respirations lentes et profondes.' },
+      { title: 'Le miroir', text: 'Imaginez-vous face à un miroir. La personne que vous voyez est votre meilleur moi. Comment se tient-elle ? Quelle est son expression ?' },
+      { title: 'Les qualités', text: 'Cette personne possède 3 qualités que vous admirez. Lesquelles ? Ressentez-les comme si elles étaient déjà vôtres.' },
+      { title: 'Une journée idéale', text: 'Comment cette personne démarre-t-elle sa journée ? Comment gère-t-elle un imprévu ? Comment interagit-elle avec son équipe ?' },
+      { title: 'Intégration', text: 'Rapprochez-vous de ce reflet jusqu\'à fusionner avec. Vous êtes cette personne. Ressentez l\'alignement.' },
+      { title: 'Engagement', text: 'Choisissez une micro-action que votre meilleur moi ferait aujourd\'hui. Engagez-vous à la faire. Ouvrez les yeux.' }
+    ]
+  }
+];
+
+var meditTimer = { interval: null, remaining: 0, total: 0, running: false, currentId: null };
+
+function renderMeditGrid() {
+  var grid = document.getElementById('meditGrid');
+  if (!grid) return;
+  grid.innerHTML = meditations.map(function(m) {
+    return '<div class="medit-card" onclick="openMeditation(\'' + m.id + '\')">' +
+      '<span class="medit-card-tag medit-tag-' + m.tag + '">' + m.tagLabel + '</span>' +
+      '<h3>' + m.title + '</h3>' +
+      '<div class="medit-duration">' + m.duration + ' min</div>' +
+      '<p>' + m.desc + '</p></div>';
+  }).join('');
+}
+
+function openMeditation(id) {
+  var m = meditations.find(function(x) { return x.id === id; });
+  if (!m) return;
+  meditTimer.currentId = id;
+  document.getElementById('meditLibrary').style.display = 'none';
+  document.getElementById('meditDetail').classList.add('active');
+
+  var tagEl = document.getElementById('meditDetailTag');
+  tagEl.textContent = m.tagLabel;
+  tagEl.className = 'medit-card-tag medit-tag-' + m.tag;
+  document.getElementById('meditDetailTitle').textContent = m.title;
+  document.getElementById('meditDetailDesc').textContent = m.desc;
+
+  // Audio
+  var audioSec = document.getElementById('meditAudioSection');
+  if (m.audioUrl) { audioSec.style.display = 'block'; document.getElementById('meditAudio').src = m.audioUrl; }
+  else { audioSec.style.display = 'none'; }
+
+  // Video
+  var videoSec = document.getElementById('meditVideoSection');
+  if (m.videoUrl) {
+    videoSec.style.display = 'block';
+    var vid = m.videoUrl;
+    if (vid.includes('youtube.com/watch')) vid = vid.replace('watch?v=', 'embed/');
+    if (vid.includes('youtu.be/')) vid = vid.replace('youtu.be/', 'www.youtube.com/embed/');
+    document.getElementById('meditVideoIframe').src = vid;
+  } else { videoSec.style.display = 'none'; }
+
+  // Timer
+  meditTimer.total = m.duration * 60;
+  meditTimer.remaining = meditTimer.total;
+  meditTimer.running = false;
+  clearInterval(meditTimer.interval);
+  updateTimerDisplay();
+  document.getElementById('meditTimerBar').style.width = '0%';
+  document.getElementById('meditTimerToggle').textContent = 'Démarrer';
+
+  // Steps
+  document.getElementById('meditSteps').innerHTML = m.steps.map(function(s, i) {
+    return '<div class="medit-step"><div class="medit-step-num">' + (i + 1) + '</div>' +
+      '<div class="medit-step-content"><strong>' + s.title + '</strong><p>' + s.text + '</p></div></div>';
+  }).join('');
+
+  window.scrollTo(0, 0);
+}
+
+function closeMeditDetail() {
+  document.getElementById('meditLibrary').style.display = 'block';
+  document.getElementById('meditDetail').classList.remove('active');
+  resetMeditTimer();
+  document.getElementById('meditVideoIframe').src = '';
+}
+
+function toggleMeditTimer() {
+  if (meditTimer.running) {
+    clearInterval(meditTimer.interval);
+    meditTimer.running = false;
+    document.getElementById('meditTimerToggle').textContent = 'Reprendre';
+  } else {
+    if (meditTimer.remaining <= 0) meditTimer.remaining = meditTimer.total;
+    meditTimer.running = true;
+    document.getElementById('meditTimerToggle').textContent = 'Pause';
+    meditTimer.interval = setInterval(function() {
+      meditTimer.remaining--;
+      updateTimerDisplay();
+      document.getElementById('meditTimerBar').style.width = (((meditTimer.total - meditTimer.remaining) / meditTimer.total) * 100) + '%';
+      if (meditTimer.remaining <= 0) {
+        clearInterval(meditTimer.interval);
+        meditTimer.running = false;
+        document.getElementById('meditTimerToggle').textContent = 'Terminé ✓';
+      }
+    }, 1000);
+  }
+}
+
+function resetMeditTimer() {
+  clearInterval(meditTimer.interval);
+  meditTimer.running = false;
+  meditTimer.remaining = meditTimer.total;
+  updateTimerDisplay();
+  document.getElementById('meditTimerBar').style.width = '0%';
+  document.getElementById('meditTimerToggle').textContent = 'Démarrer';
+}
+
+function updateTimerDisplay() {
+  var m = Math.floor(meditTimer.remaining / 60);
+  var s = meditTimer.remaining % 60;
+  document.getElementById('meditTimerDisplay').textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function completeMeditation() {
+  var m = meditations.find(function(x) { return x.id === meditTimer.currentId; });
+  if (!m) return;
+  var today = new Date();
+  var dateStr = today.getDate() + ' ' + ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'][today.getMonth()] + ' ' + today.getFullYear();
+  state.journalEntries.unshift({
+    date: dateStr,
+    atelier: 'Rituel —' + m.title,
+    dim: (m.tag === 'visualisation') ? 'P' : 'E',
+    insight: 'Pratique complétée (' + m.duration + ' min).',
+    terrain: 'done', terrainNote: ''
+  });
+  closeMeditDetail();
+  addXP(20, 'Rituel complété');
+  updateStreak();
+  showToast('✅ Rituel enregistré dans votre carnet de bord');
+}
+
+// ══════════════════════════
+// COACH IA PECA
+// ══════════════════════════
+var aiState = {
+  mode: 'general',
+  isOpen: false,
+  conversationHistory: [],
+  sparringRole: null,
+  sparringStep: 0
+};
+
+function toggleAIPanel() {
+  aiState.isOpen = !aiState.isOpen;
+  document.getElementById('aiPanel').classList.toggle('active', aiState.isOpen);
+
+  if (aiState.isOpen && aiState.conversationHistory.length === 0) {
+    aiWelcome();
+  }
+}
+
+function setAIMode(mode) {
+  aiState.mode = mode;
+  document.querySelectorAll('.ai-mode-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+
+  var modeNames = {
+    general: 'Mode libre',
+    sparring: 'Sparring conversationnel',
+    defi: 'Micro-défi du jour',
+    debrief: 'Débriefing de situation',
+    prep: 'Préparation d\'un moment clé'
+  };
+
+  addAIMessage('system', '↻ ' + modeNames[mode]);
+  aiState.sparringStep = 0;
+  aiState.sparringRole = null;
+
+  if (mode === 'sparring') {
+    addAIMessage('bot', 'Parfait, je vais jouer un rôle pour vous permettre de vous entraîner. Décrivez-moi la situation : à qui devez-vous parler, et quel est l\'enjeu ?');
+    setSuggestions(['Feedback à mon N+1', 'Négociation salariale', 'Présentation en CODIR', 'Conflit avec un·e collègue']);
+  } else if (mode === 'defi') {
+    generateDailyChallenge();
+  } else if (mode === 'debrief') {
+    addAIMessage('bot', 'Racontez-moi ce qui s\'est passé. Je vais analyser la situation à travers les 4 dimensions PECA pour vous aider à en tirer des apprentissages.');
+    setSuggestions(['Réunion difficile', 'Feedback mal reçu', 'Décision sous pression', 'Prise de parole ratée']);
+  } else if (mode === 'prep') {
+    addAIMessage('bot', 'Quel moment important approche ? Je vais vous aider à le préparer avec un plan structuré <span class="peca-tag peca-tag-P">P</span> <span class="peca-tag peca-tag-E">E</span> <span class="peca-tag peca-tag-C">C</span> <span class="peca-tag peca-tag-A">A</span>.');
+    setSuggestions(['CODIR demain', 'Entretien annuel', 'Pitch client', 'Réunion d\'équipe sensible']);
+  } else {
+    setSuggestions(['Mon profil PECA', 'Quel atelier faire ensuite ?', 'Exercice rapide', 'Conseils du jour']);
+  }
+}
+
+function aiWelcome() {
+  var name = state.userName || 'là';
+  var lowest = '';
+  if (state.diagnosticDone) {
+    var sorted = Object.entries(state.pecaScores).sort(function(a,b) { return a[1] - b[1]; });
+    lowest = sorted[0][0];
+  }
+
+  addAIMessage('bot', 'Bonjour ' + name + ' ! Je suis votre coach PECA, votre partenaire d\'entraînement entre les séances.' +
+    (lowest ? ' Votre profil montre un axe de développement sur <strong>' + dimName(lowest) + '</strong>. On y travaille ?' : ' Choisissez un mode ou posez-moi directement votre question.'));
+
+  if (state.diagnosticDone) {
+    setSuggestions(['Entraîne-moi au feedback', 'Mon micro-défi du jour', 'Aide-moi à préparer une réunion', 'Qu\'est-ce que le PECA ?']);
+  } else {
+    setSuggestions(['Qu\'est-ce que le PECA ?', 'Comment ça marche ?', 'Commencer le diagnostic']);
+  }
+}
+
+function addAIMessage(type, content) {
+  var container = document.getElementById('aiMessages');
+  var div = document.createElement('div');
+  div.className = 'ai-msg ai-msg-' + type;
+  div.innerHTML = content;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  aiState.conversationHistory.push({ type: type, content: content });
+}
+
+function setSuggestions(items) {
+  var container = document.getElementById('aiSuggestions');
+  container.innerHTML = items.map(function(s) {
+    return '<button class="ai-suggestion" onclick="useSuggestion(this)">' + s + '</button>';
+  }).join('');
+}
+
+function useSuggestion(el) {
+  var text = el.textContent;
+  document.getElementById('aiSuggestions').innerHTML = '';
+  processUserInput(text);
+}
+
+function sendAIMessage() {
+  var input = document.getElementById('aiInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('aiSuggestions').innerHTML = '';
+  processUserInput(text);
+}
+
+function processUserInput(text) {
+  addAIMessage('user', text);
+  showTyping();
+
+  setTimeout(function() {
+    removeTyping();
+    generateAIResponse(text);
+  }, 800 + Math.random() * 700);
+}
+
+function showTyping() {
+  var container = document.getElementById('aiMessages');
+  var typing = document.createElement('div');
+  typing.className = 'ai-typing';
+  typing.id = 'aiTyping';
+  typing.innerHTML = '<div class="ai-typing-dot"></div><div class="ai-typing-dot"></div><div class="ai-typing-dot"></div>';
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  var typing = document.getElementById('aiTyping');
+  if (typing) typing.remove();
+}
+
+function generateAIResponse(userText) {
+  var text = userText.toLowerCase();
+
+  if (aiState.mode === 'sparring') {
+    handleSparring(userText);
+    return;
+  }
+
+  if (aiState.mode === 'debrief') {
+    handleDebrief(userText);
+    return;
+  }
+
+  if (aiState.mode === 'prep') {
+    handlePrep(userText);
+    return;
+  }
+
+  // General mode + defi mode responses
+  if (text.match(/peca|méthode|c'est quoi/)) {
+    addAIMessage('bot', 'La méthode PECA repose sur 4 dimensions complémentaires :<br><br>' +
+      '<span class="peca-tag peca-tag-P">P</span> <strong>Pensées</strong> — Identifier et transformer ses schémas de pensée limitants<br>' +
+      '<span class="peca-tag peca-tag-E">E</span> <strong>Émotions</strong> — Accueillir et gérer ses émotions avec intelligence<br>' +
+      '<span class="peca-tag peca-tag-C">C</span> <strong>Communication</strong> — Développer ses styles de communication avec impact<br>' +
+      '<span class="peca-tag peca-tag-A">A</span> <strong>Action</strong> — Renforcer sa capacité à se mettre en mouvement<br><br>' +
+      'Contrairement au QI, votre quotient émotionnel se développe à tout moment.');
+    setSuggestions(['Mon profil PECA', 'Comment progresser ?', 'Un exercice rapide']);
+  }
+  else if (text.match(/profil|score|résultat|diagnostic/)) {
+    if (state.diagnosticDone) {
+      var sorted = Object.entries(state.pecaScores).sort(function(a,b) { return b[1] - a[1]; });
+      addAIMessage('bot', 'Voici votre profil PECA actuel :<br><br>' +
+        sorted.map(function(s) {
+          return '<span class="peca-tag peca-tag-' + s[0] + '">' + s[0] + '</span> ' + dimName(s[0]) + ' : <strong>' + s[1] + '%</strong>';
+        }).join('<br>') + '<br><br>' +
+        'Votre force : <strong>' + dimName(sorted[0][0]) + '</strong>. Votre axe de développement prioritaire : <strong>' + dimName(sorted[3][0]) + '</strong>. Je recommande de commencer par les ateliers liés à cette dimension.');
+      setSuggestions(['Atelier ' + dimName(sorted[3][0]), 'Exercice ' + dimName(sorted[3][0]), 'Pourquoi cette dimension ?']);
+    } else {
+      addAIMessage('bot', 'Vous n\'avez pas encore fait le diagnostic PECA. Il prend environ 5 à 7 minutes et vous donnera un profil détaillé de vos forces et axes de développement.');
+      setSuggestions(['Commencer le diagnostic']);
+    }
+  }
+  else if (text.match(/atelier|suivant|recommand|faire ensuite/)) {
+    var rec = ateliers[state.recommendedAtelier] || ateliers[0];
+    addAIMessage('bot', 'Je vous recommande l\'atelier <strong>' + rec.title + '</strong> (' + dimName(rec.dim) + ').<br><br>' +
+      rec.desc + '.<br><br>' +
+      (rec.videoUrl ? 'Cet atelier inclut une vidéo de préparation. ' : '') +
+      'Voulez-vous le commencer ?');
+    setSuggestions(['Oui, commencer', 'Un autre atelier', 'Plutôt un exercice rapide']);
+  }
+  else if (text.match(/commencer le diagnostic/i)) {
+    addAIMessage('bot', 'Parfait ! Je vous redirige vers le diagnostic PECA.');
+    setTimeout(function() { toggleAIPanel(); startB2C(); }, 1000);
+  }
+  else if (text.match(/oui.*commencer/i) || text.match(/commencer l'atelier/i)) {
+    addAIMessage('bot', 'C\'est parti ! Je vous ouvre l\'atelier.');
+    setTimeout(function() { toggleAIPanel(); startExercise(state.recommendedAtelier); }, 800);
+  }
+  else if (text.match(/exercice rapide|exercice|entraîn/)) {
+    generateQuickExercise();
+  }
+  else if (text.match(/défi|micro|challenge|quotidien|jour/)) {
+    generateDailyChallenge();
+  }
+  else if (text.match(/feedback|retour/)) {
+    addAIMessage('bot', 'Le feedback est un exercice qui mobilise les 4 dimensions PECA :<br><br>' +
+      '<span class="peca-tag peca-tag-P">P</span> Préparer des faits concrets, pas des jugements<br>' +
+      '<span class="peca-tag peca-tag-E">E</span> Vérifier votre état émotionnel avant la conversation<br>' +
+      '<span class="peca-tag peca-tag-C">C</span> Formuler avec la structure « situation → impact → demande »<br>' +
+      '<span class="peca-tag peca-tag-A">A</span> Fixer un suivi concret pour la suite<br><br>' +
+      'Voulez-vous vous entraîner en mode sparring ?');
+    setSuggestions(['Oui, entraîne-moi', 'Plus de détails sur la formulation', 'Voir l\'atelier Feedback']);
+  }
+  else if (text.match(/conseil|astuce|tip/)) {
+    generateTip();
+  }
+  else if (text.match(/merci|super|top|parfait|génial/)) {
+    addAIMessage('bot', 'Avec plaisir ! N\'hésitez pas à revenir entre vos séances de coaching. C\'est dans la pratique régulière que la transformation s\'ancre. 💪');
+    setSuggestions(['Mon micro-défi du jour', 'Mon profil PECA', 'Un exercice rapide']);
+  }
+  else {
+    // Default contextual response
+    addAIMessage('bot', 'Bonne question. Analysons-la à travers la grille PECA :<br><br>' +
+      '<span class="peca-tag peca-tag-P">P</span> <strong>Pensées</strong> — Quels schémas de pensée sont en jeu dans cette situation ?<br>' +
+      '<span class="peca-tag peca-tag-E">E</span> <strong>Émotions</strong> — Quelle émotion domine chez vous en ce moment ?<br>' +
+      '<span class="peca-tag peca-tag-C">C</span> <strong>Communication</strong> — Comment pourriez-vous formuler votre besoin ?<br>' +
+      '<span class="peca-tag peca-tag-A">A</span> <strong>Action</strong> — Quelle est la première micro-action possible ?<br><br>' +
+      'Dites-m\'en plus sur votre situation pour que je puisse approfondir.');
+    setSuggestions(['C\'est un conflit', 'C\'est un défi de management', 'C\'est une prise de parole', 'Autre chose']);
+  }
+}
+
+// ── SPARRING MODE ──
+function handleSparring(text) {
+  if (aiState.sparringStep === 0) {
+    // User described the situation, AI sets up the role-play
+    aiState.sparringRole = text;
+    aiState.sparringStep = 1;
+    addAIMessage('bot', 'Compris. Je vais jouer le rôle de votre interlocuteur dans cette situation. Je vais réagir de manière réaliste.<br><br>' +
+      '<em>Quand vous êtes prêt·e, commencez la conversation comme si vous étiez en face de cette personne.</em><br><br>' +
+      '— Je vous écoute.');
+    setSuggestions([]);
+  }
+  else if (aiState.sparringStep < 4) {
+    // Role-play exchanges
+    aiState.sparringStep++;
+    var reactions = [
+      'Hmm, je comprends ce que vous dites, mais concrètement, qu\'est-ce que vous proposez ? Parce que de mon côté, j\'ai aussi des contraintes dont il faut tenir compte.',
+      'D\'accord, je vois votre point. Mais je ne suis pas sûr·e que ce soit le bon moment pour en discuter. On a d\'autres priorités en ce moment, non ?',
+      'Oui, c\'est noté. Je vais y réfléchir. Mais je vous préviens, ce ne sera pas simple à mettre en place avec l\'équipe actuelle.'
+    ];
+    addAIMessage('bot', '<em>(En rôle)</em> ' + reactions[Math.min(aiState.sparringStep - 2, reactions.length - 1)]);
+    if (aiState.sparringStep >= 4) {
+      setTimeout(function() {
+        addAIMessage('system', '— Fin du jeu de rôle —');
+        debriefsparring();
+      }, 500);
+    }
+  }
+}
+
+function debriefsparring() {
+  var sorted = state.diagnosticDone ? Object.entries(state.pecaScores).sort(function(a,b) { return a[1] - b[1]; }) : [];
+  var weakDim = sorted.length > 0 ? sorted[0][0] : 'E';
+
+  addAIMessage('bot', '<strong>Débriefing PECA de votre échange</strong><br><br>' +
+    '<span class="peca-tag peca-tag-P">P</span> <strong>Pensées</strong> — Vous avez bien structuré vos arguments. Pensez à poser davantage de questions ouvertes pour comprendre le cadre de référence de l\'autre.<br><br>' +
+    '<span class="peca-tag peca-tag-E">E</span> <strong>Émotions</strong> — Essayez de nommer l\'émotion en jeu : « Je perçois une certaine frustration, est-ce le cas ? » Ça désamorce et ça crée de la connexion.<br><br>' +
+    '<span class="peca-tag peca-tag-C">C</span> <strong>Communication</strong> — Bon réflexe d\'adapter votre formulation. Pour aller plus loin : utilisez la structure « Je constate que... j\'ai besoin de... je propose que... »<br><br>' +
+    '<span class="peca-tag peca-tag-A">A</span> <strong>Action</strong> — Terminez toujours par un engagement concret : qui fait quoi, pour quand ?<br><br>' +
+    'Voulez-vous recommencer avec un scénario différent ?');
+  aiState.sparringStep = 0;
+  setSuggestions(['Recommencer', 'Nouveau scénario', 'Sauvegarder dans mon carnet', 'Retour au mode libre']);
+
+  // Auto-save to journal
+  var today = new Date();
+  var dateStr = today.getDate() + ' ' + ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'][today.getMonth()] + ' ' + today.getFullYear();
+  state.journalEntries.unshift({
+    date: dateStr,
+    atelier: 'Sparring IA — ' + (aiState.sparringRole || 'Jeu de rôle').substring(0, 40),
+    dim: weakDim,
+    insight: 'Entraînement par jeu de rôle avec le coach IA PECA.',
+    terrain: 'pending',
+    terrainNote: 'À mettre en pratique en situation réelle'
+  });
+  addXP(25, 'Sparring IA complété');
+  updateStreak();
+}
+
+// ── DEBRIEF MODE ──
+function handleDebrief(text) {
+  addAIMessage('bot', '<strong>Analyse PECA de votre situation</strong><br><br>' +
+    '<span class="peca-tag peca-tag-P">P</span> <strong>Pensées</strong> — Prenons du recul : quels étaient les faits objectifs, séparés de vos interprétations ? Parfois, nos schémas de pensée déforment la lecture d\'une situation.<br><br>' +
+    '<span class="peca-tag peca-tag-E">E</span> <strong>Émotions</strong> — Quelle émotion dominait chez vous pendant cette situation ? Et chez votre interlocuteur ? Nommer l\'émotion, c\'est déjà reprendre le contrôle.<br><br>' +
+    '<span class="peca-tag peca-tag-C">C</span> <strong>Communication</strong> — Comment avez-vous formulé votre message ? Avec le recul, y a-t-il une formulation qui aurait mieux porté ?<br><br>' +
+    '<span class="peca-tag peca-tag-A">A</span> <strong>Action</strong> — Quelle est la prochaine étape concrète ? Même petite, elle transforme le débriefing en apprentissage réel.<br><br>' +
+    '<em>Ce qui ne se mesure pas ne progresse pas.</em> Ce débriefing est enregistré dans votre carnet de bord.');
+  setSuggestions(['Approfondir le P', 'Approfondir le E', 'Approfondir le C', 'Préparer la suite']);
+
+  // Auto-save
+  var today = new Date();
+  var dateStr = today.getDate() + ' ' + ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'][today.getMonth()] + ' ' + today.getFullYear();
+  state.journalEntries.unshift({
+    date: dateStr,
+    atelier: 'Débriefing IA',
+    dim: 'E',
+    insight: 'Situation analysée via le coach IA : ' + text.substring(0, 80) + (text.length > 80 ? '...' : ''),
+    terrain: 'pending',
+    terrainNote: 'Actions identifiées lors du débriefing'
+  });
+  addXP(25, 'Débriefing IA complété');
+  updateStreak();
+}
+
+// ── PREP MODE ──
+function handlePrep(text) {
+  addAIMessage('bot', '<strong>Plan de préparation PECA</strong><br><br>' +
+    '🎯 <strong>Votre moment clé :</strong> ' + text + '<br><br>' +
+    '<span class="peca-tag peca-tag-P">P</span> <strong>Pensées — Clarifier</strong><br>' +
+    '• Quel est votre objectif principal pour ce moment ?<br>' +
+    '• Quels sont les 3 points clés que vous devez absolument faire passer ?<br>' +
+    '• Quel est votre plan B si ça ne se passe pas comme prévu ?<br><br>' +
+    '<span class="peca-tag peca-tag-E">E</span> <strong>Émotions — Se préparer</strong><br>' +
+    '• Quelle émotion anticipez-vous ? (stress, enthousiasme, appréhension…)<br>' +
+    '• Technique de centrage : 3 respirations profondes avant d\'entrer dans la salle<br>' +
+    '• Phrase d\'ancrage : formulez une intention positive en une phrase<br><br>' +
+    '<span class="peca-tag peca-tag-C">C</span> <strong>Communication — Structurer</strong><br>' +
+    '• Ouverture : comment allez-vous poser le cadre ?<br>' +
+    '• Mots-clés à utiliser, mots à éviter<br>' +
+    '• Écoute : préparez 2-3 questions ouvertes pour impliquer les autres<br><br>' +
+    '<span class="peca-tag peca-tag-A">A</span> <strong>Action — Conclure</strong><br>' +
+    '• Comment allez-vous clôturer ? (décision, prochaine étape, engagement)<br>' +
+    '• Prévoyez un « call to action » clair<br><br>' +
+    '<em>Après l\'événement, revenez me voir en mode Débriefing pour boucler l\'apprentissage.</em>');
+  setSuggestions(['Entraîne-moi à la prise de parole', 'Affiner le plan', 'Simuler les objections', 'Sauvegarder']);
+}
+
+// ── MICRO-DÉFI ──
+function generateDailyChallenge() {
+  var weakDim = 'E';
+  if (state.diagnosticDone) {
+    var sorted = Object.entries(state.pecaScores).sort(function(a,b) { return a[1] - b[1]; });
+    weakDim = sorted[0][0];
+  }
+
+  var challenges = {
+    P: [
+      'Avant votre prochaine décision aujourd\'hui, listez 3 options alternatives. Ne choisissez qu\'après avoir écrit les 3.',
+      'Identifiez une croyance limitante qui vous a freiné·e cette semaine. Reformulez-la en version constructive.',
+      'Prenez 5 minutes pour écrire : « Quelle est la vraie question derrière le problème que j\'essaie de résoudre ? »'
+    ],
+    E: [
+      'À chaque début de réunion aujourd\'hui, nommez intérieurement l\'émotion que vous ressentez. Juste la nommer, sans la juger.',
+      'Observez un·e collègue pendant une interaction : quelle émotion semble animer cette personne ? Vérifiez en posant une question ouverte.',
+      'Ce soir, notez les 3 moments de la journée où vous avez ressenti l\'émotion la plus forte. Qu\'est-ce qu\'elles ont en commun ?'
+    ],
+    C: [
+      'Dans votre prochaine conversation importante, reformulez ce que l\'autre dit avant de répondre : « Si je comprends bien, tu dis que... »',
+      'Transformez un email de plus de 5 lignes en 3 lignes maximum. La contrainte force la clarté.',
+      'Aujourd\'hui, remplacez un « mais » par un « et » dans chaque échange. Observez l\'effet.'
+    ],
+    A: [
+      'Identifiez la tâche que vous procrastinez le plus. Engagez-vous à y consacrer exactement 10 minutes. Pas plus, pas moins.',
+      'Avant 10h ce matin, envoyez un message ou un email que vous repoussez depuis plus de 48h.',
+      'Ce soir, écrivez votre intention d\'action pour demain en une seule phrase. Précise, mesurable, avec un horaire.'
+    ]
+  };
+
+  var pool = challenges[weakDim] || challenges['E'];
+  var challenge = pool[Math.floor(Math.random() * pool.length)];
+
+  addAIMessage('bot', '<strong>Micro-défi du jour</strong> <span class="peca-tag peca-tag-' + weakDim + '">' + dimName(weakDim) + '</span><br><br>' +
+    challenge + '<br><br>' +
+    '<em>Durée : 5 minutes. Ce soir, dites-moi comment ça s\'est passé pour un débriefing express.</em>');
+  setSuggestions(['Défi accepté !', 'Un autre défi', 'Défi sur une autre dimension', 'Pourquoi cette dimension ?']);
+}
+
+function generateQuickExercise() {
+  var exercises = [
+    { dim: 'P', title: 'Les 5 pourquoi', text: 'Prenez un problème actuel. Posez « pourquoi ? » 5 fois de suite, en partant de la réponse précédente. Vous atteindrez la cause racine, pas le symptôme.' },
+    { dim: 'E', title: 'Le scan corporel', text: 'Fermez les yeux 30 secondes. Scannez votre corps de la tête aux pieds. Où se loge la tension ? Nommez l\'émotion associée. Cette conscience est le premier pas.' },
+    { dim: 'C', title: 'Le pitch en 30 secondes', text: 'Formulez votre prochain message important en 30 secondes maximum. Enregistrez-vous (note vocale). Réécoutez. Qu\'est-ce que vous gardez, qu\'est-ce que vous coupez ?' },
+    { dim: 'A', title: 'La règle des 2 minutes', text: 'Parcourez votre liste de tâches. Tout ce qui prend moins de 2 minutes : faites-le immédiatement. Pas demain, pas plus tard. Maintenant.' }
+  ];
+
+  var ex = exercises[Math.floor(Math.random() * exercises.length)];
+  addAIMessage('bot', '<strong>Exercice express</strong> <span class="peca-tag peca-tag-' + ex.dim + '">' + ex.dim + ' · ' + ex.title + '</span><br><br>' +
+    ex.text + '<br><br>' +
+    'Cet exercice prend 2 à 5 minutes. Revenez me dire ce que vous en retirez.');
+  setSuggestions(['C\'est fait !', 'Un autre exercice', 'Enregistrer dans mon carnet']);
+}
+
+function generateTip() {
+  var tips = [
+    'L\'intelligence émotionnelle n\'est pas de cacher ses émotions, c\'est de les comprendre et de les utiliser comme une force.',
+    'Avant de réagir, comptez jusqu\'à 3 en respirant. Ces 3 secondes transforment une réaction en une réponse.',
+    'La meilleure préparation à un moment difficile ? Clarifier votre intention avant d\'entrer dans la pièce.',
+    'Le feedback le plus puissant commence par « J\'ai observé que... » et non par « Tu es... »',
+    'Écouter sans préparer sa réponse est un acte de leadership. L\'espace de silence est précieux.'
+  ];
+  var tip = tips[Math.floor(Math.random() * tips.length)];
+  addAIMessage('bot', '<strong>Conseil PECA du jour</strong><br><br><em>' + tip + '</em>');
+  setSuggestions(['Un autre conseil', 'Mettre en pratique', 'Exercice lié']);
+}
+
+// Show/hide FAB based on diagnostic state
+function updateAIFab() {
+  var fab = document.getElementById('aiFab');
+  if (fab) {
+    fab.classList.toggle('visible', state.diagnosticDone);
+  }
+}
+
+// ══════════════════════════
+// GAMIFICATION
+// ══════════════════════════
+var gamification = {
+  xp: 0,
+  streak: 0,
+  lastActiveDate: null,
+  badges: []
+};
+
+var LEVELS = [
+  { min: 0, title: 'Explorateur·rice', next: 100 },
+  { min: 100, title: 'Praticien·ne', next: 300 },
+  { min: 300, title: 'Stratège', next: 600 },
+  { min: 600, title: 'Mentor', next: 1000 },
+  { min: 1000, title: 'Leader éclairé·e', next: 2000 }
+];
+
+var BADGES = [
+  { id: 'first-step', emoji: '🌱', label: 'Premier pas', condition: function() { return state.diagnosticDone; } },
+  { id: 'explorer', emoji: '🧭', label: 'Explorateur·rice', condition: function() { return state.completedAteliers.length >= 1; } },
+  { id: 'streak-3', emoji: '🔥', label: '3 jours de suite', condition: function() { return gamification.streak >= 3; } },
+  { id: 'deep-diver', emoji: '🤿', label: 'Plongée profonde', condition: function() { return state.completedAteliers.length >= 4; } },
+  { id: 'ritual-master', emoji: '🧘', label: 'Rituel maîtrisé', condition: function() { return state.journalEntries.some(function(e) { return e.atelier.indexOf('Rituel') !== -1; }); } },
+  { id: 'sparring', emoji: '🥊', label: 'Sparring partner', condition: function() { return state.journalEntries.some(function(e) { return e.atelier.indexOf('Sparring') !== -1; }); } },
+  { id: 'reflective', emoji: '📔', label: 'Réflexion active', condition: function() { return state.journalEntries.length >= 5; } },
+  { id: 'champion', emoji: '🏆', label: 'Champion PECA', condition: function() { return state.completedAteliers.length >= 8; } }
+];
+
+function getLevel() {
+  for (var i = LEVELS.length - 1; i >= 0; i--) {
+    if (gamification.xp >= LEVELS[i].min) return { level: i + 1, data: LEVELS[i] };
+  }
+  return { level: 1, data: LEVELS[0] };
+}
+
+function addXP(amount, reason) {
+  gamification.xp += amount;
+  checkBadges();
+  showToast('+' + amount + ' XP — ' + reason);
+}
+
+function checkBadges() {
+  BADGES.forEach(function(b) {
+    if (gamification.badges.indexOf(b.id) === -1 && b.condition()) {
+      gamification.badges.push(b.id);
+      setTimeout(function() { showToast('🏅 Badge débloqué : ' + b.label); }, 1500);
+    }
+  });
+}
+
+function updateStreak() {
+  var today = new Date().toDateString();
+  if (gamification.lastActiveDate === today) return;
+  var yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (gamification.lastActiveDate === yesterday) {
+    gamification.streak++;
+  } else if (gamification.lastActiveDate !== today) {
+    gamification.streak = 1;
+  }
+  gamification.lastActiveDate = today;
+}
+
+function renderGamification() {
+  var lvl = getLevel();
+  document.getElementById('levelNum').textContent = lvl.level;
+  document.getElementById('levelTitle').textContent = lvl.data.title;
+
+  var xpInLevel = gamification.xp - lvl.data.min;
+  var xpNeeded = lvl.data.next - lvl.data.min;
+  var pct = Math.min(100, (xpInLevel / xpNeeded) * 100);
+  document.getElementById('xpBar').style.width = pct + '%';
+  document.getElementById('xpCurrent').textContent = gamification.xp + ' XP';
+  document.getElementById('xpNext').textContent = '→ Niv. ' + (lvl.level + 1) + ' (' + lvl.data.next + ' XP)';
+
+  updateStreak();
+  document.getElementById('streakDisplay').textContent = '🔥 ' + gamification.streak + ' jour' + (gamification.streak > 1 ? 's' : '') + ' de suite';
+
+  // Badges
+  checkBadges();
+  var grid = document.getElementById('badgeGrid');
+  grid.innerHTML = BADGES.map(function(b) {
+    var earned = gamification.badges.indexOf(b.id) !== -1;
+    return '<div class="badge ' + (earned ? 'earned' : 'locked') + '" title="' + b.label + '">' + b.emoji + '</div>';
+  }).join('');
+}
+
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+// ══════════════════════════
 // INIT
 // ══════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
   renderUseCases();
   renderVideoGrid('homeVideoGrid', generalVideos);
   updateNav();
+  updateAIFab();
 });
 </script>
 </body>
