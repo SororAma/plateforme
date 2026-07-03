@@ -432,7 +432,31 @@ nav {
 }
 
 .cta-section h2 { margin-bottom: 1rem; }
-.cta-section p { margin: 0 auto 2rem; color: var(--text-secondary); }
+.cta-section > .container > p { margin: 0 auto 2.5rem; color: var(--text-secondary); }
+
+.cta-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.cta-dual-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+}
+.cta-dual-card:hover { transform: translateY(-4px); }
+.cta-dual-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.cta-dual-card h3 { font-family: var(--serif); font-size: 1.25rem; margin-bottom: 0.75rem; }
+.cta-dual-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .cta-dual { grid-template-columns: 1fr; }
+}
 
 /* ── VIDEO ── */
 .video-card {
@@ -820,6 +844,11 @@ nav {
   justify-content: space-between;
   font-size: 0.85rem;
   font-weight: 500;
+  margin-bottom: 0.15rem;
+}
+.peca-bar-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
   margin-bottom: 0.3rem;
 }
 
@@ -1546,13 +1575,13 @@ nav {
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
-          <div class="hero-tagline">Votre potentiel n'attend que vous</div>
-          <h1>Ce qui vous freine <em>n'est pas</em> ce que vous croyez.</h1>
+          <div class="hero-tagline">Cultivez ce qui résiste à l'IA</div>
+          <h1>Développez les compétences <em>que l'IA ne remplacera jamais.</em></h1>
           <p class="hero-subtitle">
-            Ateliers immersifs, rituels de recentrage, entraînement avec un coach IA : un parcours complet pour développer les compétences que personne ne peut automatiser — et briser les plafonds qui vous limitent.
+            Discernement, intelligence relationnelle, coopération, capacité à donner du sens : ces compétences différenciantes font la différence entre un bon profil et un leader. Entraînez-les avec des ateliers, des rituels de recentrage et un coach IA dédié.
           </p>
           <div class="hero-ctas">
-            <button class="btn btn-primary btn-lg" onclick="startB2C()">Briser mon plafond</button>
+            <button class="btn btn-primary btn-lg" onclick="startB2C()">Brise ton plafond</button>
             <button class="btn btn-outline btn-lg" onclick="showPage('b2b')">Développe tes compétences différenciantes</button>
           </div>
           <div class="hero-badges">
@@ -1600,7 +1629,7 @@ nav {
         </div>
       </div>
       <div class="quote-block" style="margin-top:2.5rem">
-        Le talent technique ouvre la porte. L'intelligence émotionnelle décide jusqu'où vous irez.
+        L'IA ne s'intègre pas dans un terrain vierge. Le rôle du manager devient plus stratégique que jamais — non pas pour rivaliser avec la machine, mais pour développer ce qu'elle ne remplacera jamais.
       </div>
     </div>
   </section>
@@ -1642,12 +1671,25 @@ nav {
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA double -->
   <section class="section cta-section">
     <div class="container">
-      <h2>Et si vous commenciez par comprendre ce qui vous freine ?</h2>
-      <p>3 minutes pour identifier vos forces et vos angles morts. Gratuit, confidentiel, et c'est le premier pas vers un vrai changement.</p>
-      <button class="btn btn-primary btn-lg" onclick="startB2C()">Faire mon diagnostic gratuit</button>
+      <h2>Deux diagnostics. Deux parcours. Un même objectif : progresser.</h2>
+      <p>Chaque diagnostic est conçu pour votre réalité. 3 minutes, gratuit, confidentiel.</p>
+      <div class="cta-dual">
+        <div class="cta-dual-card">
+          <div class="cta-dual-icon">🚀</div>
+          <h3>Brise ton plafond</h3>
+          <p>Confiance, légitimité, assertivité — identifiez ce qui vous freine et passez à l'action.</p>
+          <button class="btn btn-primary" onclick="startB2C()">Mon diagnostic personnel</button>
+        </div>
+        <div class="cta-dual-card">
+          <div class="cta-dual-icon">🎯</div>
+          <h3>Compétences différenciantes</h3>
+          <p>Leadership, coopération, gestion du changement — mesurez vos réflexes managériaux face à l'IA.</p>
+          <button class="btn btn-primary" onclick="showPage('b2b')">Mon diagnostic entreprise</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1767,72 +1809,32 @@ nav {
     <div class="onboarding-wrap">
       <div class="progress-dots" id="onboardingDots"></div>
 
-      <!-- Étape 0 : Situation -->
+      <!-- Étape 0 : Contexte léger (rôle + défis) -->
       <div class="onboarding-step" id="onb-step-0">
-        <h2>Décrivez votre situation</h2>
-        <p class="step-subtitle" id="situationSubtitle">Qu'est-ce qui vous amène ici ?</p>
+        <h2 id="ctxTitle">Avant de commencer</h2>
+        <p class="step-subtitle" id="ctxSubtitle">Pour adapter votre diagnostic</p>
+
         <div class="form-group">
-          <textarea id="situationText" placeholder="Quelle situation professionnelle aimeriez-vous vivre différemment ?"></textarea>
+          <label id="ctxFonctionLabel">Votre situation actuelle</label>
+          <div class="radio-group" id="ctx-fonction"></div>
         </div>
+
+        <div class="form-group">
+          <label id="defisLabel">Vos enjeux principaux <span class="label-hint">(choisissez 2 à 3)</span></label>
+          <div class="checkbox-group" id="ctx-defis"></div>
+        </div>
+
         <div class="step-nav">
           <button class="btn btn-secondary" onclick="showPage('home')">Retour</button>
-          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
+          <button class="btn btn-primary" onclick="nextOnboarding()">Lancer le diagnostic</button>
         </div>
       </div>
 
-      <!-- Étape 1 : Contexte (fonction + environnement + défis) -->
+      <!-- Étape 1 : Likert -->
       <div class="onboarding-step" id="onb-step-1">
-        <h2>Votre contexte</h2>
-        <p class="step-subtitle">Quelques informations pour personnaliser votre parcours</p>
-
-        <div class="form-group">
-          <label>Votre fonction actuelle</label>
-          <div class="radio-group" id="ctx-fonction">
-            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Manager d'équipe</span><input type="radio" name="fonction" value="manager"></label>
-            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Expert·e / Contributeur·rice individuel·le</span><input type="radio" name="fonction" value="expert"></label>
-            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Dirigeant·e / Fondateur·rice</span><input type="radio" name="fonction" value="dirigeant"></label>
-            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>Chef·fe de projet / Transverse</span><input type="radio" name="fonction" value="chef-projet"></label>
-            <label class="radio-option" onclick="selectRadio(this,'fonction')"><div class="radio-dot"></div><span>En transition / Reconversion</span><input type="radio" name="fonction" value="transition"></label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Taille de votre environnement</label>
-          <div class="radio-group" id="ctx-environnement">
-            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Grande organisation (250+)</span><input type="radio" name="environnement" value="grande"></label>
-            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>PME / ETI (50-250)</span><input type="radio" name="environnement" value="pme"></label>
-            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Startup / TPE (&lt;50)</span><input type="radio" name="environnement" value="startup"></label>
-            <label class="radio-option" onclick="selectRadio(this,'environnement')"><div class="radio-dot"></div><span>Indépendant·e / Freelance</span><input type="radio" name="environnement" value="independant"></label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Vos défis principaux <span class="label-hint">(choisissez 2 à 3)</span></label>
-          <div class="checkbox-group" id="ctx-defis">
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Légitimité et syndrome de l'imposteur</span><input type="checkbox" name="defi" value="legitimite"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Prise de parole et visibilité</span><input type="checkbox" name="defi" value="visibilite"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Gestion de conflit</span><input type="checkbox" name="defi" value="conflit"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Feedback et conversations difficiles</span><input type="checkbox" name="defi" value="feedback"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Management et posture de leader</span><input type="checkbox" name="defi" value="management"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Stress et surcharge</span><input type="checkbox" name="defi" value="stress"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Équilibre pro-perso</span><input type="checkbox" name="defi" value="equilibre"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Négociation et assertivité</span><input type="checkbox" name="defi" value="negociation"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Transition et changement de cap</span><input type="checkbox" name="defi" value="transition"></label>
-            <label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>Relations avec la hiérarchie</span><input type="checkbox" name="defi" value="hierarchie"></label>
-          </div>
-        </div>
-
-        <div class="step-nav">
-          <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
-          <button class="btn btn-primary" onclick="nextOnboarding()">Continuer</button>
-        </div>
-      </div>
-
-      <!-- Étape 2 : Diagnostic couche 1 — Auto-positionnement Likert -->
-      <div class="onboarding-step" id="onb-step-2">
-        <h2>Auto-positionnement</h2>
-        <p class="step-subtitle">Évaluez spontanément votre accord avec chaque affirmation. Il n'y a pas de bonne ou mauvaise réponse — chaque style a ses forces.</p>
-        <p style="font-size:0.85rem; color:#888; text-align:center; margin-bottom:1.5rem;">Ce diagnostic est un outil de réflexion, pas un jugement. Vos données restent confidentielles et ne sont pas partagées.</p>
+        <h2 id="likertTitle">Auto-positionnement</h2>
+        <p class="step-subtitle" id="likertSubtitle">Répondez spontanément — il n'y a pas de bonne réponse, chaque style a ses forces.</p>
+        <p style="font-size:0.85rem; color:#888; text-align:center; margin-bottom:1.5rem;">Ce diagnostic est un outil de réflexion, pas un jugement. Vos données restent confidentielles.</p>
         <div id="likertItems"></div>
         <div class="step-nav">
           <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
@@ -1840,10 +1842,10 @@ nav {
         </div>
       </div>
 
-      <!-- Étape 3 : Diagnostic couche 2 — Mises en situation -->
-      <div class="onboarding-step" id="onb-step-3">
-        <h2>Mises en situation</h2>
-        <p class="step-subtitle">Pour chaque scénario, classez les 4 réactions par ordre de préférence en cliquant dessus (1 = votre premier réflexe).</p>
+      <!-- Étape 2 : Scénarios -->
+      <div class="onboarding-step" id="onb-step-2">
+        <h2 id="scenarioTitle">Mises en situation</h2>
+        <p class="step-subtitle" id="scenarioSubtitle">Classez les 4 réactions par ordre de préférence (1 = votre premier réflexe).</p>
         <div id="scenarioItems"></div>
         <div class="step-nav">
           <button class="btn btn-secondary" onclick="prevOnboarding()">Retour</button>
@@ -1851,29 +1853,19 @@ nav {
         </div>
       </div>
 
-      <!-- Étape 4 : Diagnostic couche 3 — Validation croisée -->
-      <div class="onboarding-step" id="onb-step-4">
-        <h2>Votre perception</h2>
-        <p class="step-subtitle">Deux dernières questions pour affiner votre profil.</p>
+      <!-- Étape 3 : Validation croisée -->
+      <div class="onboarding-step" id="onb-step-3">
+        <h2 id="validTitle">Votre perception</h2>
+        <p class="step-subtitle" id="validSubtitle">Deux dernières questions pour affiner votre profil.</p>
 
         <div class="form-group">
-          <label>Quelle dimension pensez-vous devoir développer en priorité ?</label>
-          <div class="radio-group" id="validation-faible">
-            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Pensées — Clarifier ma réflexion</span><input type="radio" name="percue-faible" value="P"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Émotions — Mieux gérer mes émotions</span><input type="radio" name="percue-faible" value="E"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Communication — M'exprimer avec plus d'impact</span><input type="radio" name="percue-faible" value="C"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-faible')"><div class="radio-dot"></div><span>Action — Passer plus vite à l'action</span><input type="radio" name="percue-faible" value="A"></label>
-          </div>
+          <label id="validFaibleLabel">Quelle dimension pensez-vous devoir développer en priorité ?</label>
+          <div class="radio-group" id="validation-faible"></div>
         </div>
 
         <div class="form-group">
-          <label>Dans quelle dimension vous sentez-vous le plus à l'aise ?</label>
-          <div class="radio-group" id="validation-forte">
-            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Pensées — J'analyse bien les situations</span><input type="radio" name="percue-forte" value="P"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Émotions — Je suis à l'écoute des ressentis</span><input type="radio" name="percue-forte" value="E"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Communication — Je sais convaincre et fédérer</span><input type="radio" name="percue-forte" value="C"></label>
-            <label class="radio-option" onclick="selectRadio(this,'percue-forte')"><div class="radio-dot"></div><span>Action — Je fais avancer les choses</span><input type="radio" name="percue-forte" value="A"></label>
-          </div>
+          <label id="validForteLabel">Dans quelle dimension vous sentez-vous le plus à l'aise ?</label>
+          <div class="radio-group" id="validation-forte"></div>
         </div>
 
         <div class="step-nav">
@@ -1882,10 +1874,10 @@ nav {
         </div>
       </div>
 
-      <!-- Étape 5 : Profil PECA -->
-      <div class="onboarding-step" id="onb-step-5">
-        <h2>Votre profil PECA</h2>
-        <p class="step-subtitle">Voici votre équilibre actuel sur les quatre dimensions</p>
+      <!-- Étape 4 : Profil -->
+      <div class="onboarding-step" id="onb-step-4">
+        <h2 id="profileTitle">Votre profil</h2>
+        <p class="step-subtitle" id="profileSubtitle">Voici votre équilibre actuel sur les quatre dimensions</p>
         <div class="peca-profile" id="pecaProfile"></div>
         <div id="ecartMessage" class="ecart-message"></div>
         <div id="ecartInsight" class="ecart-insight" style="display:none"></div>
@@ -1895,12 +1887,12 @@ nav {
         </div>
       </div>
 
-      <!-- Étape 6 : Objectif 3 mois -->
-      <div class="onboarding-step" id="onb-step-6">
-        <h2>Mon objectif à 3 mois</h2>
-        <p class="step-subtitle">Définissez votre ancre narrative : le cap qui guidera votre parcours</p>
+      <!-- Étape 5 : Objectif -->
+      <div class="onboarding-step" id="onb-step-5">
+        <h2 id="objectifTitle">Mon objectif à 3 mois</h2>
+        <p class="step-subtitle" id="objectifSubtitle">Le cap qui guidera votre parcours</p>
         <div class="form-group">
-          <label>Dans 3 mois, je veux être capable de…</label>
+          <label id="objectifLabel">Dans 3 mois, je veux être capable de…</label>
           <textarea id="ancreText" placeholder="Exprimez votre objectif en une ou deux phrases..."></textarea>
         </div>
         <div class="step-nav">
@@ -2225,65 +2217,133 @@ var generalVideos = [
 // Items Likert — formulés de façon neutre et comportementale
 // pour réduire le biais de désirabilité sociale.
 // Chaque item décrit un comportement observable, pas un jugement de valeur.
-var likertItems = [
-  { statement: "Avant une décision importante, je prends le temps de lister les différentes options.", dim: 'P', reverse: false },
-  { statement: "Je me fie souvent à mon intuition plutôt qu'à une analyse détaillée.", dim: 'P', reverse: true },
-  { statement: "Je remarque quand l'ambiance d'un groupe change, même subtilement.", dim: 'E', reverse: false },
-  { statement: "Dans les moments de pression, j'ai tendance à mettre mes ressentis de côté pour avancer.", dim: 'E', reverse: true },
-  { statement: "Je reformule naturellement les propos de mon interlocuteur pour vérifier ma compréhension.", dim: 'C', reverse: false },
-  { statement: "En réunion, je préfère écouter plutôt que prendre la parole spontanément.", dim: 'C', reverse: true },
-  { statement: "Face à un problème, je teste rapidement une solution plutôt que de chercher la solution parfaite.", dim: 'A', reverse: false },
-  { statement: "Je préfère attendre d'avoir toutes les informations avant de m'engager.", dim: 'A', reverse: true }
+// ═══ DIAGNOSTICS DIFFÉRENCIÉS PAR PARCOURS ═══
+
+// ── B2C "Brise ton plafond" : blocages personnels, confiance, légitimité ──
+var likertItemsB2C = [
+  { statement: "Quand je réussis, j'ai tendance à penser que c'est grâce aux circonstances plutôt qu'à mes compétences.", dim: 'P', reverse: true },
+  { statement: "Face à une décision importante, je sais faire la part entre mes peurs et les faits objectifs.", dim: 'P', reverse: false },
+  { statement: "Avant un moment à enjeu (entretien, prise de parole), le stress m'envahit au point de perdre mes moyens.", dim: 'E', reverse: true },
+  { statement: "Je sais nommer ce que je ressens et m'en servir comme signal plutôt que comme frein.", dim: 'E', reverse: false },
+  { statement: "J'ose exprimer un désaccord, même face à quelqu'un qui a plus d'autorité que moi.", dim: 'C', reverse: false },
+  { statement: "Je préfère ne rien dire plutôt que de risquer que mon idée soit mal reçue.", dim: 'C', reverse: true },
+  { statement: "Quand une opportunité se présente, je la saisis même si je ne coche pas 100% des critères.", dim: 'A', reverse: false },
+  { statement: "J'attends d'être parfaitement prête avant d'oser me lancer.", dim: 'A', reverse: true }
 ];
 
-// Couche 2 : Mises en situation (5 scénarios, classement des 4 réactions)
-var scenarios = [
+// ── B2B "Compétences différenciantes" : leadership, coopération, transformation managériale ──
+var likertItemsB2B = [
+  { statement: "Face à une situation complexe, je prends le temps d'analyser avant de décider, même sous pression.", dim: 'P', reverse: false },
+  { statement: "Je reproduis souvent les mêmes solutions sans questionner si elles sont encore adaptées.", dim: 'P', reverse: true },
+  { statement: "Je perçois les signaux faibles autour de moi — tensions, démotivation, non-dits — avant qu'ils ne deviennent des problèmes.", dim: 'E', reverse: false },
+  { statement: "Quand l'enjeu est important, je mets les émotions de côté pour me concentrer sur le résultat.", dim: 'E', reverse: true },
+  { statement: "Je sais adapter mon discours selon mon interlocuteur pour créer de l'adhésion plutôt que de la résistance.", dim: 'C', reverse: false },
+  { statement: "J'ai tendance à défendre ma position plutôt qu'à chercher à co-construire avec les autres.", dim: 'C', reverse: true },
+  { statement: "Face au changement, je prends l'initiative et je lance des actions concrètes rapidement.", dim: 'A', reverse: false },
+  { statement: "Je préfère attendre que tout soit cadré avant de me mettre en mouvement.", dim: 'A', reverse: true }
+];
+
+// ── Scénarios B2C : situations personnelles, plafond de verre, assertivité ──
+var scenariosB2C = [
   {
-    title: "1. Un conflit éclate en réunion entre deux collègues.",
+    title: "1. En réunion, vous avez une idée pertinente mais quelqu'un de plus senior vient de prendre la parole.",
     reactions: [
-      { text: "Prendre du recul pour analyser objectivement la situation", dim: 'P' },
-      { text: "Observer les émotions en jeu, les miennes et celles des autres", dim: 'E' },
-      { text: "Ouvrir le dialogue pour comprendre chaque point de vue", dim: 'C' },
-      { text: "Proposer une solution concrète pour avancer", dim: 'A' }
+      { text: "Organiser mes arguments pour intervenir au bon moment", dim: 'P' },
+      { text: "Reconnaître ma peur du jugement et décider de ne pas la laisser gagner", dim: 'E' },
+      { text: "Rebondir sur ce qui a été dit pour amener naturellement mon point de vue", dim: 'C' },
+      { text: "Lever la main et partager mon idée, même imparfaitement formulée", dim: 'A' }
     ]
   },
   {
-    title: "2. Vous devez donner un feedback difficile à un·e collègue.",
+    title: "2. On vous propose un poste à responsabilités. Vous doutez de votre légitimité.",
     reactions: [
-      { text: "Préparer des faits et des exemples précis", dim: 'P' },
-      { text: "Vérifier mon état émotionnel avant la conversation", dim: 'E' },
-      { text: "Choisir le bon moment et les bons mots", dim: 'C' },
-      { text: "Aborder le sujet directement, sans tourner autour", dim: 'A' }
+      { text: "Lister objectivement mes réussites et compétences pour ce poste", dim: 'P' },
+      { text: "Explorer d'où vient ce doute et ce qu'il me dit de moi", dim: 'E' },
+      { text: "En parler à une personne de confiance pour avoir un regard extérieur", dim: 'C' },
+      { text: "Accepter le poste et apprendre en faisant", dim: 'A' }
     ]
   },
   {
-    title: "3. Un nouveau projet stratégique vous est confié.",
+    title: "3. Votre manager s'attribue le mérite d'un projet que vous avez porté.",
     reactions: [
-      { text: "Définir une vision claire et une stratégie détaillée", dim: 'P' },
-      { text: "M'assurer que l'équipe se sent engagée et motivée", dim: 'E' },
-      { text: "Réunir les parties prenantes pour aligner tout le monde", dim: 'C' },
-      { text: "Identifier les premières actions et lancer un pilote", dim: 'A' }
+      { text: "Documenter ma contribution pour avoir des faits concrets", dim: 'P' },
+      { text: "Reconnaître ma frustration sans réagir à chaud", dim: 'E' },
+      { text: "Demander un échange pour clarifier les contributions de chacun", dim: 'C' },
+      { text: "Prendre l'initiative de présenter mes résultats moi-même la prochaine fois", dim: 'A' }
     ]
   },
   {
-    title: "4. On vous demande de prendre la parole de façon imprévue.",
+    title: "4. Vous devez négocier votre salaire ou vos conditions de travail.",
     reactions: [
-      { text: "Structurer mentalement mes idées clés", dim: 'P' },
-      { text: "Respirer et accueillir le stress avant de parler", dim: 'E' },
-      { text: "M'adapter à l'auditoire et à ses attentes", dim: 'C' },
-      { text: "Me lancer, quitte à ajuster en cours de route", dim: 'A' }
+      { text: "Préparer des données de marché et mes arguments chiffrés", dim: 'P' },
+      { text: "Gérer le malaise que me procure cette conversation", dim: 'E' },
+      { text: "Formuler ma demande de façon claire, sans m'excuser", dim: 'C' },
+      { text: "Fixer un rendez-vous et y aller, plutôt que repousser indéfiniment", dim: 'A' }
     ]
   },
   {
-    title: "5. Votre organisation traverse un changement important.",
+    title: "5. Vous sentez que vous stagnez professionnellement et l'envie de changement grandit.",
     reactions: [
-      { text: "Comprendre les raisons et impacts du changement", dim: 'P' },
-      { text: "Être attentif·ve aux inquiétudes et résistances", dim: 'E' },
-      { text: "Communiquer de façon transparente sur le pourquoi et le comment", dim: 'C' },
-      { text: "Mettre en place des actions rapides pour montrer le mouvement", dim: 'A' }
+      { text: "Faire le point sur ce qui me manque et ce que je veux vraiment", dim: 'P' },
+      { text: "Écouter ce que cette insatisfaction me dit sur mes besoins profonds", dim: 'E' },
+      { text: "Activer mon réseau et parler de mes aspirations", dim: 'C' },
+      { text: "Commencer à explorer concrètement (candidatures, formations, projets)", dim: 'A' }
     ]
   }
 ];
+
+// ── Scénarios B2B : situations managériales, transformation, coopération ──
+var scenariosB2B = [
+  {
+    title: "1. Votre équipe résiste à un changement décidé par la direction.",
+    reactions: [
+      { text: "Analyser les causes profondes de la résistance", dim: 'P' },
+      { text: "Créer un espace pour que chacun exprime ses inquiétudes", dim: 'E' },
+      { text: "Co-construire le plan de transition avec l'équipe", dim: 'C' },
+      { text: "Lancer un pilote rapide pour montrer les premiers bénéfices", dim: 'A' }
+    ]
+  },
+  {
+    title: "2. Un collaborateur performant mais toxique déstabilise l'équipe.",
+    reactions: [
+      { text: "Séparer faits et perceptions pour objectiver la situation", dim: 'P' },
+      { text: "Mesurer l'impact émotionnel sur le reste de l'équipe", dim: 'E' },
+      { text: "Avoir une conversation franche avec le collaborateur sur les comportements attendus", dim: 'C' },
+      { text: "Poser un cadre clair avec des conséquences et un suivi", dim: 'A' }
+    ]
+  },
+  {
+    title: "3. L'IA est déployée dans votre service et certains ont peur pour leur poste.",
+    reactions: [
+      { text: "Cartographier les tâches impactées et les nouvelles compétences à développer", dim: 'P' },
+      { text: "Reconnaître les peurs et accompagner la transition émotionnelle", dim: 'E' },
+      { text: "Communiquer une vision claire du rôle de chacun dans le nouveau dispositif", dim: 'C' },
+      { text: "Mettre en place des formations et des premières expérimentations concrètes", dim: 'A' }
+    ]
+  },
+  {
+    title: "4. Deux sous-équipes travaillent en silo et la coopération ne fonctionne pas.",
+    reactions: [
+      { text: "Identifier les interdépendances et les objectifs communs non partagés", dim: 'P' },
+      { text: "Comprendre les frustrations et les non-dits de chaque côté", dim: 'E' },
+      { text: "Organiser des rituels de travail transverses et des espaces de dialogue", dim: 'C' },
+      { text: "Créer un projet commun avec des livrables partagés", dim: 'A' }
+    ]
+  },
+  {
+    title: "5. Vous devez donner du sens à une décision stratégique que vous n'avez pas choisie.",
+    reactions: [
+      { text: "Comprendre la logique derrière la décision, même si je ne la partage pas totalement", dim: 'P' },
+      { text: "Gérer ma propre frustration avant de m'adresser à l'équipe", dim: 'E' },
+      { text: "Traduire la décision en un message clair et motivant pour mon équipe", dim: 'C' },
+      { text: "Identifier les marges de manœuvre et agir sur ce qui est dans mon périmètre", dim: 'A' }
+    ]
+  }
+];
+
+// Variables actives (chargées dynamiquement selon le segment)
+var likertItems = likertItemsB2C;
+var scenarios = scenariosB2C;
 
 var valuesList = [
   'Authenticité','Courage','Créativité','Empathie','Excellence',
@@ -2593,27 +2653,120 @@ function skipDiagnostic() {
 // ══════════════════════════
 // ONBOARDING / DIAGNOSTIC
 // ══════════════════════════
-var TOTAL_STEPS = 7;
+var TOTAL_STEPS = 6;
 
 function startOnboarding(fromExploration) {
   state.scenarioRanks = {};
 
-  // Si l'exploration a été faite, sauter les étapes 0 et 1 (déjà collectées)
+  // ═══ Charger tout le diagnostic adapté au parcours ═══
+  var isB2B = (state.segment === 'b2b');
+
+  if (isB2B) {
+    likertItems = likertItemsB2B;
+    scenarios = scenariosB2B;
+
+    // Étape 0 : Contexte
+    document.getElementById('ctxTitle').textContent = 'Avant de commencer';
+    document.getElementById('ctxSubtitle').textContent = 'Pour adapter votre diagnostic de compétences différenciantes';
+    document.getElementById('ctxFonctionLabel').textContent = 'Où en êtes-vous ?';
+    document.getElementById('ctx-fonction').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Je manage une équipe au quotidien</span><input type="radio" name="fonction" value="manager-prox"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Je manage des managers</span><input type="radio" name="fonction" value="manager-mgr"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>J\'évolue vers un rôle de management</span><input type="radio" name="fonction" value="futur-manager"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Je pilote des projets transverses</span><input type="radio" name="fonction" value="transverse"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Dirigeant·e / Comex</span><input type="radio" name="fonction" value="dirigeant"></label>';
+    document.getElementById('defisLabel').innerHTML = 'Vos enjeux prioritaires <span class="label-hint">(choisissez 2 à 3)</span>';
+
+    // Étape 1 : Likert
+    document.getElementById('likertTitle').textContent = 'Vos réflexes de leader';
+    document.getElementById('likertSubtitle').textContent = 'Comment réagissez-vous dans des situations qui demandent du leadership ? Que vous managiez déjà ou non.';
+
+    // Étape 2 : Scénarios
+    document.getElementById('scenarioTitle').textContent = 'Situations de leadership';
+    document.getElementById('scenarioSubtitle').textContent = 'Imaginez-vous dans ces situations. Classez les 4 réactions (1 = votre premier réflexe).';
+
+    // Étape 4 : Validation croisée
+    document.getElementById('validTitle').textContent = 'Votre regard sur votre management';
+    document.getElementById('validSubtitle').textContent = 'Deux questions pour croiser vos réponses avec votre propre perception.';
+    document.getElementById('validFaibleLabel').textContent = 'En tant que manager, où sentez-vous le plus de marge de progression ?';
+    document.getElementById('validation-faible').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Pensées — Prendre du recul stratégique</span><input type="radio" name="percue-faible" value="P"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Émotions — Lire et gérer les émotions dans l\'équipe</span><input type="radio" name="percue-faible" value="E"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Communication — Fédérer et donner du sens</span><input type="radio" name="percue-faible" value="C"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Action — Faire bouger les choses concrètement</span><input type="radio" name="percue-faible" value="A"></label>';
+    document.getElementById('validForteLabel').textContent = 'En tant que manager, quel est votre point fort naturel ?';
+    document.getElementById('validation-forte').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Pensées — J\'analyse les situations avec clarté</span><input type="radio" name="percue-forte" value="P"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Émotions — Je crée un climat de confiance</span><input type="radio" name="percue-forte" value="E"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Communication — J\'embarque et je convaincs</span><input type="radio" name="percue-forte" value="C"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Action — Je décide et j\'exécute vite</span><input type="radio" name="percue-forte" value="A"></label>';
+
+    // Étape 5 : Profil
+    document.getElementById('profileTitle').textContent = 'Votre profil de compétences différenciantes';
+    document.getElementById('profileSubtitle').textContent = 'Les 4 leviers que l\'IA ne remplacera jamais — et où vous en êtes';
+
+    // Étape 6 : Objectif
+    document.getElementById('objectifTitle').textContent = 'Mon objectif managérial à 3 mois';
+    document.getElementById('objectifSubtitle').textContent = 'Le cap qui orientera votre développement de leader';
+    document.getElementById('objectifLabel').textContent = 'Dans 3 mois, en tant que manager, je veux être capable de…';
+    document.getElementById('ancreText').placeholder = 'Ex : donner du feedback constructif sans éviter le sujet, embarquer mon équipe dans le changement…';
+
+  } else {
+    likertItems = likertItemsB2C;
+    scenarios = scenariosB2C;
+
+    // Étape 0 : Contexte
+    document.getElementById('ctxTitle').textContent = 'Avant de commencer';
+    document.getElementById('ctxSubtitle').textContent = 'Pour adapter votre parcours « Brise ton plafond »';
+    document.getElementById('ctxFonctionLabel').textContent = 'Votre situation actuelle';
+    document.getElementById('ctx-fonction').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Salariée en poste</span><input type="radio" name="fonction" value="salariee"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Manager / Responsable</span><input type="radio" name="fonction" value="manager"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Entrepreneure / Freelance</span><input type="radio" name="fonction" value="independante"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>En transition / Reconversion</span><input type="radio" name="fonction" value="transition"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'fonction\')"><div class="radio-dot"></div><span>Étudiante / En début de carrière</span><input type="radio" name="fonction" value="debut"></label>';
+    document.getElementById('defisLabel').innerHTML = 'Ce qui vous freine le plus <span class="label-hint">(choisissez 2 à 3)</span>';
+
+    // Étape 2 : Likert
+    document.getElementById('likertTitle').textContent = 'Vos réflexes face aux obstacles';
+    document.getElementById('likertSubtitle').textContent = 'Comment réagissez-vous quand il s\'agit de prendre votre place, de vous affirmer, de vous faire entendre ? Répondez spontanément.';
+
+    // Étape 3 : Scénarios
+    document.getElementById('scenarioTitle').textContent = 'Situations de vie professionnelle';
+    document.getElementById('scenarioSubtitle').textContent = 'Classez les 4 réactions par ordre de préférence (1 = votre premier réflexe).';
+
+    // Étape 4 : Validation croisée
+    document.getElementById('validTitle').textContent = 'Votre ressenti';
+    document.getElementById('validSubtitle').textContent = 'Deux questions pour croiser vos réponses avec votre propre perception.';
+    document.getElementById('validFaibleLabel').textContent = 'Qu\'est-ce qui vous freine le plus au quotidien ?';
+    document.getElementById('validation-faible').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Pensées — Je rumine, je doute, je sur-analyse</span><input type="radio" name="percue-faible" value="P"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Émotions — Le stress et les émotions me submergent</span><input type="radio" name="percue-faible" value="E"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Communication — Je n\'arrive pas à me faire entendre</span><input type="radio" name="percue-faible" value="C"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-faible\')"><div class="radio-dot"></div><span>Action — Je procrastine, j\'attends le bon moment</span><input type="radio" name="percue-faible" value="A"></label>';
+    document.getElementById('validForteLabel').textContent = 'Sur quoi pouvez-vous vous appuyer ?';
+    document.getElementById('validation-forte').innerHTML =
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Pensées — Je suis lucide et j\'analyse bien</span><input type="radio" name="percue-forte" value="P"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Émotions — Je suis empathique et à l\'écoute</span><input type="radio" name="percue-forte" value="E"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Communication — Je sais créer du lien</span><input type="radio" name="percue-forte" value="C"></label>' +
+      '<label class="radio-option" onclick="selectRadio(this,\'percue-forte\')"><div class="radio-dot"></div><span>Action — Quand je me lance, j\'avance vite</span><input type="radio" name="percue-forte" value="A"></label>';
+
+    // Étape 5 : Profil
+    document.getElementById('profileTitle').textContent = 'Votre profil « Brise ton plafond »';
+    document.getElementById('profileSubtitle').textContent = 'Vos forces et vos leviers de progression pour dépasser vos freins';
+
+    // Étape 6 : Objectif
+    document.getElementById('objectifTitle').textContent = 'Mon objectif personnel à 3 mois';
+    document.getElementById('objectifSubtitle').textContent = 'Le cap qui guidera votre parcours de développement';
+    document.getElementById('objectifLabel').textContent = 'Dans 3 mois, je veux être capable de…';
+    document.getElementById('ancreText').placeholder = 'Ex : oser demander cette promotion, prendre la parole en comité sans stresser, poser mes limites clairement…';
+  }
+  renderDefis();
+
+  // Si l'exploration a été faite, sauter le contexte (étape 0)
   var startStep = 0;
   if (fromExploration) {
-    startStep = 2; // Aller directement au Likert
-    // Pré-remplir la situation depuis l'exploration
-    if (exploState.situation) {
-      document.getElementById('situationText').value = exploState.situation;
-    }
-  } else {
-    if (state.segment === 'b2b' && state.selectedUseCase) {
-      document.getElementById('situationSubtitle').textContent = 'Quel défi professionnel aimeriez-vous aborder ?';
-      document.getElementById('situationText').placeholder = 'Décrivez le défi lié à : ' + state.selectedUseCase.title;
-    } else {
-      document.getElementById('situationSubtitle').textContent = "Qu'est-ce qui vous amène ici ?";
-      document.getElementById('situationText').placeholder = 'Quelle situation professionnelle aimeriez-vous vivre différemment ?';
-    }
+    startStep = 1; // Aller directement au Likert
   }
 
   state.onboardingStep = startStep;
@@ -2644,8 +2797,8 @@ function showOnboardingStep(n) {
 }
 
 function nextOnboarding() {
-  // Before showing profile (step 5), calculate scores
-  if (state.onboardingStep === 4) {
+  // Before showing profile (step 4), calculate scores
+  if (state.onboardingStep === 3) {
     calculatePECA();
     renderPECAProfile();
   }
@@ -2687,6 +2840,41 @@ function toggleCheckbox(el) {
       o.classList.toggle('disabled', nowSelected >= 3);
     }
   });
+}
+
+// ── DÉFIS DYNAMIQUES ──
+var defisB2C = [
+  { value: 'legitimite', label: 'Légitimité et syndrome de l\'imposteur' },
+  { value: 'visibilite', label: 'Prise de parole et visibilité' },
+  { value: 'confiance', label: 'Confiance en soi et affirmation' },
+  { value: 'negociation', label: 'Négociation et assertivité' },
+  { value: 'equilibre', label: 'Équilibre pro-perso' },
+  { value: 'stress', label: 'Stress et charge mentale' },
+  { value: 'transition', label: 'Transition et changement de cap' },
+  { value: 'hierarchie', label: 'Relations avec la hiérarchie' },
+  { value: 'reseau', label: 'Réseau et stratégie de carrière' },
+  { value: 'plafond', label: 'Plafond de verre et freins invisibles' }
+];
+
+var defisB2B = [
+  { value: 'leadership', label: 'Posture de leadership et exemplarité' },
+  { value: 'changement', label: 'Conduite du changement et transformation' },
+  { value: 'cooperation', label: 'Coopération et travail transversal' },
+  { value: 'conflit', label: 'Gestion des tensions et des conflits' },
+  { value: 'feedback', label: 'Feedback et conversations difficiles' },
+  { value: 'ia', label: 'Intégration de l\'IA et compétences différenciantes' },
+  { value: 'engagement', label: 'Engagement et motivation des équipes' },
+  { value: 'delegation', label: 'Délégation et autonomisation' },
+  { value: 'sens', label: 'Donner du sens dans l\'incertitude' },
+  { value: 'inclusion', label: 'Diversité, inclusion et intelligence collective' }
+];
+
+function renderDefis() {
+  var defis = (state.segment === 'b2b') ? defisB2B : defisB2C;
+  var container = document.getElementById('ctx-defis');
+  container.innerHTML = defis.map(function(d) {
+    return '<label class="checkbox-option" onclick="toggleCheckbox(this)"><div class="checkbox-box"></div><span>' + d.label + '</span><input type="checkbox" name="defi" value="' + d.value + '"></label>';
+  }).join('');
 }
 
 // ── LIKERT RENDERING ──
@@ -2829,16 +3017,23 @@ function calculatePECA() {
 
 function renderPECAProfile() {
   var profile = document.getElementById('pecaProfile');
-  var dims = [
-    { key: 'P', label: 'Pensées' },
-    { key: 'E', label: 'Émotions' },
-    { key: 'C', label: 'Communication' },
-    { key: 'A', label: 'Action' }
+  var isB2B = (state.segment === 'b2b');
+  var dims = isB2B ? [
+    { key: 'P', label: 'Discernement', sub: 'Analyser, prendre du recul' },
+    { key: 'E', label: 'Intelligence émotionnelle', sub: 'Lire et gérer les émotions' },
+    { key: 'C', label: 'Communication d\'influence', sub: 'Fédérer, embarquer, convaincre' },
+    { key: 'A', label: 'Capacité d\'action', sub: 'Décider et mettre en mouvement' }
+  ] : [
+    { key: 'P', label: 'Clarté de pensée', sub: 'Confiance dans son jugement' },
+    { key: 'E', label: 'Gestion émotionnelle', sub: 'Accueillir sans se laisser submerger' },
+    { key: 'C', label: 'Affirmation de soi', sub: 'Oser dire, oser demander' },
+    { key: 'A', label: 'Passage à l\'action', sub: 'Saisir sans attendre la perfection' }
   ];
 
   profile.innerHTML = dims.map(function(d) {
     return '<div class="peca-bar-wrap peca-bar-' + d.key + '">' +
       '<div class="peca-bar-label"><span>' + d.label + '</span><span>' + state.pecaScores[d.key] + '%</span></div>' +
+      '<div class="peca-bar-sub">' + d.sub + '</div>' +
       '<div class="peca-bar"><div class="peca-bar-fill" style="width:' + state.pecaScores[d.key] + '%"></div></div></div>';
   }).join('');
 
@@ -2846,23 +3041,33 @@ function renderPECAProfile() {
   var sorted = Object.entries(state.pecaScores).sort(function(a, b) { return b[1] - a[1]; });
   var highest = sorted[0];
   var lowest = sorted[sorted.length - 1];
-  var dimNames = { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' };
+  var dimNames = isB2B
+    ? { P: 'Discernement', E: 'Intelligence émotionnelle', C: 'Communication d\'influence', A: 'Capacité d\'action' }
+    : { P: 'Clarté de pensée', E: 'Gestion émotionnelle', C: 'Affirmation de soi', A: 'Passage à l\'action' };
 
   // Défis sélectionnés
   var defis = [];
   document.querySelectorAll('input[name="defi"]:checked').forEach(function(cb) { defis.push(cb.value); });
   var defiLabels = {
-    legitimite: 'légitimité', visibilite: 'visibilité', conflit: 'gestion de conflit',
-    feedback: 'feedback', management: 'management', stress: 'stress',
-    equilibre: 'équilibre', negociation: 'négociation', transition: 'transition', hierarchie: 'relations hiérarchiques'
+    legitimite: 'légitimité', visibilite: 'visibilité', confiance: 'confiance en soi',
+    conflit: 'gestion de conflit', feedback: 'feedback', stress: 'stress',
+    equilibre: 'équilibre', negociation: 'négociation', transition: 'transition',
+    hierarchie: 'relations hiérarchiques', reseau: 'réseau', plafond: 'plafond de verre',
+    leadership: 'leadership', changement: 'conduite du changement',
+    cooperation: 'coopération', ia: 'IA et compétences différenciantes',
+    engagement: 'engagement', delegation: 'délégation', sens: 'sens', inclusion: 'inclusion'
   };
   var defiText = defis.map(function(d) { return defiLabels[d] || d; }).join(', ');
 
-  document.getElementById('ecartMessage').innerHTML =
-    '<strong>Votre levier prioritaire</strong><br>' +
-    (defiText ? 'Vous venez pour des enjeux de <strong>' + defiText + '</strong>. ' : '') +
-    'Notre diagnostic révèle que votre dimension la plus développée est <strong>' + dimNames[highest[0]] + '</strong> (' + highest[1] + '%). ' +
-    'Nous vous recommandons de commencer par <strong>' + dimNames[lowest[0]] + '</strong> (' + lowest[1] + '%) pour un développement équilibré.';
+  var ecartMsg = '<strong>Votre levier prioritaire</strong><br>';
+  if (defiText) ecartMsg += 'Vos enjeux : <strong>' + defiText + '</strong>. ';
+  ecartMsg += 'Votre point fort : <strong>' + dimNames[highest[0]] + '</strong> (' + highest[1] + '%). ';
+  if (isB2B) {
+    ecartMsg += 'Pour renforcer votre impact managérial, nous vous recommandons de développer <strong>' + dimNames[lowest[0]] + '</strong> (' + lowest[1] + '%) — c\'est là que votre marge de progression est la plus forte.';
+  } else {
+    ecartMsg += 'Pour briser votre plafond, travaillez en priorité sur <strong>' + dimNames[lowest[0]] + '</strong> (' + lowest[1] + '%) — c\'est le frein qui vous coûte le plus aujourd\'hui.';
+  }
+  document.getElementById('ecartMessage').innerHTML = ecartMsg;
 
   // Couche 3 : Validation croisée — écart perception/réalité
   var percueFaible = document.querySelector('input[name="percue-faible"]:checked');
@@ -2880,16 +3085,24 @@ function renderPECAProfile() {
     if (hasEcart) {
       var msg = '<strong>L\'écart qui fait la différence</strong><br>';
       if (pFaible !== realFaible) {
-        msg += 'Vous pensez devoir travailler sur <strong>' + dimNames[pFaible] + '</strong>, mais vos réponses situationnelles révèlent que c\'est plutôt <strong>' + dimNames[realFaible] + '</strong> qui mérite votre attention. ';
+        msg += 'Vous pensez devoir travailler sur <strong>' + dimNames[pFaible] + '</strong>, mais vos réponses en situation révèlent que c\'est <strong>' + dimNames[realFaible] + '</strong> qui a le plus d\'impact. ';
       }
       if (pForte !== realForte) {
-        msg += 'Vous vous sentez fort·e en <strong>' + dimNames[pForte] + '</strong>, alors que vos réflexes naturels pointent davantage vers <strong>' + dimNames[realForte] + '</strong>. ';
+        msg += 'Vous vous appuyez sur <strong>' + dimNames[pForte] + '</strong>, alors que vos réflexes naturels sont plutôt du côté de <strong>' + dimNames[realForte] + '</strong>. ';
       }
-      msg += 'Cet écart entre perception et réalité est précisément là où commence la transformation.';
+      if (isB2B) {
+        msg += 'Cet écart entre perception et réflexes est courant chez les managers — c\'est précisément en le travaillant que votre leadership gagne en impact.';
+      } else {
+        msg += 'Cet écart est une piste précieuse : souvent, ce qui nous freine n\'est pas ce qu\'on croit. C\'est ici que commence le vrai travail.';
+      }
       insightEl.innerHTML = msg;
       insightEl.style.display = 'block';
     } else {
-      insightEl.innerHTML = '<strong>Bonne conscience de soi</strong><br>Votre perception de vos forces et axes de développement est alignée avec vos réponses. C\'est un atout précieux pour votre parcours.';
+      if (isB2B) {
+        insightEl.innerHTML = '<strong>Bonne conscience de votre management</strong><br>Votre perception de vos forces managériales est cohérente avec vos réponses. Cette lucidité est un atout pour progresser plus vite.';
+      } else {
+        insightEl.innerHTML = '<strong>Bonne connaissance de soi</strong><br>Vous avez une vision juste de vos forces et de vos freins. C\'est un socle solide pour avancer avec confiance.';
+      }
       insightEl.style.display = 'block';
     }
   }
