@@ -1206,6 +1206,37 @@ nav {
   .choice-grid { grid-template-columns: 1fr; }
 }
 
+/* Moteur de recherche d'ateliers */
+.atelier-search-wrap { max-width: 700px; margin: 0 auto; text-align: center; }
+.atelier-search-wrap h2 { font-family: var(--font-titre); font-size: 1.6rem; margin-bottom: 0.5rem; }
+.atelier-search-bar { position: relative; margin: 1.5rem 0; }
+.atelier-search-bar input { width: 100%; padding: 0.9rem 1.2rem 0.9rem 3rem; border-radius: 12px; border: 2px solid var(--gris-clair); font-size: 1rem; font-family: var(--font-corps); transition: border-color 0.2s; background: white; }
+.atelier-search-bar input:focus { outline: none; border-color: var(--accent); }
+.atelier-search-bar .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: #999; pointer-events: none; }
+.atelier-filter-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; }
+.atelier-filter-tag { padding: 0.5rem 1rem; border-radius: 20px; border: 2px solid var(--gris-clair); background: white; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; font-family: var(--font-corps); }
+.atelier-filter-tag:hover { border-color: var(--accent); }
+.atelier-filter-tag.active { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+.atelier-filter-tag[data-dim="P"] { --tag-color: var(--pensee); }
+.atelier-filter-tag[data-dim="E"] { --tag-color: var(--emotion); }
+.atelier-filter-tag[data-dim="C"] { --tag-color: var(--comm); }
+.atelier-filter-tag[data-dim="A"] { --tag-color: var(--action); }
+.atelier-filter-tag[data-dim="P"].active { background: var(--pensee); border-color: var(--pensee); }
+.atelier-filter-tag[data-dim="E"].active { background: var(--emotion); border-color: var(--emotion); }
+.atelier-filter-tag[data-dim="C"].active { background: var(--comm); border-color: var(--comm); }
+.atelier-filter-tag[data-dim="A"].active { background: var(--action); border-color: var(--action); }
+.atelier-results { display: grid; gap: 0.8rem; text-align: left; }
+.atelier-result-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-radius: 12px; border: 1px solid var(--gris-clair); background: white; cursor: pointer; transition: all 0.2s; }
+.atelier-result-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(139,126,200,0.12); transform: translateY(-1px); }
+.atelier-result-dim { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: white; flex-shrink: 0; }
+.atelier-result-dim.dim-P { background: var(--pensee); }
+.atelier-result-dim.dim-E { background: var(--emotion); }
+.atelier-result-dim.dim-C { background: var(--comm); }
+.atelier-result-dim.dim-A { background: var(--action); }
+.atelier-result-info h4 { font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text); }
+.atelier-result-info p { font-size: 0.82rem; color: var(--text-light); margin: 0; }
+.no-results { text-align: center; padding: 2rem; color: var(--text-light); font-size: 0.95rem; }
+
 /* ══════════════════════════════════════════
    MÉDITATIONS & VISUALISATION
    ══════════════════════════════════════════ */
@@ -1582,7 +1613,7 @@ nav {
           </p>
           <div class="hero-ctas">
             <button class="btn btn-primary btn-lg" onclick="startB2C()">Brise ton plafond</button>
-            <button class="btn btn-outline btn-lg" onclick="showPage('b2b')">Développe tes compétences différenciantes</button>
+            <button class="btn btn-outline btn-lg" onclick="startB2B()">Développe tes compétences différenciantes</button>
           </div>
           <div class="hero-badges">
             <div class="hero-badge"><div class="hero-badge-dot" style="background:var(--pensee)"></div>Diagnostic personnalisé</div>
@@ -1655,17 +1686,17 @@ nav {
         <p>Deux parcours conçus pour ceux qui refusent de stagner. Ateliers, rituels de concentration, sparring avec un coach IA — tout ce qu'il faut pour ancrer le changement dans la durée.</p>
       </div>
       <div class="parcours-grid">
-        <div class="parcours-card" onclick="showPage('b2b')">
+        <div class="parcours-card">
           <div class="parcours-badge b2b">Entreprise · Sur mesure</div>
           <h3>Développez vos compétences différenciantes</h3>
           <p>Vos équipes maîtrisent la technique. Donnez-leur ce qui fait la différence : lire un groupe, désamorcer un conflit, embarquer sans imposer. Un programme qui mêle ateliers pratiques, rituels de recentrage et entraînement IA — directement connecté à vos enjeux métier.</p>
-          <span class="btn btn-outline">Voir les cas d'usage →</span>
+          <button class="btn btn-primary" onclick="startB2B()">Développer mon leadership</button>
         </div>
-        <div class="parcours-card" onclick="startB2C()">
+        <div class="parcours-card">
           <div class="parcours-badge b2c">Individuel · Accès immédiat</div>
           <h3>Brise ton plafond</h3>
           <p>Vous savez que vous valez mieux que là où vous êtes. Ce parcours est fait pour vous : diagnostic de vos forces, ateliers ciblés, rituels de concentration et un coach IA disponible 24h/24 pour s'entraîner en situation réelle. Le plafond de verre, c'est vous qui décidez quand il cède.</p>
-          <span class="btn btn-outline">C'est parti →</span>
+          <button class="btn btn-primary" onclick="startB2C()">Dépasser mes freins</button>
         </div>
       </div>
     </div>
@@ -1674,20 +1705,20 @@ nav {
   <!-- CTA double -->
   <section class="section cta-section">
     <div class="container">
-      <h2>Deux diagnostics. Deux parcours. Un même objectif : progresser.</h2>
-      <p>Chaque diagnostic est conçu pour votre réalité. 3 minutes, gratuit, confidentiel.</p>
+      <h2>Deux parcours. Un même objectif : progresser.</h2>
+      <p>Un diagnostic personnalisé pour révéler vos forces et vos leviers. 3 minutes, gratuit, confidentiel.</p>
       <div class="cta-dual">
         <div class="cta-dual-card">
           <div class="cta-dual-icon">🚀</div>
           <h3>Brise ton plafond</h3>
           <p>Confiance, légitimité, assertivité — identifiez ce qui vous freine et passez à l'action.</p>
-          <button class="btn btn-primary" onclick="startB2C()">Mon diagnostic personnel</button>
+          <button class="btn btn-primary" onclick="startB2C()">Dépasser mes freins</button>
         </div>
         <div class="cta-dual-card">
           <div class="cta-dual-icon">🎯</div>
           <h3>Compétences différenciantes</h3>
-          <p>Leadership, coopération, gestion du changement — mesurez vos réflexes managériaux face à l'IA.</p>
-          <button class="btn btn-primary" onclick="showPage('b2b')">Mon diagnostic entreprise</button>
+          <p>Leadership, coopération, gestion du changement — développez ce que l'IA ne remplacera jamais.</p>
+          <button class="btn btn-primary" onclick="startB2B()">Développer mon leadership</button>
         </div>
       </div>
     </div>
@@ -1695,114 +1726,43 @@ nav {
 
 </div>
 
+<!-- (Pages B2B et Exploration supprimées — accès direct au diagnostic) -->
+
 <!-- ═══════════════════════════════════
-     2. B2B USE CASES
+     RECHERCHE D'ATELIERS
      ═══════════════════════════════════ -->
-<div id="page-b2b" class="page">
+<div id="page-atelier-search" class="page">
   <div class="container page-content">
-    <div class="section-header">
-      <div class="section-label">Compétences différenciantes — Entreprise</div>
-      <h2>Quel est l'enjeu qui mobilise vos équipes ?</h2>
-      <p>Chaque situation a ses leviers. Identifiez votre défi, on construit le parcours qui y répond — ateliers, rituels et entraînement IA inclus.</p>
-    </div>
-    <div class="usecase-grid" id="usecaseGrid"></div>
-    <div style="text-align:center; margin-top:3rem">
-      <button class="btn btn-secondary" onclick="showPage('home')">← Retour à l'accueil</button>
+    <div class="atelier-search-wrap">
+      <div style="font-size:2rem; margin-bottom:0.5rem">🔍</div>
+      <h2>Trouvez l'atelier qu'il vous faut</h2>
+      <p class="step-subtitle">Tapez un mot-clé ou filtrez par dimension pour trouver l'atelier adapté à votre besoin.</p>
+
+      <div class="atelier-search-bar">
+        <span class="search-icon">🔎</span>
+        <input type="text" id="atelierSearchInput" placeholder="Ex : confiance, émotions, prise de parole, décision..." oninput="filterAteliers()">
+      </div>
+
+      <div class="atelier-filter-tags">
+        <button class="atelier-filter-tag active" data-dim="all" onclick="setAtelierFilter('all', this)">Tous</button>
+        <button class="atelier-filter-tag" data-dim="P" onclick="setAtelierFilter('P', this)">🧠 Pensées</button>
+        <button class="atelier-filter-tag" data-dim="E" onclick="setAtelierFilter('E', this)">💫 Émotions</button>
+        <button class="atelier-filter-tag" data-dim="C" onclick="setAtelierFilter('C', this)">💬 Communication</button>
+        <button class="atelier-filter-tag" data-dim="A" onclick="setAtelierFilter('A', this)">⚡ Action</button>
+      </div>
+
+      <div class="atelier-results" id="atelierSearchResults"></div>
+
+      <div style="margin-top:2rem; display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        <button class="btn btn-outline" id="btnGoToDiag" onclick="goToDiagnosticFromSearch()" style="display:none">Faire le diagnostic pour un parcours personnalisé</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════
-     2b. EXPLORATION — Comprendre ce qui coince
-     ═══════════════════════════════════ -->
-<div id="page-exploration" class="page">
-  <div class="container page-content">
-    <div class="onboarding-wrap">
-
-      <!-- Barre de progression exploration -->
-      <div class="explo-progress">
-        <div class="explo-progress-bar" id="exploProgressBar" style="width:25%"></div>
-      </div>
-
-      <!-- Question 1 : Ce qui coince -->
-      <div class="exploration-step active" id="explo-step-0">
-        <div class="explo-icon">🎯</div>
-        <h2>Qu'est-ce qui vous freine aujourd'hui ?</h2>
-        <p class="step-subtitle" id="exploContext">Choisissez ce qui résonne le plus avec votre situation.</p>
-        <div class="choice-grid" id="exploBlockers">
-          <div class="choice-card" onclick="selectBlocker('thoughts')">
-            <div class="choice-emoji">🧠</div>
-            <div class="choice-label">Je réfléchis trop</div>
-            <div class="choice-desc">J'ai du mal à décider, je sur-analyse</div>
-          </div>
-          <div class="choice-card" onclick="selectBlocker('emotions')">
-            <div class="choice-emoji">💫</div>
-            <div class="choice-label">Les émotions débordent</div>
-            <div class="choice-desc">Je suis submergé·e par mes émotions ou celles des autres</div>
-          </div>
-          <div class="choice-card" onclick="selectBlocker('communication')">
-            <div class="choice-emoji">💬</div>
-            <div class="choice-label">Me faire entendre</div>
-            <div class="choice-desc">Mes messages ne passent pas comme je voudrais</div>
-          </div>
-          <div class="choice-card" onclick="selectBlocker('action')">
-            <div class="choice-emoji">⚡</div>
-            <div class="choice-label">Passer à l'action</div>
-            <div class="choice-desc">Je procrastine ou je n'arrive pas à me lancer</div>
-          </div>
-          <div class="choice-card" onclick="selectBlocker('mix')">
-            <div class="choice-emoji">🔄</div>
-            <div class="choice-label">Un peu de tout</div>
-            <div class="choice-desc">Plusieurs freins s'alimentent entre eux</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Question 2 : Situation concrète -->
-      <div class="exploration-step" id="explo-step-1">
-        <div class="explo-icon">✍️</div>
-        <h2 id="exploQ2Title">Racontez-nous en quelques mots</h2>
-        <p class="step-subtitle" id="exploQ2Sub">Décrivez une situation récente où vous avez ressenti ce blocage.</p>
-        <textarea class="explo-textarea" id="exploSituation" rows="5" placeholder="Par exemple : En réunion la semaine dernière, je n'ai pas osé prendre la parole alors que j'avais une idée importante..."></textarea>
-        <button class="btn btn-primary" style="margin-top:1.5rem; width:100%" onclick="nextExploration()">Continuer</button>
-      </div>
-
-      <!-- Question 3 : Impact émotionnel -->
-      <div class="exploration-step" id="explo-step-2">
-        <div class="explo-icon">🌊</div>
-        <h2>Qu'avez-vous ressenti ?</h2>
-        <p class="step-subtitle">Sélectionnez les émotions qui vous parlent.</p>
-        <div class="emotion-grid" id="exploEmotions">
-          <button class="emotion-chip" data-value="frustration" onclick="toggleEmotion(this)">😤 Frustration</button>
-          <button class="emotion-chip" data-value="anxiete" onclick="toggleEmotion(this)">😰 Anxiété</button>
-          <button class="emotion-chip" data-value="colere" onclick="toggleEmotion(this)">😠 Colère</button>
-          <button class="emotion-chip" data-value="impuissance" onclick="toggleEmotion(this)">😔 Impuissance</button>
-          <button class="emotion-chip" data-value="doute" onclick="toggleEmotion(this)">🤔 Doute de soi</button>
-          <button class="emotion-chip" data-value="isolement" onclick="toggleEmotion(this)">🫥 Isolement</button>
-          <button class="emotion-chip" data-value="confusion" onclick="toggleEmotion(this)">😵‍💫 Confusion</button>
-          <button class="emotion-chip" data-value="fatigue" onclick="toggleEmotion(this)">😮‍💨 Épuisement</button>
-        </div>
-        <button class="btn btn-primary" style="margin-top:1.5rem; width:100%" onclick="nextExploration()">Voir la synthèse</button>
-      </div>
-
-      <!-- Synthèse & proposition diagnostic -->
-      <div class="exploration-step" id="explo-step-3">
-        <div class="explo-icon">✨</div>
-        <h2>Voici ce que nous percevons</h2>
-        <div id="exploSynthesis" class="explo-synthesis"></div>
-        <div class="explo-cta">
-          <p>Pour personnaliser votre parcours, nous proposons un <strong>diagnostic rapide</strong> (5 min) qui mesure vos forces sur 4 dimensions clés.</p>
-          <button class="btn btn-primary btn-lg" style="width:100%" onclick="launchDiagnosticFromExploration()">Faire le diagnostic</button>
-          <button class="btn btn-outline" style="width:100%; margin-top:0.5rem" onclick="skipDiagnostic()">Explorer sans diagnostic</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════
-     3. ONBOARDING / DIAGNOSTIC (7 étapes)
+     3. ONBOARDING / DIAGNOSTIC
      ═══════════════════════════════════ -->
 <div id="page-onboarding" class="page">
   <div class="container page-content">
@@ -1921,6 +1881,10 @@ nav {
           <div class="dash-peca-card card-E"><div class="dim-label">Émotions</div><div class="dim-score" id="dashE">0%</div></div>
           <div class="dash-peca-card card-C"><div class="dim-label">Communication</div><div class="dim-score" id="dashC">0%</div></div>
           <div class="dash-peca-card card-A"><div class="dim-label">Action</div><div class="dim-score" id="dashA">0%</div></div>
+        </div>
+
+        <div style="text-align:center; margin-bottom:1.5rem;">
+          <button class="btn btn-outline" onclick="openAtelierSearch()" style="gap:0.5rem; display:inline-flex; align-items:center;">🔍 Trouver un atelier par besoin</button>
         </div>
 
         <!-- Parcours personnalisé -->
@@ -2162,7 +2126,6 @@ var state = {
   isLoggedIn: false,
   userName: '',
   segment: null,
-  selectedUseCase: null,
   pecaScores: { P: 0, E: 0, C: 0, A: 0 },
   diagnosticDone: false,
   ancreNarrative: '',
@@ -2430,8 +2393,8 @@ function doAuth() {
   if (state.diagnosticDone) {
     showPage('dashboard');
   } else if (state.segment) {
-    // Un segment a été choisi avant la connexion → lancer l'exploration
-    startExploration();
+    // Un segment a été choisi avant la connexion → lancer le diagnostic
+    startOnboarding();
   } else {
     showPage('home');
   }
@@ -2442,17 +2405,14 @@ function doAuth() {
 // ══════════════════════════
 function startB2C() {
   state.segment = 'b2c';
-  if (!state.isLoggedIn) { openAuthModal('register'); }
-  else if (state.diagnosticDone) { showPage('dashboard'); }
-  else { startExploration(); }
+  if (state.diagnosticDone) { showPage('dashboard'); }
+  else { startOnboarding(); }
 }
 
-function startB2B(useCaseId) {
+function startB2B() {
   state.segment = 'b2b';
-  state.selectedUseCase = useCases[useCaseId];
-  if (!state.isLoggedIn) { openAuthModal('register'); }
-  else if (state.diagnosticDone) { showPage('dashboard'); }
-  else { startExploration(); }
+  if (state.diagnosticDone) { showPage('dashboard'); }
+  else { startOnboarding(); }
 }
 
 function dimName(d) { return { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' }[d]; }
@@ -2460,17 +2420,6 @@ function dimName(d) { return { P: 'Pensées', E: 'Émotions', C: 'Communication'
 // ══════════════════════════
 // B2B RENDER
 // ══════════════════════════
-function renderUseCases() {
-  var grid = document.getElementById('usecaseGrid');
-  grid.innerHTML = useCases.map(function(uc) {
-    return '<div class="usecase-card" onclick="startB2B(' + uc.id + ')">' +
-      '<div class="usecase-num">CAS D\'USAGE ' + String(uc.id + 1).padStart(2, '0') + '</div>' +
-      '<h3>' + uc.title + '</h3>' +
-      '<p>' + uc.desc + '</p>' +
-      '<div class="pills">' + uc.dims.map(function(d) { return '<span class="peca-pill peca-pill-' + d + '">' + dimName(d) + '</span>'; }).join('') + '</div></div>';
-  }).join('');
-}
-
 // ══════════════════════════
 // VIDEOS
 // ══════════════════════════
@@ -2505,149 +2454,86 @@ function playExerciseVideo() {
 }
 
 // ══════════════════════════
-// EXPLORATION
+// MOTEUR DE RECHERCHE D'ATELIERS
 // ══════════════════════════
-var exploState = { step: 0, blocker: '', situation: '', emotions: [] };
+var currentAtelierFilter = 'all';
 
-function startExploration() {
-  exploState = { step: 0, blocker: '', situation: '', emotions: [] };
+function openAtelierSearch() {
+  currentAtelierFilter = 'all';
+  document.getElementById('atelierSearchInput').value = '';
+  document.querySelectorAll('.atelier-filter-tag').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelector('.atelier-filter-tag[data-dim="all"]').classList.add('active');
+  var btnDiag = document.getElementById('btnGoToDiag');
+  if (btnDiag) btnDiag.style.display = state.diagnosticDone ? 'none' : 'inline-block';
+  renderAtelierResults();
+  showPage('atelier-search');
+}
 
-  // Adapter le contexte si un cas d'usage B2B a été choisi
-  if (state.segment === 'b2b' && state.selectedUseCase) {
-    document.getElementById('exploContext').textContent = 'Vous avez choisi : « ' + state.selectedUseCase.title + ' ». Qu\'est-ce qui vous freine dans ce domaine ?';
-  } else {
-    document.getElementById('exploContext').textContent = 'Choisissez ce qui résonne le plus avec votre situation actuelle.';
+function setAtelierFilter(dim, el) {
+  currentAtelierFilter = dim;
+  document.querySelectorAll('.atelier-filter-tag').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  filterAteliers();
+}
+
+function filterAteliers() {
+  renderAtelierResults();
+}
+
+function renderAtelierResults() {
+  var query = (document.getElementById('atelierSearchInput').value || '').toLowerCase().trim();
+  var container = document.getElementById('atelierSearchResults');
+
+  var keywords = {
+    0: ['valeurs', 'sens', 'boussole', 'identité', 'alignement', 'choix', 'priorités'],
+    1: ['décision', 'analyse', 'hésitation', 'réflexion', 'jugement', 'discernement', 'pensée'],
+    2: ['émotion', 'stress', 'anxiété', 'frustration', 'colère', 'peur', 'ressenti', 'cartographie'],
+    3: ['vulnérabilité', 'confiance', 'authenticité', 'courage', 'force', 'sensibilité', 'ouverture'],
+    4: ['écoute', 'présence', 'relation', 'attention', 'empathie', 'dialogue', 'feedback'],
+    5: ['parole', 'assertivité', 'réunion', 'convaincre', 'impact', 'leadership', 'visibilité', 'légitimité'],
+    6: ['action', 'procrastination', 'motivation', 'lancer', 'initiative', 'blocage', 'frein'],
+    7: ['plan', 'objectif', 'habitude', 'routine', 'micro-action', 'résultat', 'engagement', 'progrès']
+  };
+
+  var filtered = ateliers.filter(function(a) {
+    if (currentAtelierFilter !== 'all' && a.dim !== currentAtelierFilter) return false;
+    if (query) {
+      var searchText = (a.title + ' ' + a.desc + ' ' + (keywords[a.id] || []).join(' ')).toLowerCase();
+      return searchText.indexOf(query) !== -1;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-results">Aucun atelier trouvé. Essayez un autre mot-clé ou changez le filtre.</div>';
+    return;
   }
 
-  showExploStep(0);
-  showPage('exploration');
+  var dimLabels = { P: 'P', E: 'E', C: 'C', A: 'A' };
+  var dimFullLabels = { P: 'Pensées', E: 'Émotions', C: 'Communication', A: 'Action' };
+
+  container.innerHTML = filtered.map(function(a) {
+    var isCompleted = state.exercisesDone && state.exercisesDone.indexOf(a.id) !== -1;
+    var statusIcon = isCompleted ? '<span style="color:var(--comm); margin-left:auto; font-size:0.85rem;">✓ Fait</span>' : '';
+    return '<div class="atelier-result-card" onclick="launchAtelierFromSearch(' + a.id + ')">' +
+      '<div class="atelier-result-dim dim-' + a.dim + '">' + dimLabels[a.dim] + '</div>' +
+      '<div class="atelier-result-info">' +
+        '<h4>' + a.title + '</h4>' +
+        '<p>' + a.desc + ' — <em>' + dimFullLabels[a.dim] + '</em></p>' +
+      '</div>' +
+      statusIcon +
+    '</div>';
+  }).join('');
 }
 
-function showExploStep(n) {
-  document.querySelectorAll('#page-exploration .exploration-step').forEach(function(s) { s.classList.remove('active'); });
-  var step = document.getElementById('explo-step-' + n);
-  if (step) step.classList.add('active');
-  window.scrollTo(0, 0);
+function launchAtelierFromSearch(id) {
+  state.currentExercise = id;
+  showPage('exercise');
 }
 
-function selectBlocker(value) {
-  exploState.blocker = value;
-
-  // Visual feedback on selected card
-  document.querySelectorAll('#exploBlockers .choice-card').forEach(function(c) { c.classList.remove('selected'); });
-  event.currentTarget.classList.add('selected');
-
-  // Adapter la question 2 en fonction du blocage
-  var titles = {
-    thoughts: 'Vous avez tendance à trop réfléchir',
-    emotions: 'Les émotions prennent le dessus',
-    communication: 'Se faire entendre est un défi',
-    action: 'Passer à l\'action est difficile',
-    mix: 'Plusieurs freins se mêlent'
-  };
-  var subs = {
-    thoughts: 'Décrivez une situation récente où vous avez hésité trop longtemps ou sur-analysé.',
-    emotions: 'Décrivez un moment où vos émotions (ou celles des autres) ont pris le dessus.',
-    communication: 'Décrivez une situation où votre message n\'est pas passé comme vous le vouliez.',
-    action: 'Décrivez quelque chose que vous repoussez ou n\'arrivez pas à lancer.',
-    mix: 'Décrivez une situation récente où vous vous êtes senti·e bloqué·e.'
-  };
-
-  document.getElementById('exploQ2Title').textContent = titles[value] || 'Racontez-nous';
-  document.getElementById('exploQ2Sub').textContent = subs[value] || 'Décrivez une situation concrète.';
-
-  // Auto-advance after short delay
-  setTimeout(function() {
-    exploState.step = 1;
-    document.getElementById('exploProgressBar').style.width = '50%';
-    showExploStep(1);
-  }, 500);
-}
-
-function toggleEmotion(el) {
-  el.classList.toggle('selected');
-}
-
-function nextExploration() {
-  if (exploState.step === 1) {
-    exploState.situation = document.getElementById('exploSituation').value;
-    exploState.step = 2;
-    document.getElementById('exploProgressBar').style.width = '75%';
-    showExploStep(2);
-  } else if (exploState.step === 2) {
-    // Collect selected emotions from chip buttons
-    exploState.emotions = [];
-    document.querySelectorAll('#exploEmotions .emotion-chip.selected').forEach(function(btn) {
-      exploState.emotions.push(btn.getAttribute('data-value'));
-    });
-    exploState.step = 3;
-    document.getElementById('exploProgressBar').style.width = '100%';
-    renderExploSynthesis();
-    showExploStep(3);
-  }
-}
-
-function renderExploSynthesis() {
-  var blockerText = {
-    thoughts: 'une tendance à l\'<strong>analyse excessive</strong> — vous réfléchissez beaucoup, parfois trop, ce qui peut ralentir vos décisions',
-    emotions: 'une <strong>sensibilité émotionnelle</strong> forte — vous percevez beaucoup, mais cela peut parfois vous submerger',
-    communication: 'un enjeu de <strong>communication</strong> — vos idées sont là, mais les faire entendre reste un défi',
-    action: 'un frein au <strong>passage à l\'action</strong> — vous savez ce qu\'il faudrait faire, mais quelque chose vous retient',
-    mix: 'un <strong>mélange de freins</strong> qui s\'alimentent les uns les autres — c\'est courant et ça se travaille'
-  };
-
-  var emotionLabels = {
-    frustration: 'frustration', anxiete: 'anxiété', colere: 'colère',
-    impuissance: 'sentiment d\'impuissance', doute: 'doute de soi',
-    isolement: 'isolement', confusion: 'confusion', fatigue: 'épuisement'
-  };
-
-  var emotionList = exploState.emotions.map(function(e) { return emotionLabels[e] || e; });
-  var emotionText = emotionList.length > 0 ? emotionList.join(', ') : 'des émotions complexes';
-
-  var pecaDims = { thoughts: 'Pensées', emotions: 'Émotions', communication: 'Communication', action: 'Action', mix: 'les 4 dimensions' };
-
-  var html = '<p style="font-size:1.1rem;">D\'après ce que vous nous décrivez, nous identifions :</p>' +
-    '<p style="font-size:1.05rem; margin: 1rem 0;">' + (blockerText[exploState.blocker] || blockerText.mix) + '.</p>';
-
-  if (emotionList.length > 0) {
-    html += '<p style="font-size:1.05rem;">Les émotions que vous décrivez — <strong>' + emotionText + '</strong> — sont des signaux importants. Elles pointent vers des leviers concrets sur lesquels travailler.</p>';
-  }
-
-  html += '<p style="font-size:1.05rem; margin-top:1rem;">La méthode PECA travaille précisément sur la dimension <strong>' + (pecaDims[exploState.blocker] || 'PECA') + '</strong>' +
-    (exploState.blocker !== 'mix' ? ', mais aussi sur les dimensions qui l\'influencent' : '') +
-    '. Le diagnostic va nous permettre de mesurer précisément où vous en êtes pour personnaliser votre parcours.</p>';
-
-  document.getElementById('exploSynthesis').innerHTML = html;
-}
-
-function launchDiagnosticFromExploration() {
-  startOnboarding(true); // true = skip steps already covered in exploration
-}
-
-function skipDiagnostic() {
-  // Allow exploring the platform without the full diagnostic
-  // Set default balanced scores
-  state.pecaScores = { P: 50, E: 50, C: 50, A: 50 };
-  state.diagnosticDone = true;
-  state.ancreNarrative = exploState.situation || 'Explorer mon potentiel';
-
-  // Adjust the "weakest" dimension based on blocker choice
-  if (exploState.blocker === 'thoughts') { state.pecaScores.P = 35; }
-  else if (exploState.blocker === 'emotions') { state.pecaScores.E = 35; }
-  else if (exploState.blocker === 'communication') { state.pecaScores.C = 35; }
-  else if (exploState.blocker === 'action') { state.pecaScores.A = 35; }
-
-  state.recommendedAtelier = 0;
-  var sorted = Object.entries(state.pecaScores).sort(function(a, b) { return a[1] - b[1]; });
-  var lowestDim = sorted[0][0];
-  var dimAteliers = ateliers.filter(function(a) { return a.dim === lowestDim; });
-  if (dimAteliers.length > 0) state.recommendedAtelier = dimAteliers[0].id;
-
-  addXP(10, 'Exploration complétée');
-  updateStreak();
-  updateNav();
-  showPage('dashboard');
+function goToDiagnosticFromSearch() {
+  if (!state.segment) state.segment = 'b2c';
+  startOnboarding();
 }
 
 // ══════════════════════════
@@ -2655,7 +2541,7 @@ function skipDiagnostic() {
 // ══════════════════════════
 var TOTAL_STEPS = 6;
 
-function startOnboarding(fromExploration) {
+function startOnboarding() {
   state.scenarioRanks = {};
 
   // ═══ Charger tout le diagnostic adapté au parcours ═══
@@ -2763,17 +2649,11 @@ function startOnboarding(fromExploration) {
   }
   renderDefis();
 
-  // Si l'exploration a été faite, sauter le contexte (étape 0)
-  var startStep = 0;
-  if (fromExploration) {
-    startStep = 1; // Aller directement au Likert
-  }
-
-  state.onboardingStep = startStep;
+  state.onboardingStep = 0;
   renderOnboardingDots();
   renderLikertItems();
   renderScenarios();
-  showOnboardingStep(startStep);
+  showOnboardingStep(0);
   showPage('onboarding');
 }
 
@@ -3231,7 +3111,7 @@ function renderDashboard() {
           if (item.type === 'atelier') onclick = 'onclick="startExercise(' + item.id + ')"';
           else if (item.type === 'meditation') onclick = 'onclick="showPage(\'meditations\');setTimeout(function(){openMeditation(\'' + item.id + '\')},100)"';
           else if (item.type === 'ia') onclick = 'onclick="toggleAIPanel();setTimeout(function(){setAIMode(\'' + item.mode + '\')},300)"';
-          else if (item.type === 'bilan') onclick = 'onclick="startOnboarding(false)"';
+          else if (item.type === 'bilan') onclick = 'onclick="startOnboarding()"';
 
           var typeLabels = { atelier: 'Atelier', meditation: 'Méditation', ia: 'Coach IA', bilan: 'Diagnostic' };
 
@@ -4127,7 +4007,6 @@ function showToast(msg) {
 // INIT
 // ══════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
-  renderUseCases();
   renderVideoGrid('homeVideoGrid', generalVideos);
   updateNav();
   updateAIFab();
